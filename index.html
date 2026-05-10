@@ -2420,13 +2420,13 @@
       <div class="modal-chart"><canvas id="modalChart" height="200"></canvas></div>
       <div class="modal-stats">
         <div class="modal-stat"><div class="value" id="modalClose"></div><div class="label">当前价格</div></div>
-        <div class="modal-stat"><div class="value" id="modalDiff"></div><div class="label">DIF-SA 差值</div></div>
+        <div class="modal-stat"><div class="value" id="modalDiff"></div><div class="label">DIF-Signal 差值</div></div>
         <div class="modal-stat"><div class="value" id="modalGCDate"></div><div class="label">金叉日期</div></div>
       </div>
       <div class="modal-section">
         <h4>📊 持仓期间走势</h4>
         <table class="price-table" id="priceTable">
-          <thead><tr><th>日期</th><th>收盘价</th><th>涨跌</th></tr></thead>
+          <thead><tr><th>日期</th><th>收盘价</th><th>涨跌幅</th></tr></thead>
           <tbody id="priceTableBody"></tbody>
         </table>
       </div>
@@ -2508,12 +2508,16 @@ function openModal(s) {
   var profileSection = document.getElementById('profileSection');
   var profile = s.profile;
   if (profile && profile.description && profile.description.indexOf('获取失败') === -1) {
-    document.getElementById('profileDesc').innerHTML = (profile.description || '') + (profile.website ? ' <a href="' + profile.website + '" target="_blank">官网 →</a>' : '');
+    var descHtml = profile.description || '';
+    if (profile.website) {
+      descHtml += ' <a href="' + profile.website + '" target="_blank" style="color:var(--accent)">官网 →</a>';
+    }
+    document.getElementById('profileDesc').innerHTML = descHtml;
     var items = [
       ['市值', profile.marketCap || 'N/A'],
-      ['员工', profile.employees || 'N/A'],
-      ['行业', profile.industry || profile.sector || 'N/A'],
-      ['官网', profile.website ? '<a href="' + profile.website + '" target="_blank">' + profile.website.replace('https://','').replace('http://','') + '</a>' : 'N/A']
+      ['员工人数', profile.employees || 'N/A'],
+      ['所属行业', profile.industry || profile.sector || 'N/A'],
+      ['官网', profile.website ? '<a href="' + profile.website + '" target="_blank" style="color:var(--accent);word-break:break-all">' + profile.website.replace('https://','').replace('http://','') + '</a>' : 'N/A']
     ];
     var gridHtml = '';
     items.forEach(function(item) {
@@ -2533,9 +2537,9 @@ function openModal(s) {
     var newsHtml = '';
     news.forEach(function(n) {
       var titleHtml = n.url
-        ? '<a href="' + n.url + '" target="_blank">' + n.title + '</a>'
+        ? '<a href="' + n.url + '" target="_blank" style="color:var(--text)">' + n.title + '</a>'
         : n.title;
-      var metaHtml = n.pubDate ? '<div class="news-meta">🕐 ' + n.pubDate + '</div>' : '';
+      var metaHtml = n.pubDate ? '<div class="news-meta">📅 ' + n.pubDate + '</div>' : '';
       newsHtml += '<div class="news-item"><div class="news-title">' + titleHtml + '</div>' + metaHtml + '</div>';
     });
     newsList.innerHTML = newsHtml;
