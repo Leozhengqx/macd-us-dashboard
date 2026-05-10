@@ -52,7 +52,7 @@
   /* Modal */
   .modal-overlay { display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.7); z-index: 200; align-items: center; justify-content: center; padding: 24px; }
   .modal-overlay.show { display: flex; }
-  .modal { background: var(--surface); border: 1px solid var(--border); border-radius: 16px; width: 100%; max-width: 700px; max-height: 90vh; overflow-y: auto; }
+  .modal { background: var(--surface); border: 1px solid var(--border); border-radius: 16px; width: 100%; max-width: 720px; max-height: 90vh; overflow-y: auto; }
   .modal-header { padding: 24px 28px; border-bottom: 1px solid var(--border); display: flex; justify-content: space-between; align-items: flex-start; }
   .modal-symbol { font-size: 24px; font-weight: 700; }
   .modal-sector { color: var(--accent2); font-size: 13px; margin-top: 4px; }
@@ -70,7 +70,22 @@
   .price-table th { color: var(--muted); font-weight: 500; text-align: left; padding: 6px 8px; border-bottom: 1px solid var(--border); }
   .price-table td { padding: 5px 8px; border-bottom: 1px solid var(--border); }
   .price-table tr:last-child td { border-bottom: none; }
-  @media (max-width: 768px) { .summary-bar { grid-template-columns: repeat(2, 1fr); } .stock-grid { grid-template-columns: 1fr; } header { padding: 0 16px; } main { padding: 16px; } }
+  /* Profile */
+  .profile-desc { font-size: 13px; color: var(--text); line-height: 1.7; background: var(--surface2); border-radius: 8px; padding: 14px; margin-bottom: 10px; }
+  .profile-desc a { color: var(--accent); text-decoration: none; }
+  .profile-desc a:hover { text-decoration: underline; }
+  .profile-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 8px; margin-bottom: 4px; }
+  .profile-item { background: var(--surface2); border-radius: 8px; padding: 10px 12px; }
+  .profile-item .label { font-size: 11px; color: var(--muted); margin-bottom: 2px; }
+  .profile-item .value { font-size: 13px; font-weight: 600; word-break: break-all; }
+  /* News */
+  .news-list { display: flex; flex-direction: column; gap: 8px; }
+  .news-item { background: var(--surface2); border-radius: 8px; padding: 12px 14px; }
+  .news-item .news-title { font-size: 13px; color: var(--text); line-height: 1.4; margin-bottom: 4px; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; }
+  .news-item .news-title a { color: var(--text); text-decoration: none; }
+  .news-item .news-title a:hover { color: var(--accent); text-decoration: underline; }
+  .news-item .news-meta { font-size: 11px; color: var(--muted); }
+  @media (max-width: 768px) { .summary-bar { grid-template-columns: repeat(2, 1fr); } .stock-grid { grid-template-columns: 1fr; } header { padding: 0 16px; } main { padding: 16px; } .profile-grid { grid-template-columns: repeat(2, 1fr); } }
 </style>
 </head>
 <body>
@@ -99,23 +114,28 @@
       <div class="label">盈利/总数</div>
     </div>
     <div class="summary-card">
-      <div class="value" style="color:var(--accent2)">1/14</div>
-      <div class="label">持仓天数</div>
+      <div class="value" style="color:var(--accent2)">5/14</div>
+      <div class="label">最长持仓天数</div>
     </div>
   </div>
   <div class="filter-bar">
     <input type="text" id="searchInput" placeholder="搜索股票代码或名称…" oninput="filterStocks()">
     <span class="filter-tag active" data-sector="all" onclick="setSector('all')">全部</span>
-    <span class="filter-tag" data-sector="Technology" onclick="setSector('Technology')">科技</span>
-    <span class="filter-tag" data-sector="Health Care" onclick="setSector('Health Care')">医疗</span>
+    <span class="filter-tag" data-sector="Information Technology" onclick="setSector('Information Technology')">信息技术</span>
+    <span class="filter-tag" data-sector="Health Care" onclick="setSector('Health Care')">医疗保健</span>
     <span class="filter-tag" data-sector="Financials" onclick="setSector('Financials')">金融</span>
-    <span class="filter-tag" data-sector="Consumer" onclick="setSector('Consumer')">消费</span>
-    <span class="filter-tag" data-sector="Energy" onclick="setSector('Energy')">能源</span>
     <span class="filter-tag" data-sector="Industrials" onclick="setSector('Industrials')">工业</span>
+    <span class="filter-tag" data-sector="Consumer Staples" onclick="setSector('Consumer Staples')">消费必需</span>
+    <span class="filter-tag" data-sector="Consumer Discretionary" onclick="setSector('Consumer Discretionary')">非必需消费</span>
+    <span class="filter-tag" data-sector="Materials" onclick="setSector('Materials')">材料</span>
+    <span class="filter-tag" data-sector="Utilities" onclick="setSector('Utilities')">公用事业</span>
+    <span class="filter-tag" data-sector="Real Estate" onclick="setSector('Real Estate')">房地产</span>
+    <span class="filter-tag" data-sector="Communication Services" onclick="setSector('Communication Services')">通信服务</span>
+    <span class="filter-tag" data-sector="Energy" onclick="setSector('Energy')">能源</span>
   </div>
   <div class="stock-grid" id="stockGrid">
     
-        <div class="stock-card" onclick='openModal({"symbol": "CRL", "name": "Charles River Laboratories", "sector": "Health Care", "close": 177.6199951171875, "dif": 1.5417, "dea": 0.8538, "diff": 0.0, "golden_cross_date": "2026-05-05", "tracking_prices": [{"date": "2026-05-05", "close": 185.39}, {"date": "2026-05-06", "close": 181.73}, {"date": "2026-05-07", "close": 181.68}, {"date": "2026-05-08", "close": 177.62}]})'>
+        <div class="stock-card" onclick="openModal({"symbol": "CRL", "name": "Charles River Laboratories", "sector": "Health Care", "close": 177.6199951171875, "dif": 1.5417, "dea": 0.8538, "diff": 0.0, "golden_cross_date": "2026-05-05", "tracking_prices": [{"date": "2026-05-05", "close": 185.39}, {"date": "2026-05-06", "close": 181.73}, {"date": "2026-05-07", "close": 181.68}, {"date": "2026-05-08", "close": 177.62}], "news": [{"title": "Charles River Laboratories International Q1 Earnings Call Highlights", "url": "https://finance.yahoo.com/m/8040376d-0350-3bcc-b204-599a90300109/charles-river-laboratories.html", "pubDate": ""}, {"title": "LH vs. CRL: Which Stock Is the Better Value Option?", "url": "https://finance.yahoo.com/markets/stocks/articles/lh-vs-crl-stock-better-154004022.html", "pubDate": ""}, {"title": "Analyst Report: Charles River Laboratories International, Inc.", "url": "https://finance.yahoo.com/m/27068cba-8c9c-38ab-87f9-92b82ee7932f/analyst-report%3A-charles-river.html", "pubDate": ""}], "profile": {"description": "Charles River Laboratories International, Inc. provides drug discovery, non-clinical development, and safety testing services in the United States, Europe, Canada, the Asia Pacific, and internationally. The Research Models and Services segment produces and sells rodents, and purpose-bred rats and mi…", "marketCap": "$8.6B", "employees": "18,300", "sector": "Healthcare", "industry": "Diagnostics & Research", "website": "https://www.criver.com", "shortName": "Charles River Laboratories Inte"}})">
             <div class="card-header">
                 <div class="symbol-row">
                     <span class="symbol">CRL</span>
@@ -170,17 +190,15 @@
                         plugins: { legend: { display: false } },
                         scales: {
                             x: { display: false },
-                            y: {
-                                display: false,
-                                beginAtZero: false
-                            }
+                            y: { display: false, beginAtZero: false }
                         }
                     }
                 });
             }
         })();
         </script>
-        <div class="stock-card" onclick='openModal({"symbol": "ALB", "name": "Albemarle Corporation", "sector": "Materials", "close": 203.52000427246094, "dif": 4.6635, "dea": 4.6614, "diff": 0.0021, "golden_cross_date": "2026-05-08", "tracking_prices": [{"date": "2026-05-08", "close": 203.52}]})'>
+
+        <div class="stock-card" onclick="openModal({"symbol": "ALB", "name": "Albemarle Corporation", "sector": "Materials", "close": 203.52000427246094, "dif": 4.6635, "dea": 4.6614, "diff": 0.0021, "golden_cross_date": "2026-05-08", "tracking_prices": [{"date": "2026-05-08", "close": 203.52}], "news": [{"title": "Albemarle Q1 Earnings Call Highlights", "url": "https://finance.yahoo.com/m/b538aa1c-2c0d-3491-83a3-116e16d4d326/albemarle-q1-earnings-call.html", "pubDate": ""}, {"title": "Albemarle (ALB) Gets Truist Price Target Boost on Lithium Price Momentum", "url": "https://finance.yahoo.com/news/albemarle-alb-gets-truist-price-220923548.html", "pubDate": ""}, {"title": "LYB or ALB: Which Is the Better Value Stock Right Now?", "url": "https://finance.yahoo.com/markets/stocks/articles/lyb-alb-better-value-stock-154002710.html", "pubDate": ""}], "profile": {"description": "Albemarle Corporation provides energy storage solutions worldwide. It operates through three segments: Energy Storage, Specialties, and Ketjen. The Energy Storage segment offers lithium compounds, including lithium carbonate, lithium hydroxide, and lithium chloride for use in lithium batteries used …", "marketCap": "$24.0B", "employees": "7,800", "sector": "Basic Materials", "industry": "Specialty Chemicals", "website": "https://www.albemarle.com", "shortName": "Albemarle Corporation"}})">
             <div class="card-header">
                 <div class="symbol-row">
                     <span class="symbol">ALB</span>
@@ -235,17 +253,15 @@
                         plugins: { legend: { display: false } },
                         scales: {
                             x: { display: false },
-                            y: {
-                                display: false,
-                                beginAtZero: false
-                            }
+                            y: { display: false, beginAtZero: false }
                         }
                     }
                 });
             }
         })();
         </script>
-        <div class="stock-card" onclick='openModal({"symbol": "VICI", "name": "Vici Properties", "sector": "Real Estate", "close": 28.84000015258789, "dif": 0.1283, "dea": 0.1019, "diff": 0.0024, "golden_cross_date": "2026-05-06", "tracking_prices": [{"date": "2026-05-06", "close": 28.65}, {"date": "2026-05-07", "close": 28.79}, {"date": "2026-05-08", "close": 28.84}]})'>
+
+        <div class="stock-card" onclick="openModal({"symbol": "VICI", "name": "Vici Properties", "sector": "Real Estate", "close": 28.84000015258789, "dif": 0.1283, "dea": 0.1019, "diff": 0.0024, "golden_cross_date": "2026-05-06", "tracking_prices": [{"date": "2026-05-06", "close": 28.65}, {"date": "2026-05-07", "close": 28.79}, {"date": "2026-05-08", "close": 28.84}], "news": [{"title": "The Smartest Dividend Stock to Buy With $100 Right Now", "url": "https://finance.yahoo.com/m/973d557a-08b3-3b8e-a9ae-b39051af2d32/the-smartest-dividend-stock.html", "pubDate": ""}, {"title": "A Look At VICI Properties (VICI) Valuation As Recent Share Momentum Meets Intrinsic Discount Estimate", "url": "https://finance.yahoo.com/markets/stocks/articles/look-vici-properties-vici-valuation-111139918.html", "pubDate": ""}, {"title": "Want Reliable Income No Matter What the Market Does? Start With These 3 High-Yield Stocks.", "url": "https://finance.yahoo.com/m/008df39e-04af-391a-8ddb-f74bdce1ffcf/want-reliable-income-no.html", "pubDate": ""}], "profile": {"description": "VICI Properties Inc. is an S&P 500 experiential real estate investment trust that owns one of the largest portfolios of market-leading gaming, hospitality, wellness, entertainment and leisure destinations, including Caesars Palace Las Vegas, MGM Grand and the Venetian Resort Las Vegas, three of the …", "marketCap": "$31.1B", "employees": "28", "sector": "Real Estate", "industry": "REIT - Diversified", "website": "https://www.viciproperties.com", "shortName": "VICI Properties Inc."}})">
             <div class="card-header">
                 <div class="symbol-row">
                     <span class="symbol">VICI</span>
@@ -300,17 +316,15 @@
                         plugins: { legend: { display: false } },
                         scales: {
                             x: { display: false },
-                            y: {
-                                display: false,
-                                beginAtZero: false
-                            }
+                            y: { display: false, beginAtZero: false }
                         }
                     }
                 });
             }
         })();
         </script>
-        <div class="stock-card" onclick='openModal({"symbol": "ETR", "name": "Entergy", "sector": "Utilities", "close": 111.58999633789062, "dif": 0.8721, "dea": 1.503, "diff": 0.0029, "golden_cross_date": "2026-05-05", "tracking_prices": [{"date": "2026-05-05", "close": 117.36}, {"date": "2026-05-06", "close": 112.96}, {"date": "2026-05-07", "close": 112.02}, {"date": "2026-05-08", "close": 111.59}]})'>
+
+        <div class="stock-card" onclick="openModal({"symbol": "ETR", "name": "Entergy", "sector": "Utilities", "close": 111.58999633789062, "dif": 0.8721, "dea": 1.503, "diff": 0.0029, "golden_cross_date": "2026-05-05", "tracking_prices": [{"date": "2026-05-05", "close": 117.36}, {"date": "2026-05-06", "close": 112.96}, {"date": "2026-05-07", "close": 112.02}, {"date": "2026-05-08", "close": 111.59}], "news": [{"title": "Entergy (ETR) Launches $2.17B Common Stock Offering", "url": "https://finance.yahoo.com/markets/stocks/articles/entergy-etr-launches-2-17b-052615384.html", "pubDate": ""}, {"title": "Financial Advisor Exits Position in Industrial Stock, According to Latest SEC Filing", "url": "https://finance.yahoo.com/m/611e51aa-5a20-39a3-bc3a-e491b445cdd7/financial-advisor-exits.html", "pubDate": ""}, {"title": "Entergy Prices Equity Offering at $113 a Share", "url": "https://finance.yahoo.com/markets/stocks/articles/entergy-prices-equity-offering-113-092212782.html", "pubDate": ""}], "profile": {"description": "Entergy Corporation, together with its subsidiaries, engages in the production and retail distribution of electricity in the United States. It generates, transmits, distributes, and sells electric power in portions of Arkansas, Louisiana, Mississippi, and Texas, including the City of New Orleans. It…", "marketCap": "$51.1B", "employees": "12,000", "sector": "Utilities", "industry": "Utilities - Regulated Electric", "website": "https://www.entergy.com", "shortName": "Entergy Corporation"}})">
             <div class="card-header">
                 <div class="symbol-row">
                     <span class="symbol">ETR</span>
@@ -365,17 +379,15 @@
                         plugins: { legend: { display: false } },
                         scales: {
                             x: { display: false },
-                            y: {
-                                display: false,
-                                beginAtZero: false
-                            }
+                            y: { display: false, beginAtZero: false }
                         }
                     }
                 });
             }
         })();
         </script>
-        <div class="stock-card" onclick='openModal({"symbol": "EMR", "name": "Emerson Electric", "sector": "Industrials", "close": 141.30999755859375, "dif": 0.6245, "dea": 0.6188, "diff": 0.0051, "golden_cross_date": "2026-05-06", "tracking_prices": [{"date": "2026-05-06", "close": 147.99}, {"date": "2026-05-07", "close": 141.09}, {"date": "2026-05-08", "close": 141.31}]})'>
+
+        <div class="stock-card" onclick="openModal({"symbol": "EMR", "name": "Emerson Electric", "sector": "Industrials", "close": 141.30999755859375, "dif": 0.6245, "dea": 0.6188, "diff": 0.0051, "golden_cross_date": "2026-05-06", "tracking_prices": [{"date": "2026-05-06", "close": 147.99}, {"date": "2026-05-07", "close": 141.09}, {"date": "2026-05-08", "close": 141.31}], "news": [{"title": "BMO Capital Adjusts Price Target on Emerson Electric to $157 From $150", "url": "https://finance.yahoo.com/markets/stocks/articles/bmo-capital-adjusts-price-target-144211976.html", "pubDate": ""}, {"title": "Analyst Report: Emerson Electric Co", "url": "https://finance.yahoo.com/m/3676d9fc-aaaa-3ecb-9571-e1ecd6951f0b/analyst-report%3A-emerson.html", "pubDate": ""}, {"title": "Market Digest: BAX, CVX, DUK, EMR, FLEX, GPN, MRK, WM, QRVO", "url": "https://finance.yahoo.com/m/2d1aa116-6b1e-34cb-99f7-0eede57412b3/market-digest%3A-bax%2C-cvx%2C-duk%2C.html", "pubDate": ""}], "profile": {"description": "Emerson Electric Co., a technology and software company, provides various solutions in the Americas, Asia, the Middle East, Africa, and Europe. It operates through Final Control, Measurement & Analytical, Discrete Automation, Safety & Productivity, Control Systems & Software, and Test & Measurement …", "marketCap": "$79.1B", "employees": "71,000", "sector": "Industrials", "industry": "Specialty Industrial Machinery", "website": "https://www.emerson.com", "shortName": "Emerson Electric Company"}})">
             <div class="card-header">
                 <div class="symbol-row">
                     <span class="symbol">EMR</span>
@@ -430,17 +442,15 @@
                         plugins: { legend: { display: false } },
                         scales: {
                             x: { display: false },
-                            y: {
-                                display: false,
-                                beginAtZero: false
-                            }
+                            y: { display: false, beginAtZero: false }
                         }
                     }
                 });
             }
         })();
         </script>
-        <div class="stock-card" onclick='openModal({"symbol": "LYV", "name": "Live Nation Entertainment", "sector": "Communication Services", "close": 163.27999877929688, "dif": 1.6319, "dea": 0.7005, "diff": 0.0087, "golden_cross_date": "2026-05-05", "tracking_prices": [{"date": "2026-05-05", "close": 157.26}, {"date": "2026-05-06", "close": 167.82}, {"date": "2026-05-07", "close": 165.75}, {"date": "2026-05-08", "close": 163.28}]})'>
+
+        <div class="stock-card" onclick="openModal({"symbol": "LYV", "name": "Live Nation Entertainment", "sector": "Communication Services", "close": 163.27999877929688, "dif": 1.6319, "dea": 0.7005, "diff": 0.0087, "golden_cross_date": "2026-05-05", "tracking_prices": [{"date": "2026-05-05", "close": 157.26}, {"date": "2026-05-06", "close": 167.82}, {"date": "2026-05-07", "close": 165.75}, {"date": "2026-05-08", "close": 163.28}], "news": [{"title": "A Look At Live Nation (LYV) Valuation After Q1 2026 Beat And Large Legal Accrual", "url": "https://finance.yahoo.com/markets/stocks/articles/look-live-nation-lyv-valuation-191718387.html", "pubDate": ""}, {"title": "Why Live Nation Entertainment Stock Jumped 7% Today", "url": "https://finance.yahoo.com/m/46ebde9a-f92e-3660-a9c8-6917d27f5c87/why-live-nation-entertainment.html", "pubDate": ""}, {"title": "Rothschild & Co Redburn Adjusts Live Nation Entertainment Price Target to $195 From $193", "url": "https://finance.yahoo.com/markets/stocks/articles/rothschild-co-redburn-adjusts-live-152953997.html", "pubDate": ""}], "profile": {"description": "Live Nation Entertainment, Inc. operates as a live entertainment company worldwide. The company operates through Concerts, Ticketing, and Sponsorship & Advertising segments. Its Concerts segment promotes live music events in its owned or operated venues, and in rented third-party venues. This segmen…", "marketCap": "$38.0B", "employees": "17,700", "sector": "Communication Services", "industry": "Entertainment", "website": "https://www.livenationentertainment.com", "shortName": "Live Nation Entertainment, Inc."}})">
             <div class="card-header">
                 <div class="symbol-row">
                     <span class="symbol">LYV</span>
@@ -495,17 +505,15 @@
                         plugins: { legend: { display: false } },
                         scales: {
                             x: { display: false },
-                            y: {
-                                display: false,
-                                beginAtZero: false
-                            }
+                            y: { display: false, beginAtZero: false }
                         }
                     }
                 });
             }
         })();
         </script>
-        <div class="stock-card" onclick='openModal({"symbol": "HST", "name": "Host Hotels & Resorts", "sector": "Real Estate", "close": 22.270000457763672, "dif": 0.503, "dea": 0.4409, "diff": 0.0099, "golden_cross_date": "2026-05-06", "tracking_prices": [{"date": "2026-05-06", "close": 21.68}, {"date": "2026-05-07", "close": 21.67}, {"date": "2026-05-08", "close": 22.27}]})'>
+
+        <div class="stock-card" onclick="openModal({"symbol": "HST", "name": "Host Hotels & Resorts", "sector": "Real Estate", "close": 22.270000457763672, "dif": 0.503, "dea": 0.4409, "diff": 0.0099, "golden_cross_date": "2026-05-06", "tracking_prices": [{"date": "2026-05-06", "close": 21.68}, {"date": "2026-05-07", "close": 21.67}, {"date": "2026-05-08", "close": 22.27}], "news": [{"title": "Top Dividend Stocks To Consider In May 2026", "url": "https://finance.yahoo.com/markets/stocks/articles/top-dividend-stocks-consider-may-173203123.html", "pubDate": ""}, {"title": "3 Dividend Stocks To Consider With Up To 21.6% Yield", "url": "https://finance.yahoo.com/markets/stocks/articles/3-dividend-stocks-consider-21-113151971.html", "pubDate": ""}, {"title": "Host Hotels & Resorts Q1 Earnings Call Highlights", "url": "https://finance.yahoo.com/m/62ce8e19-d116-3fdf-ad3d-d4b0e6026bd5/host-hotels-%26-resorts-q1.html", "pubDate": ""}], "profile": {"description": "Host Hotels & Resorts, Inc., herein referred to as we, Host Inc., or the Company, is a self-managed and self-administered real estate investment trust that owns hotel property. We conduct our operations as an umbrella partnership, REIT, through an operating partnership, Host Hotels & Resorts, L.P., …", "marketCap": "$15.5B", "employees": "162", "sector": "Real Estate", "industry": "REIT - Hotel & Motel", "website": "https://www.hosthotels.com", "shortName": "Host Hotels & Resorts, Inc."}})">
             <div class="card-header">
                 <div class="symbol-row">
                     <span class="symbol">HST</span>
@@ -560,17 +568,15 @@
                         plugins: { legend: { display: false } },
                         scales: {
                             x: { display: false },
-                            y: {
-                                display: false,
-                                beginAtZero: false
-                            }
+                            y: { display: false, beginAtZero: false }
                         }
                     }
                 });
             }
         })();
         </script>
-        <div class="stock-card" onclick='openModal({"symbol": "GM", "name": "General Motors", "sector": "Consumer Discretionary", "close": 78.80000305175781, "dif": 0.2902, "dea": 0.28, "diff": 0.0101, "golden_cross_date": "2026-05-08", "tracking_prices": [{"date": "2026-05-08", "close": 78.8}]})'>
+
+        <div class="stock-card" onclick="openModal({"symbol": "GM", "name": "General Motors", "sector": "Consumer Discretionary", "close": 78.80000305175781, "dif": 0.2902, "dea": 0.28, "diff": 0.0101, "golden_cross_date": "2026-05-08", "tracking_prices": [{"date": "2026-05-08", "close": 78.8}], "news": [{"title": "GM agrees to pay $12.75M in California driver privacy settlement", "url": "https://finance.yahoo.com/sectors/technology/articles/gm-agrees-pay-12-75m-190530221.html", "pubDate": ""}, {"title": "Is It Time To Reconsider General Motors (GM) After Its 1 Year 67% Share Price Surge", "url": "https://finance.yahoo.com/markets/stocks/articles/time-reconsider-general-motors-gm-181244918.html", "pubDate": ""}, {"title": "Ken Burns on What He Will and Won’t Allow When Financing His Films", "url": "https://finance.yahoo.com/m/ac6edc10-b022-34bc-bdf1-f6815e15823f/ken-burns-on-what-he-will-and.html", "pubDate": ""}], "profile": {"description": "General Motors Company designs, builds, and sells trucks, crossovers, cars, and automobile parts worldwide. It operates through GM North America, GM International, and GM Financial segments. The company markets its vehicles primarily under the Buick, Cadillac, Chevrolet, GMC, Baojun, and Wuling bran…", "marketCap": "$71.1B", "employees": "156,000", "sector": "Consumer Cyclical", "industry": "Auto Manufacturers", "website": "https://www.gm.com", "shortName": "General Motors Company"}})">
             <div class="card-header">
                 <div class="symbol-row">
                     <span class="symbol">GM</span>
@@ -625,17 +631,15 @@
                         plugins: { legend: { display: false } },
                         scales: {
                             x: { display: false },
-                            y: {
-                                display: false,
-                                beginAtZero: false
-                            }
+                            y: { display: false, beginAtZero: false }
                         }
                     }
                 });
             }
         })();
         </script>
-        <div class="stock-card" onclick='openModal({"symbol": "CF", "name": "CF Industries", "sector": "Materials", "close": 115.0199966430664, "dif": -0.3339, "dea": 0.5635, "diff": 0.0131, "golden_cross_date": "2026-05-04", "tracking_prices": [{"date": "2026-05-04", "close": 125.89}, {"date": "2026-05-05", "close": 128.04}, {"date": "2026-05-06", "close": 119.76}, {"date": "2026-05-07", "close": 118.68}, {"date": "2026-05-08", "close": 115.02}]})'>
+
+        <div class="stock-card" onclick="openModal({"symbol": "CF", "name": "CF Industries", "sector": "Materials", "close": 115.0199966430664, "dif": -0.3339, "dea": 0.5635, "diff": 0.0131, "golden_cross_date": "2026-05-04", "tracking_prices": [{"date": "2026-05-04", "close": 125.89}, {"date": "2026-05-05", "close": 128.04}, {"date": "2026-05-06", "close": 119.76}, {"date": "2026-05-07", "close": 118.68}, {"date": "2026-05-08", "close": 115.02}], "news": [{"title": "CF Industries Q1 Earnings Call Highlights", "url": "https://finance.yahoo.com/m/3f16f1f0-6875-3aee-adab-e5c3c755c0c4/cf-industries-q1-earnings.html", "pubDate": ""}, {"title": "UBS Adjusts CF Industries Price Target to $130 From $140", "url": "https://finance.yahoo.com/markets/stocks/articles/ubs-adjusts-cf-industries-price-143841707.html", "pubDate": ""}, {"title": "Goldman Sachs Adjusts Price Target on CF Industries to $133 From $132", "url": "https://finance.yahoo.com/markets/stocks/articles/goldman-sachs-adjusts-price-target-131720772.html", "pubDate": ""}], "profile": {"description": "CF Industries Holdings, Inc., together with its subsidiaries, engages in the production of ammonia in North America, Europe, and internationally. It operates through Ammonia, Granular Urea, UAN, AN, and Other segments. The company offers ammonia products; nitrogen products, such as granular urea, ur…", "marketCap": "$17.7B", "employees": "2,900", "sector": "Basic Materials", "industry": "Agricultural Inputs", "website": "https://www.cfindustries.com", "shortName": "CF Industries Holdings, Inc."}})">
             <div class="card-header">
                 <div class="symbol-row">
                     <span class="symbol">CF</span>
@@ -690,17 +694,15 @@
                         plugins: { legend: { display: false } },
                         scales: {
                             x: { display: false },
-                            y: {
-                                display: false,
-                                beginAtZero: false
-                            }
+                            y: { display: false, beginAtZero: false }
                         }
                     }
                 });
             }
         })();
         </script>
-        <div class="stock-card" onclick='openModal({"symbol": "WYNN", "name": "Wynn Resorts", "sector": "Consumer Discretionary", "close": 102.41999816894531, "dif": 0.2341, "dea": 0.4836, "diff": 0.0202, "golden_cross_date": "2026-05-07", "tracking_prices": [{"date": "2026-05-07", "close": 106.85}, {"date": "2026-05-08", "close": 102.42}]})'>
+
+        <div class="stock-card" onclick="openModal({"symbol": "WYNN", "name": "Wynn Resorts", "sector": "Consumer Discretionary", "close": 102.41999816894531, "dif": 0.2341, "dea": 0.4836, "diff": 0.0202, "golden_cross_date": "2026-05-07", "tracking_prices": [{"date": "2026-05-07", "close": 106.85}, {"date": "2026-05-08", "close": 102.42}], "news": [{"title": "Wynn Resorts Q1 Earnings Call Highlights", "url": "https://finance.yahoo.com/m/8ebfe6d0-ae9c-3980-bdba-e054c38b0e6e/wynn-resorts-q1-earnings-call.html", "pubDate": ""}, {"title": "HSBC Lowers Wynn Resorts Price Target to $129 From $136", "url": "https://finance.yahoo.com/markets/stocks/articles/hsbc-lowers-wynn-resorts-price-185847250.html", "pubDate": ""}, {"title": "Wynn Resorts Q1 Earnings & Revenues Beat Estimates, Rise Y/Y", "url": "https://finance.yahoo.com/markets/stocks/articles/wynn-resorts-q1-earnings-revenues-155300635.html", "pubDate": ""}], "profile": {"description": "Wynn Resorts, Limited designs, develops, and operates integrated resorts. It operates in four segments: Wynn Palace, Wynn Macau, Las Vegas Operations, and Encore Boston Harbor. The Wynn Palace segment operates casino space, private gaming salons, and sky casinos; a luxury hotel tower with suites and…", "marketCap": "$10.6B", "employees": "28,500", "sector": "Consumer Cyclical", "industry": "Resorts & Casinos", "website": "https://www.wynnresorts.com", "shortName": "Wynn Resorts, Limited"}})">
             <div class="card-header">
                 <div class="symbol-row">
                     <span class="symbol">WYNN</span>
@@ -755,17 +757,15 @@
                         plugins: { legend: { display: false } },
                         scales: {
                             x: { display: false },
-                            y: {
-                                display: false,
-                                beginAtZero: false
-                            }
+                            y: { display: false, beginAtZero: false }
                         }
                     }
                 });
             }
         })();
         </script>
-        <div class="stock-card" onclick='openModal({"symbol": "NWSA", "name": "News Corp (Class A)", "sector": "Communication Services", "close": 27.020000457763672, "dif": 0.4486, "dea": 0.4272, "diff": 0.0214, "golden_cross_date": "2026-05-08", "tracking_prices": [{"date": "2026-05-08", "close": 27.02}]})'>
+
+        <div class="stock-card" onclick="openModal({"symbol": "NWSA", "name": "News Corp (Class A)", "sector": "Communication Services", "close": 27.020000457763672, "dif": 0.4486, "dea": 0.4272, "diff": 0.0214, "golden_cross_date": "2026-05-08", "tracking_prices": [{"date": "2026-05-08", "close": 27.02}], "news": [{"title": "Is It Time To Reassess News Corp (NWSA) After Meta AI Licensing Deal?", "url": "https://finance.yahoo.com/markets/stocks/articles/time-reassess-news-corp-nwsa-231420018.html", "pubDate": ""}, {"title": "News Corp (NWS) Q3 2026 Earnings Transcript", "url": "https://finance.yahoo.com/m/21372197-d8f6-394f-9411-968504c432db/news-corp-%28nws%29-q3-2026.html", "pubDate": ""}, {"title": "NWSA's Q3 Earnings Surpass Estimates, Revenues Increase Y/Y", "url": "https://finance.yahoo.com/markets/stocks/articles/nwsas-q3-earnings-surpass-estimates-135200229.html", "pubDate": ""}], "profile": {"description": "News Corporation, a media and information services company, creates and distributes authoritative and engaging content, and other products and services for consumers and businesses. It operates through five segments: Digital Real Estate Services, Dow Jones, Book Publishing, News Media, and Other. Th…", "marketCap": "$14.8B", "employees": "22,300", "sector": "Communication Services", "industry": "Entertainment", "website": "https://newscorp.com", "shortName": "News Corporation"}})">
             <div class="card-header">
                 <div class="symbol-row">
                     <span class="symbol">NWSA</span>
@@ -820,17 +820,15 @@
                         plugins: { legend: { display: false } },
                         scales: {
                             x: { display: false },
-                            y: {
-                                display: false,
-                                beginAtZero: false
-                            }
+                            y: { display: false, beginAtZero: false }
                         }
                     }
                 });
             }
         })();
         </script>
-        <div class="stock-card" onclick='openModal({"symbol": "SOLV", "name": "Solventum", "sector": "Health Care", "close": 73.37999725341797, "dif": 0.8637, "dea": 0.3236, "diff": 0.0218, "golden_cross_date": "2026-05-05", "tracking_prices": [{"date": "2026-05-05", "close": 69.04}, {"date": "2026-05-06", "close": 70.99}, {"date": "2026-05-07", "close": 71.65}, {"date": "2026-05-08", "close": 73.38}]})'>
+
+        <div class="stock-card" onclick="openModal({"symbol": "SOLV", "name": "Solventum", "sector": "Health Care", "close": 73.37999725341797, "dif": 0.8637, "dea": 0.3236, "diff": 0.0218, "golden_cross_date": "2026-05-05", "tracking_prices": [{"date": "2026-05-05", "close": 69.04}, {"date": "2026-05-06", "close": 70.99}, {"date": "2026-05-07", "close": 71.65}, {"date": "2026-05-08", "close": 73.38}], "news": [{"title": "Market Update: EBAY, ITGR, MNST, SWK, SMCI, GM, XYZ, SOLV", "url": "https://finance.yahoo.com/m/2b0bf46d-b905-36dd-b703-a702600e96b9/market-update%3A-ebay%2C-itgr%2C.html", "pubDate": ""}, {"title": "Analyst Report: Solventum Corp", "url": "https://finance.yahoo.com/m/73d949a3-f2de-3072-be94-4d6dc3542ac1/analyst-report%3A-solventum-corp.html", "pubDate": ""}, {"title": "Solventum to Participate in the 2026 BofA Securities Health Care Conference", "url": "https://finance.yahoo.com/sectors/healthcare/articles/solventum-participate-2026-bofa-securities-200500525.html", "pubDate": ""}], "profile": {"description": "Solventum Corporation, a healthcare company, develops, manufactures, and commercializes a portfolio of solutions to address critical customer and patient needs in the United States and internationally. It operates through three segments: Medsurg, Dental Solutions, and Health Information Systems. The…", "marketCap": "$12.7B", "employees": "20,584", "sector": "Healthcare", "industry": "Medical Instruments & Supplies", "website": "https://www.solventum.com", "shortName": "Solventum Corporation"}})">
             <div class="card-header">
                 <div class="symbol-row">
                     <span class="symbol">SOLV</span>
@@ -885,17 +883,15 @@
                         plugins: { legend: { display: false } },
                         scales: {
                             x: { display: false },
-                            y: {
-                                display: false,
-                                beginAtZero: false
-                            }
+                            y: { display: false, beginAtZero: false }
                         }
                     }
                 });
             }
         })();
         </script>
-        <div class="stock-card" onclick='openModal({"symbol": "KEYS", "name": "Keysight Technologies", "sector": "Information Technology", "close": 360.29998779296875, "dif": 14.6751, "dea": 14.5998, "diff": 0.0228, "golden_cross_date": "2026-05-05", "tracking_prices": [{"date": "2026-05-05", "close": 355.93}, {"date": "2026-05-06", "close": 366.68}, {"date": "2026-05-07", "close": 355.06}, {"date": "2026-05-08", "close": 360.3}]})'>
+
+        <div class="stock-card" onclick="openModal({"symbol": "KEYS", "name": "Keysight Technologies", "sector": "Information Technology", "close": 360.29998779296875, "dif": 14.6751, "dea": 14.5998, "diff": 0.0228, "golden_cross_date": "2026-05-05", "tracking_prices": [{"date": "2026-05-05", "close": 355.93}, {"date": "2026-05-06", "close": 366.68}, {"date": "2026-05-07", "close": 355.06}, {"date": "2026-05-08", "close": 360.3}], "news": [{"title": "A Look At Keysight Technologies (KEYS) Valuation After Recent Share Price Pullback", "url": "https://finance.yahoo.com/markets/stocks/articles/look-keysight-technologies-keys-valuation-200832897.html", "pubDate": ""}, {"title": "HubSpot Beats Q1 Earnings Estimates on Multi-Hub Customer Growth", "url": "https://finance.yahoo.com/markets/stocks/articles/hubspot-beats-q1-earnings-estimates-175200046.html", "pubDate": ""}, {"title": "Navitas Q1 Earnings & Revenues Beat Estimates on High-Power Growth", "url": "https://finance.yahoo.com/markets/stocks/articles/navitas-q1-earnings-revenues-beat-174000384.html", "pubDate": ""}], "profile": {"description": "Keysight Technologies, Inc. provides electronic design and test solutions worldwide. The company operates through Communications Solutions Group and Electronic Industrial Solutions Group segments. It offers electronic design and test software, instrumentation, systems, and related services used in t…", "marketCap": "$61.8B", "employees": "16,600", "sector": "Technology", "industry": "Scientific & Technical Instruments", "website": "https://www.keysight.com", "shortName": "Keysight Technologies Inc."}})">
             <div class="card-header">
                 <div class="symbol-row">
                     <span class="symbol">KEYS</span>
@@ -950,17 +946,15 @@
                         plugins: { legend: { display: false } },
                         scales: {
                             x: { display: false },
-                            y: {
-                                display: false,
-                                beginAtZero: false
-                            }
+                            y: { display: false, beginAtZero: false }
                         }
                     }
                 });
             }
         })();
         </script>
-        <div class="stock-card" onclick='openModal({"symbol": "EVRG", "name": "Evergy", "sector": "Utilities", "close": 81.77999877929688, "dif": 0.0602, "dea": 0.0536, "diff": 0.0229, "golden_cross_date": "2026-05-07", "tracking_prices": [{"date": "2026-05-07", "close": 82.73}, {"date": "2026-05-08", "close": 81.78}]})'>
+
+        <div class="stock-card" onclick="openModal({"symbol": "EVRG", "name": "Evergy", "sector": "Utilities", "close": 81.77999877929688, "dif": 0.0602, "dea": 0.0536, "diff": 0.0229, "golden_cross_date": "2026-05-07", "tracking_prices": [{"date": "2026-05-07", "close": 82.73}, {"date": "2026-05-08", "close": 81.78}], "news": [{"title": "Assessing Evergy (EVRG) Valuation After Recent Share Price Momentum And Growth Expectations", "url": "https://finance.yahoo.com/markets/stocks/articles/assessing-evergy-evrg-valuation-recent-101315007.html", "pubDate": ""}, {"title": "UBS Raises Price Target on Evergy to $91 From $88, Maintains Neutral Rating", "url": "https://finance.yahoo.com/markets/stocks/articles/ubs-raises-price-target-evergy-135349374.html", "pubDate": ""}, {"title": "Evergy expects retail sales to rise up to 8% annually on data center growth", "url": "https://finance.yahoo.com/m/37333ea3-2a2a-3f75-a9b1-d0371d52c4ae/evergy-expects-retail-sales.html", "pubDate": ""}], "profile": {"description": "Evergy, Inc., together with its subsidiaries, engages in the generation, transmission, distribution, and sale of electricity in the United States. The company generates electricity through coal, landfill gas, uranium, and natural gas and oil sources, as well as solar, wind, and other renewable sourc…", "marketCap": "$18.9B", "employees": "4,691", "sector": "Utilities", "industry": "Utilities - Regulated Electric", "website": "https://investors.evergy.com", "shortName": "Evergy, Inc."}})">
             <div class="card-header">
                 <div class="symbol-row">
                     <span class="symbol">EVRG</span>
@@ -1015,17 +1009,15 @@
                         plugins: { legend: { display: false } },
                         scales: {
                             x: { display: false },
-                            y: {
-                                display: false,
-                                beginAtZero: false
-                            }
+                            y: { display: false, beginAtZero: false }
                         }
                     }
                 });
             }
         })();
         </script>
-        <div class="stock-card" onclick='openModal({"symbol": "ZBRA", "name": "Zebra Technologies", "sector": "Information Technology", "close": 226.02999877929688, "dif": 1.7207, "dea": 1.8271, "diff": 0.0278, "golden_cross_date": "2026-05-07", "tracking_prices": [{"date": "2026-05-07", "close": 228.62}, {"date": "2026-05-08", "close": 226.03}]})'>
+
+        <div class="stock-card" onclick="openModal({"symbol": "ZBRA", "name": "Zebra Technologies", "sector": "Information Technology", "close": 226.02999877929688, "dif": 1.7207, "dea": 1.8271, "diff": 0.0278, "golden_cross_date": "2026-05-07", "tracking_prices": [{"date": "2026-05-07", "close": 228.62}, {"date": "2026-05-08", "close": 226.03}], "news": [{"title": "The Middleby Sees Strong Q1 Sales, Raises 2026 Outlook", "url": "https://finance.yahoo.com/markets/stocks/articles/middleby-sees-strong-q1-sales-160350107.html", "pubDate": ""}, {"title": "Is Zebra Technologies (ZBRA) A Potential Opportunity After Recent Share Price Rebound?", "url": "https://finance.yahoo.com/markets/stocks/articles/zebra-technologies-zbra-potential-opportunity-101024226.html", "pubDate": ""}, {"title": "Will Zebra’s Apera AI Bet and Cubic Alliance Reframe Zebra Technologies' (ZBRA) Automation and Software Narrative?", "url": "https://finance.yahoo.com/markets/stocks/articles/zebra-apera-ai-bet-cubic-031943138.html", "pubDate": ""}], "profile": {"description": "Zebra Technologies Corporation, together with its subsidiaries, operates in the automatic identification and data capture solutions industry worldwide. It operates in two segments, Connected Frontline, and Asset Visibility and Automation. The company designs, manufactures, and sells printers that pr…", "marketCap": "$11.1B", "employees": "10,700", "sector": "Technology", "industry": "Communication Equipment", "website": "https://www.zebra.com", "shortName": "Zebra Technologies Corporation"}})">
             <div class="card-header">
                 <div class="symbol-row">
                     <span class="symbol">ZBRA</span>
@@ -1080,17 +1072,15 @@
                         plugins: { legend: { display: false } },
                         scales: {
                             x: { display: false },
-                            y: {
-                                display: false,
-                                beginAtZero: false
-                            }
+                            y: { display: false, beginAtZero: false }
                         }
                     }
                 });
             }
         })();
         </script>
-        <div class="stock-card" onclick='openModal({"symbol": "EXR", "name": "Extra Space Storage", "sector": "Real Estate", "close": 143.3000030517578, "dif": 0.9953, "dea": 0.9155, "diff": 0.0385, "golden_cross_date": "2026-05-07", "tracking_prices": [{"date": "2026-05-07", "close": 143.27}, {"date": "2026-05-08", "close": 143.3}]})'>
+
+        <div class="stock-card" onclick="openModal({"symbol": "EXR", "name": "Extra Space Storage", "sector": "Real Estate", "close": 143.3000030517578, "dif": 0.9953, "dea": 0.9155, "diff": 0.0385, "golden_cross_date": "2026-05-07", "tracking_prices": [{"date": "2026-05-07", "close": 143.27}, {"date": "2026-05-08", "close": 143.3}], "news": [{"title": "Jefferies Adjusts Price Target on Extra Space Storage to $165 From $156", "url": "https://finance.yahoo.com/markets/stocks/articles/jefferies-adjusts-price-target-extra-151402520.html", "pubDate": ""}, {"title": "Extra Space Storage (EXR) Q1 2026 Earnings Transcript", "url": "https://finance.yahoo.com/m/02210a93-a428-35e1-a9a4-de3af5d7c752/extra-space-storage-%28exr%29-q1.html", "pubDate": ""}, {"title": "Goldman Sachs Adjusts Extra Space Storage Price Target to $152 From $156", "url": "https://finance.yahoo.com/markets/stocks/articles/goldman-sachs-adjusts-extra-space-161414053.html", "pubDate": ""}], "profile": {"description": "Extra Space Storage Inc., headquartered in Salt Lake City, Utah, is a self-administered and self-managed REIT and a member of the S&P 500. As of December 31, 2025, the Company owned and/or operated 4,281 self-storage stores in 43 states and Washington, D.C. Its stores comprise approximately 2.9 mill…", "marketCap": "$31.6B", "employees": "8,393", "sector": "Real Estate", "industry": "REIT - Industrial", "website": "https://www.extraspace.com", "shortName": "Extra Space Storage Inc"}})">
             <div class="card-header">
                 <div class="symbol-row">
                     <span class="symbol">EXR</span>
@@ -1145,17 +1135,15 @@
                         plugins: { legend: { display: false } },
                         scales: {
                             x: { display: false },
-                            y: {
-                                display: false,
-                                beginAtZero: false
-                            }
+                            y: { display: false, beginAtZero: false }
                         }
                     }
                 });
             }
         })();
         </script>
-        <div class="stock-card" onclick='openModal({"symbol": "EXPD", "name": "Expeditors International", "sector": "Industrials", "close": 156.69000244140625, "dif": 1.6424, "dea": 0.8786, "diff": 0.0396, "golden_cross_date": "2026-05-05", "tracking_prices": [{"date": "2026-05-05", "close": 153.08}, {"date": "2026-05-06", "close": 151.24}, {"date": "2026-05-07", "close": 151.86}, {"date": "2026-05-08", "close": 156.69}]})'>
+
+        <div class="stock-card" onclick="openModal({"symbol": "EXPD", "name": "Expeditors International", "sector": "Industrials", "close": 156.69000244140625, "dif": 1.6424, "dea": 0.8786, "diff": 0.0396, "golden_cross_date": "2026-05-05", "tracking_prices": [{"date": "2026-05-05", "close": 153.08}, {"date": "2026-05-06", "close": 151.24}, {"date": "2026-05-07", "close": 151.86}, {"date": "2026-05-08", "close": 156.69}], "news": [{"title": "UBS Raises Price Target on Expeditors International of Washington to $175 From $166, Maintains Buy Rating", "url": "https://finance.yahoo.com/markets/stocks/articles/ubs-raises-price-target-expeditors-135429792.html", "pubDate": ""}, {"title": "How Expeditors’ Q1 2026 Earnings Beat and Higher Payouts Will Impact Expeditors International (EXPD) Investors", "url": "https://finance.yahoo.com/markets/stocks/articles/expeditors-q1-2026-earnings-beat-191658864.html", "pubDate": ""}, {"title": "What's Wrong With Transportation Sector? Buy These ETFs Instead", "url": "https://finance.yahoo.com/markets/stocks/articles/whats-wrong-transportation-sector-buy-160000485.html", "pubDate": ""}], "profile": {"description": "Expeditors International of Washington, Inc., together with its subsidiaries, provides logistics services in the Americas, North Asia, South Asia, Europe, and Middle East, Africa, and India. The company offers airfreight services, such as air freight consolidation and forwarding; ocean freight and o…", "marketCap": "$20.5B", "employees": "20,361", "sector": "Industrials", "industry": "Integrated Freight & Logistics", "website": "https://www.expeditors.com", "shortName": "Expeditors International of Was"}})">
             <div class="card-header">
                 <div class="symbol-row">
                     <span class="symbol">EXPD</span>
@@ -1210,17 +1198,15 @@
                         plugins: { legend: { display: false } },
                         scales: {
                             x: { display: false },
-                            y: {
-                                display: false,
-                                beginAtZero: false
-                            }
+                            y: { display: false, beginAtZero: false }
                         }
                     }
                 });
             }
         })();
         </script>
-        <div class="stock-card" onclick='openModal({"symbol": "MNST", "name": "Monster Beverage", "sector": "Consumer Staples", "close": 86.29000091552734, "dif": 0.9929, "dea": 0.3864, "diff": 0.0402, "golden_cross_date": "2026-05-06", "tracking_prices": [{"date": "2026-05-06", "close": 77.2}, {"date": "2026-05-07", "close": 75.97}, {"date": "2026-05-08", "close": 86.29}]})'>
+
+        <div class="stock-card" onclick="openModal({"symbol": "MNST", "name": "Monster Beverage", "sector": "Consumer Staples", "close": 86.29000091552734, "dif": 0.9929, "dea": 0.3864, "diff": 0.0402, "golden_cross_date": "2026-05-06", "tracking_prices": [{"date": "2026-05-06", "close": 77.2}, {"date": "2026-05-07", "close": 75.97}, {"date": "2026-05-08", "close": 86.29}], "news": [{"title": "US Equity Indexes Rise as Trump Awaits Iran's Response to Peace Proposal After Striking Iranian Tankers", "url": "https://finance.yahoo.com/markets/stocks/articles/us-equity-indexes-rise-trump-204703250.html", "pubDate": ""}, {"title": "How major US stock indexes fared Friday 5/8/2026", "url": "https://finance.yahoo.com/markets/stocks/articles/major-us-stock-indexes-fared-202137441.html", "pubDate": ""}, {"title": "Sector Update: Consumer Stocks Rise Late Afternoon", "url": "https://finance.yahoo.com/markets/stocks/articles/sector-consumer-stocks-rise-afternoon-195402637.html", "pubDate": ""}], "profile": {"description": "Monster Beverage Corporation, through its subsidiaries, engages in development, marketing, sale, and distribution of energy drink beverages and concentrates in the United States and internationally. The company operates through four segments: Monster Energy Drinks, Strategic Brands, Alcohol Brands, …", "marketCap": "$84.4B", "employees": "5,773", "sector": "Consumer Defensive", "industry": "Beverages - Non-Alcoholic", "website": "https://www.monsterbevcorp.com", "shortName": "Monster Beverage Corporation"}})">
             <div class="card-header">
                 <div class="symbol-row">
                     <span class="symbol">MNST</span>
@@ -1275,17 +1261,15 @@
                         plugins: { legend: { display: false } },
                         scales: {
                             x: { display: false },
-                            y: {
-                                display: false,
-                                beginAtZero: false
-                            }
+                            y: { display: false, beginAtZero: false }
                         }
                     }
                 });
             }
         })();
         </script>
-        <div class="stock-card" onclick='openModal({"symbol": "VST", "name": "Vistra Corp.", "sector": "Utilities", "close": 147.72000122070312, "dif": -1.0339, "dea": -0.0939, "diff": 0.0435, "golden_cross_date": "2026-05-05", "tracking_prices": [{"date": "2026-05-05", "close": 160.38}, {"date": "2026-05-06", "close": 158.29}, {"date": "2026-05-07", "close": 153.95}, {"date": "2026-05-08", "close": 147.72}]})'>
+
+        <div class="stock-card" onclick="openModal({"symbol": "VST", "name": "Vistra Corp.", "sector": "Utilities", "close": 147.72000122070312, "dif": -1.0339, "dea": -0.0939, "diff": 0.0435, "golden_cross_date": "2026-05-05", "tracking_prices": [{"date": "2026-05-05", "close": 160.38}, {"date": "2026-05-06", "close": 158.29}, {"date": "2026-05-07", "close": 153.95}, {"date": "2026-05-08", "close": 147.72}], "news": [{"title": "Jim Cramer Suggests “Might Want to Get Some GE Vernova”", "url": "https://finance.yahoo.com/markets/stocks/articles/jim-cramer-suggests-might-want-183622001.html", "pubDate": ""}, {"title": "Vistra (VST): The Best Power Generation Stock To Buy For Data Center Demand", "url": "https://finance.yahoo.com/markets/stocks/articles/vistra-vst-best-power-generation-052751738.html", "pubDate": ""}, {"title": "Vistra (VST) Q1 Earnings: How Key Metrics Compare to Wall Street Estimates", "url": "https://finance.yahoo.com/markets/stocks/articles/vistra-vst-q1-earnings-key-233002113.html", "pubDate": ""}], "profile": {"description": "Vistra Corp., together with its subsidiaries, operates as an integrated retail electricity and power generation company in the United States. The company operates through five segments: Retail, Texas, East, West, and Asset Closure. The company retails electricity and natural gas to residential, comm…", "marketCap": "$49.8B", "employees": "6,390", "sector": "Utilities", "industry": "Utilities - Independent Power Producers", "website": "https://vistracorp.com", "shortName": "Vistra Corp."}})">
             <div class="card-header">
                 <div class="symbol-row">
                     <span class="symbol">VST</span>
@@ -1340,17 +1324,15 @@
                         plugins: { legend: { display: false } },
                         scales: {
                             x: { display: false },
-                            y: {
-                                display: false,
-                                beginAtZero: false
-                            }
+                            y: { display: false, beginAtZero: false }
                         }
                     }
                 });
             }
         })();
         </script>
-        <div class="stock-card" onclick='openModal({"symbol": "UBER", "name": "Uber", "sector": "Industrials", "close": 75.44999694824219, "dif": 0.5234, "dea": 0.4238, "diff": 0.1195, "golden_cross_date": "2026-05-06", "tracking_prices": [{"date": "2026-05-06", "close": 79.17}, {"date": "2026-05-07", "close": 76.73}, {"date": "2026-05-08", "close": 75.45}]})'>
+
+        <div class="stock-card" onclick="openModal({"symbol": "UBER", "name": "Uber", "sector": "Industrials", "close": 75.44999694824219, "dif": 0.5234, "dea": 0.4238, "diff": 0.1195, "golden_cross_date": "2026-05-06", "tracking_prices": [{"date": "2026-05-06", "close": 79.17}, {"date": "2026-05-07", "close": 76.73}, {"date": "2026-05-08", "close": 75.45}], "news": [{"title": "Assessing Rivian (RIVN) Valuation After Uber’s 50,000 Autonomous R2 SUV Robotaxi Commitment", "url": "https://finance.yahoo.com/markets/stocks/articles/assessing-rivian-rivn-valuation-uber-171139476.html", "pubDate": ""}, {"title": "For Lucid Motors Stock, Robotaxis Are Now the Whole Story", "url": "https://finance.yahoo.com/m/4a65be05-81f6-31f0-9080-3e327408f250/for-lucid-motors-stock%2C.html", "pubDate": ""}, {"title": "Uber CEO Dara Khosrowshahi Sees 'Trillion-Dollar' Self-Driving Opportunity, Says Waymo Hasn't Impacted Business", "url": "https://finance.yahoo.com/sectors/technology/articles/uber-ceo-dara-khosrowshahi-sees-123139631.html", "pubDate": ""}], "profile": {"description": "Uber Technologies, Inc. develops and operates proprietary technology applications in the United States, Canada, Latin America, Europe, the Middle East, Africa, and the Asia Pacific. The company operates through three segments: Mobility, Delivery, and Freight. The Mobility segment connects consumers …", "marketCap": "$153.6B", "employees": "35,000", "sector": "Technology", "industry": "Software - Application", "website": "https://www.uber.com", "shortName": "Uber Technologies, Inc."}})">
             <div class="card-header">
                 <div class="symbol-row">
                     <span class="symbol">UBER</span>
@@ -1405,17 +1387,15 @@
                         plugins: { legend: { display: false } },
                         scales: {
                             x: { display: false },
-                            y: {
-                                display: false,
-                                beginAtZero: false
-                            }
+                            y: { display: false, beginAtZero: false }
                         }
                     }
                 });
             }
         })();
         </script>
-        <div class="stock-card" onclick='openModal({"symbol": "COIN", "name": "Coinbase", "sector": "Financials", "close": 201.16000366210938, "dif": 2.8879, "dea": 2.7521, "diff": 0.1358, "golden_cross_date": "2026-05-08", "tracking_prices": [{"date": "2026-05-08", "close": 201.16}]})'>
+
+        <div class="stock-card" onclick="openModal({"symbol": "COIN", "name": "Coinbase", "sector": "Financials", "close": 201.16000366210938, "dif": 2.8879, "dea": 2.7521, "diff": 0.1358, "golden_cross_date": "2026-05-08", "tracking_prices": [{"date": "2026-05-08", "close": 201.16}], "news": [{"title": "U.S. Senate Banking Committee moves to advance “Clarity Act” crypto framework", "url": "https://finance.yahoo.com/markets/crypto/articles/u-senate-banking-committee-moves-074513426.html", "pubDate": ""}, {"title": "Coinbase (COIN) Valuation Check As Q1 Loss And AI Job Cuts Reshape The Business", "url": "https://finance.yahoo.com/markets/crypto/articles/coinbase-coin-valuation-check-q1-011346196.html", "pubDate": ""}, {"title": "Weekly Wrap: Bitcoin Struggles To Stay Above $80,000", "url": "https://finance.yahoo.com/m/715c5fff-7a90-3f5c-b617-e338a89cba15/weekly-wrap%3A-bitcoin.html", "pubDate": ""}], "profile": {"description": "Coinbase Global, Inc. operates platform for crypto assets in the United States and internationally. It provides the primary financial account in the crypto economy for consumers; a brokerage platform with a pool of liquidity across the crypto marketplace for institutions; and a suite of products gra…", "marketCap": "$53.0B", "employees": "4,951", "sector": "Financial Services", "industry": "Financial Data & Stock Exchanges", "website": "https://www.coinbase.com", "shortName": "Coinbase Global, Inc."}})">
             <div class="card-header">
                 <div class="symbol-row">
                     <span class="symbol">COIN</span>
@@ -1470,17 +1450,15 @@
                         plugins: { legend: { display: false } },
                         scales: {
                             x: { display: false },
-                            y: {
-                                display: false,
-                                beginAtZero: false
-                            }
+                            y: { display: false, beginAtZero: false }
                         }
                     }
                 });
             }
         })();
         </script>
-        <div class="stock-card" onclick='openModal({"symbol": "DIS", "name": "Walt Disney Company (The)", "sector": "Communication Services", "close": 108.0199966430664, "dif": 1.4682, "dea": 0.9401, "diff": 0.1442, "golden_cross_date": "2026-05-06", "tracking_prices": [{"date": "2026-05-06", "close": 108.06}, {"date": "2026-05-07", "close": 108.66}, {"date": "2026-05-08", "close": 108.02}]})'>
+
+        <div class="stock-card" onclick="openModal({"symbol": "DIS", "name": "Walt Disney Company (The)", "sector": "Communication Services", "close": 108.0199966430664, "dif": 1.4682, "dea": 0.9401, "diff": 0.1442, "golden_cross_date": "2026-05-06", "tracking_prices": [{"date": "2026-05-06", "close": 108.06}, {"date": "2026-05-07", "close": 108.66}, {"date": "2026-05-08", "close": 108.02}], "news": [{"title": "Disney CFO Hugh Johnston Says Relationship With NFL Remains 'Broad And Deep' Even As ESPN Yet To Engage In NFL Renewal Talks", "url": "https://finance.yahoo.com/markets/stocks/articles/disney-cfo-hugh-johnston-says-220126445.html", "pubDate": ""}, {"title": "Walt Disney Insiders Added US$2.11m Of Stock To Their Holdings", "url": "https://finance.yahoo.com/markets/stocks/articles/walt-disney-insiders-added-us-130008861.html", "pubDate": ""}, {"title": "‘Devil Wears Prada’ Kicks Off What Could Be Hollywood’s Best Summer Since ‘Barbenheimer’", "url": "https://finance.yahoo.com/m/27a0139b-4dba-397e-8e4b-a55322a72328/%E2%80%98devil-wears-prada%E2%80%99-kicks-off.html", "pubDate": ""}], "profile": {"description": "The Walt Disney Company operates as an entertainment company in Americas, Europe, and the Asia Pacific. It operates in three segments: Entertainment, Sports, and Experiences. The company produces and distributes film and television content under the ABC Television Network, Disney, Freeform, FX, Fox,…", "marketCap": "$187.6B", "employees": "175,560", "sector": "Communication Services", "industry": "Entertainment", "website": "https://thewaltdisneycompany.com", "shortName": "Walt Disney Company (The)"}})">
             <div class="card-header">
                 <div class="symbol-row">
                     <span class="symbol">DIS</span>
@@ -1535,17 +1513,15 @@
                         plugins: { legend: { display: false } },
                         scales: {
                             x: { display: false },
-                            y: {
-                                display: false,
-                                beginAtZero: false
-                            }
+                            y: { display: false, beginAtZero: false }
                         }
                     }
                 });
             }
         })();
         </script>
-        <div class="stock-card" onclick='openModal({"symbol": "CTVA", "name": "Corteva", "sector": "Materials", "close": 81.12999725341797, "dif": 0.036, "dea": 0.0487, "diff": 0.1453, "golden_cross_date": "2026-05-05", "tracking_prices": [{"date": "2026-05-05", "close": 83.9}, {"date": "2026-05-06", "close": 81.77}, {"date": "2026-05-07", "close": 79.07}, {"date": "2026-05-08", "close": 81.13}]})'>
+
+        <div class="stock-card" onclick="openModal({"symbol": "CTVA", "name": "Corteva", "sector": "Materials", "close": 81.12999725341797, "dif": 0.036, "dea": 0.0487, "diff": 0.1453, "golden_cross_date": "2026-05-05", "tracking_prices": [{"date": "2026-05-05", "close": 83.9}, {"date": "2026-05-06", "close": 81.77}, {"date": "2026-05-07", "close": 79.07}, {"date": "2026-05-08", "close": 81.13}], "news": [{"title": "Corteva Q1 Earnings Call Highlights", "url": "https://finance.yahoo.com/m/25d5f977-6e20-3282-b9ff-8274c274ea8a/corteva-q1-earnings-call.html", "pubDate": ""}, {"title": "Assessing Corteva (CTVA) Valuation After Mixed Short And Long Term Share Price Moves", "url": "https://finance.yahoo.com/markets/stocks/articles/assessing-corteva-ctva-valuation-mixed-002714470.html", "pubDate": ""}, {"title": "Corteva to Participate in BMO Global Farm to Market Conference", "url": "https://finance.yahoo.com/sectors/energy/articles/corteva-participate-bmo-global-farm-203000225.html", "pubDate": ""}], "profile": {"description": "Corteva, Inc. operates in the agriculture business. The company operates through two segments, Seed and Crop Protection. The Seed segment develops and supplies advanced germplasm and traits that produce optimum yield for farms. It offers trait technologies that enhance resistance to weather, disease…", "marketCap": "$54.3B", "employees": "21,500", "sector": "Basic Materials", "industry": "Agricultural Inputs", "website": "https://www.corteva.com", "shortName": "Corteva, Inc."}})">
             <div class="card-header">
                 <div class="symbol-row">
                     <span class="symbol">CTVA</span>
@@ -1600,17 +1576,15 @@
                         plugins: { legend: { display: false } },
                         scales: {
                             x: { display: false },
-                            y: {
-                                display: false,
-                                beginAtZero: false
-                            }
+                            y: { display: false, beginAtZero: false }
                         }
                     }
                 });
             }
         })();
         </script>
-        <div class="stock-card" onclick='openModal({"symbol": "TSN", "name": "Tyson Foods", "sector": "Consumer Staples", "close": 68.37999725341797, "dif": 1.1842, "dea": 0.7902, "diff": 0.1535, "golden_cross_date": "2026-05-04", "tracking_prices": [{"date": "2026-05-04", "close": 68.75}, {"date": "2026-05-05", "close": 68.44}, {"date": "2026-05-06", "close": 68.09}, {"date": "2026-05-07", "close": 67.94}, {"date": "2026-05-08", "close": 68.38}]})'>
+
+        <div class="stock-card" onclick="openModal({"symbol": "TSN", "name": "Tyson Foods", "sector": "Consumer Staples", "close": 68.37999725341797, "dif": 1.1842, "dea": 0.7902, "diff": 0.1535, "golden_cross_date": "2026-05-04", "tracking_prices": [{"date": "2026-05-04", "close": 68.75}, {"date": "2026-05-05", "close": 68.44}, {"date": "2026-05-06", "close": 68.09}, {"date": "2026-05-07", "close": 67.94}, {"date": "2026-05-08", "close": 68.38}], "news": [{"title": "3 AgTech & Food Innovation Stocks to Watch as Food Systems Evolve", "url": "https://finance.yahoo.com/markets/stocks/articles/3-agtech-food-innovation-stocks-143900694.html", "pubDate": ""}, {"title": "Should Value Investors Buy Tyson Foods (TSN) Stock?", "url": "https://finance.yahoo.com/markets/stocks/articles/value-investors-buy-tyson-foods-134004201.html", "pubDate": ""}, {"title": "Is Adecoagro (AGRO) Outperforming Other Consumer Staples Stocks This Year?", "url": "https://finance.yahoo.com/markets/stocks/articles/adecoagro-agro-outperforming-other-consumer-134003242.html", "pubDate": ""}], "profile": {"description": "Tyson Foods, Inc., together with its subsidiaries, operates as a food company worldwide. It operates through four segments: Beef, Pork, Chicken, and Prepared Foods. The company processes live fed cattle and hogs; fabricates dressed beef and pork carcasses into primal and sub-primal meat cuts, as wel…", "marketCap": "$24.1B", "employees": "133,000", "sector": "Consumer Defensive", "industry": "Farm Products", "website": "https://www.tysonfoods.com", "shortName": "Tyson Foods, Inc."}})">
             <div class="card-header">
                 <div class="symbol-row">
                     <span class="symbol">TSN</span>
@@ -1665,17 +1639,15 @@
                         plugins: { legend: { display: false } },
                         scales: {
                             x: { display: false },
-                            y: {
-                                display: false,
-                                beginAtZero: false
-                            }
+                            y: { display: false, beginAtZero: false }
                         }
                     }
                 });
             }
         })();
         </script>
-        <div class="stock-card" onclick='openModal({"symbol": "ALL", "name": "Allstate", "sector": "Financials", "close": 213.14999389648438, "dif": 1.4022, "dea": 1.8328, "diff": 0.1634, "golden_cross_date": "2026-05-04", "tracking_prices": [{"date": "2026-05-04", "close": 219.87}, {"date": "2026-05-05", "close": 218.51}, {"date": "2026-05-06", "close": 217.92}, {"date": "2026-05-07", "close": 213.67}, {"date": "2026-05-08", "close": 213.15}]})'>
+
+        <div class="stock-card" onclick="openModal({"symbol": "ALL", "name": "Allstate", "sector": "Financials", "close": 213.14999389648438, "dif": 1.4022, "dea": 1.8328, "diff": 0.1634, "golden_cross_date": "2026-05-04", "tracking_prices": [{"date": "2026-05-04", "close": 219.87}, {"date": "2026-05-05", "close": 218.51}, {"date": "2026-05-06", "close": 217.92}, {"date": "2026-05-07", "close": 213.67}, {"date": "2026-05-08", "close": 213.15}], "news": [{"title": "How A Top-Performing Analyst-Driven Fund Beats The Market", "url": "https://finance.yahoo.com/m/77078831-8a5d-3d90-9a85-02a03260849a/how-a-top-performing.html", "pubDate": ""}, {"title": "Skyward Specialty Q1 Earnings Beat on Apollo Lift, Premium Growth", "url": "https://finance.yahoo.com/markets/stocks/articles/skyward-specialty-q1-earnings-beat-163100290.html", "pubDate": ""}, {"title": "Piper Sandler Raises its Price Target on Allstate (ALL) to $268", "url": "https://finance.yahoo.com/markets/stocks/articles/piper-sandler-raises-price-target-062200287.html", "pubDate": ""}], "profile": {"description": "The Allstate Corporation, together with its subsidiaries, provides property and casualty, and other insurance products in the United States and Canada. It operates in four segments: Allstate Protection; Run-off Property-Liability; Protection Services; and Corporate and Other. The company offers priv…", "marketCap": "$54.9B", "employees": "53,000", "sector": "Financial Services", "industry": "Insurance - Property & Casualty", "website": "https://www.allstate.com", "shortName": "Allstate Corporation (The)"}})">
             <div class="card-header">
                 <div class="symbol-row">
                     <span class="symbol">ALL</span>
@@ -1730,17 +1702,15 @@
                         plugins: { legend: { display: false } },
                         scales: {
                             x: { display: false },
-                            y: {
-                                display: false,
-                                beginAtZero: false
-                            }
+                            y: { display: false, beginAtZero: false }
                         }
                     }
                 });
             }
         })();
         </script>
-        <div class="stock-card" onclick='openModal({"symbol": "EBAY", "name": "eBay Inc.", "sector": "Consumer Discretionary", "close": 107.69000244140625, "dif": 3.13, "dea": 3.0236, "diff": 0.1702, "golden_cross_date": "2026-05-04", "tracking_prices": [{"date": "2026-05-04", "close": 109.33}, {"date": "2026-05-05", "close": 105.26}, {"date": "2026-05-06", "close": 108.15}, {"date": "2026-05-07", "close": 106.42}, {"date": "2026-05-08", "close": 107.69}]})'>
+
+        <div class="stock-card" onclick="openModal({"symbol": "EBAY", "name": "eBay Inc.", "sector": "Consumer Discretionary", "close": 107.69000244140625, "dif": 3.13, "dea": 3.0236, "diff": 0.1702, "golden_cross_date": "2026-05-04", "tracking_prices": [{"date": "2026-05-04", "close": 109.33}, {"date": "2026-05-05", "close": 105.26}, {"date": "2026-05-06", "close": 108.15}, {"date": "2026-05-07", "close": 106.42}, {"date": "2026-05-08", "close": 107.69}], "news": [{"title": "Michael Burry Says GameStop's eBay Bid 'Just Went Hostile' After Ryan Cohen Claims Ban: All You Need To Know", "url": "https://finance.yahoo.com/markets/stocks/articles/michael-burry-says-gamestops-ebay-150011942.html", "pubDate": ""}, {"title": "Hertz is listing 8,000 used cars on eBay as buyers ‘starve for deals.' Are ex-rental cars actually a good deal?", "url": "https://finance.yahoo.com/markets/stocks/articles/hertz-listing-8-000-used-130500769.html", "pubDate": ""}, {"title": "Did Hertz’s New Oro Mobility Partnership with Uber Just Shift Hertz Global Holdings' (HTZ) Investment Narrative?", "url": "https://finance.yahoo.com/markets/stocks/articles/did-hertz-oro-mobility-partnership-082413647.html", "pubDate": ""}], "profile": {"description": "eBay Inc., together with its subsidiaries, operates marketplace platforms that connect buyers and sellers in the United States, the United Kingdom, China, Germany, and internationally. Its marketplace platform includes its online marketplace at ebay.com, off-platform businesses, and the eBay suite o…", "marketCap": "$47.8B", "employees": "12,300", "sector": "Consumer Cyclical", "industry": "Internet Retail", "website": "https://www.ebayinc.com", "shortName": "eBay Inc."}})">
             <div class="card-header">
                 <div class="symbol-row">
                     <span class="symbol">EBAY</span>
@@ -1795,17 +1765,15 @@
                         plugins: { legend: { display: false } },
                         scales: {
                             x: { display: false },
-                            y: {
-                                display: false,
-                                beginAtZero: false
-                            }
+                            y: { display: false, beginAtZero: false }
                         }
                     }
                 });
             }
         })();
         </script>
-        <div class="stock-card" onclick='openModal({"symbol": "HWM", "name": "Howmet Aerospace", "sector": "Industrials", "close": 270.55999755859375, "dif": 4.1115, "dea": 1.3776, "diff": 0.1785, "golden_cross_date": "2026-05-06", "tracking_prices": [{"date": "2026-05-06", "close": 256.43}, {"date": "2026-05-07", "close": 272.54}, {"date": "2026-05-08", "close": 270.56}]})'>
+
+        <div class="stock-card" onclick="openModal({"symbol": "HWM", "name": "Howmet Aerospace", "sector": "Industrials", "close": 270.55999755859375, "dif": 4.1115, "dea": 1.3776, "diff": 0.1785, "golden_cross_date": "2026-05-06", "tracking_prices": [{"date": "2026-05-06", "close": 256.43}, {"date": "2026-05-07", "close": 272.54}, {"date": "2026-05-08", "close": 270.56}], "news": [{"title": "A Look At Howmet Aerospace (HWM) Valuation After Strong Q1 2026 Beat And Portfolio Expansions", "url": "https://finance.yahoo.com/markets/stocks/articles/look-howmet-aerospace-hwm-valuation-011456162.html", "pubDate": ""}, {"title": "Is It Too Late To Consider Howmet Aerospace (HWM) After Its Powerful Share Price Run?", "url": "https://finance.yahoo.com/markets/stocks/articles/too-consider-howmet-aerospace-hwm-200723075.html", "pubDate": ""}, {"title": "Howmet Raises 2026 Outlook on Strong Industrial Gas Turbine Demand, RBC Says", "url": "https://finance.yahoo.com/markets/stocks/articles/howmet-raises-2026-outlook-strong-180346747.html", "pubDate": ""}], "profile": {"description": "Howmet Aerospace Inc. provides advanced engineered solutions for the aerospace and transportation industries in the United States, Japan, France, Germany, the United Kingdom, Mexico, Italy, Canada, Poland, China, and internationally. It operates through four segments: Engine Products, Fastening Syst…", "marketCap": "$108.3B", "employees": "25,430", "sector": "Industrials", "industry": "Aerospace & Defense", "website": "https://www.howmet.com", "shortName": "Howmet Aerospace Inc."}})">
             <div class="card-header">
                 <div class="symbol-row">
                     <span class="symbol">HWM</span>
@@ -1860,17 +1828,15 @@
                         plugins: { legend: { display: false } },
                         scales: {
                             x: { display: false },
-                            y: {
-                                display: false,
-                                beginAtZero: false
-                            }
+                            y: { display: false, beginAtZero: false }
                         }
                     }
                 });
             }
         })();
         </script>
-        <div class="stock-card" onclick='openModal({"symbol": "LYB", "name": "LyondellBasell", "sector": "Materials", "close": 71.76000213623047, "dif": 0.3575, "dea": 0.5142, "diff": 0.1799, "golden_cross_date": "2026-05-04", "tracking_prices": [{"date": "2026-05-04", "close": 76.04}, {"date": "2026-05-05", "close": 77.76}, {"date": "2026-05-06", "close": 73.48}, {"date": "2026-05-07", "close": 71.51}, {"date": "2026-05-08", "close": 71.76}]})'>
+
+        <div class="stock-card" onclick="openModal({"symbol": "LYB", "name": "LyondellBasell", "sector": "Materials", "close": 71.76000213623047, "dif": 0.3575, "dea": 0.5142, "diff": 0.1799, "golden_cross_date": "2026-05-04", "tracking_prices": [{"date": "2026-05-04", "close": 76.04}, {"date": "2026-05-05", "close": 77.76}, {"date": "2026-05-06", "close": 73.48}, {"date": "2026-05-07", "close": 71.51}, {"date": "2026-05-08", "close": 71.76}], "news": [{"title": "Whirlpool’s Dividend Cut Is a Cautionary Tale. How to Know If Your Payouts Are Safe.", "url": "https://finance.yahoo.com/m/28698ee0-a1c3-3127-9371-dc359a2eb2e4/whirlpool%E2%80%99s-dividend-cut-is-a.html", "pubDate": ""}, {"title": "LYB or ALB: Which Is the Better Value Stock Right Now?", "url": "https://finance.yahoo.com/markets/stocks/articles/lyb-alb-better-value-stock-154002710.html", "pubDate": ""}, {"title": "Is LyondellBasell (LYB) the Best European Stock That Beat Earnings Estimates to Buy?", "url": "https://finance.yahoo.com/markets/stocks/articles/lyondellbasell-lyb-best-european-stock-113522176.html", "pubDate": ""}], "profile": {"description": "LyondellBasell Industries N.V. operates as a chemical company in the United States, Germany, China, Mexico, Italy, Japan, France, Poland, the Netherlands, and internationally. It operates in five segments: Olefins and PolyolefinsAmericas; Olefins and PolyolefinsEurope, Asia, International; Interme…", "marketCap": "$23.2B", "employees": "18,970", "sector": "Basic Materials", "industry": "Specialty Chemicals", "website": "https://www.lyondellbasell.com", "shortName": "LyondellBasell Industries NV"}})">
             <div class="card-header">
                 <div class="symbol-row">
                     <span class="symbol">LYB</span>
@@ -1925,17 +1891,15 @@
                         plugins: { legend: { display: false } },
                         scales: {
                             x: { display: false },
-                            y: {
-                                display: false,
-                                beginAtZero: false
-                            }
+                            y: { display: false, beginAtZero: false }
                         }
                     }
                 });
             }
         })();
         </script>
-        <div class="stock-card" onclick='openModal({"symbol": "NVDA", "name": "Nvidia", "sector": "Information Technology", "close": 215.1999969482422, "dif": 5.8646, "dea": 5.6624, "diff": 0.2022, "golden_cross_date": "2026-05-08", "tracking_prices": [{"date": "2026-05-08", "close": 215.2}]})'>
+
+        <div class="stock-card" onclick="openModal({"symbol": "NVDA", "name": "Nvidia", "sector": "Information Technology", "close": 215.1999969482422, "dif": 5.8646, "dea": 5.6624, "diff": 0.2022, "golden_cross_date": "2026-05-08", "tracking_prices": [{"date": "2026-05-08", "close": 215.2}], "news": [{"title": "Dell’s Pangea 5 Win Highlights AI And Energy Computing Ambitions", "url": "https://finance.yahoo.com/sectors/technology/articles/dell-pangea-5-win-highlights-011259528.html", "pubDate": ""}, {"title": "Fed Chair Jerome Powell Just Broke 75 Years of Precedent With a Move That's Likely to Frustrate President Trump. How Will This Impact the Stock Market?", "url": "https://finance.yahoo.com/m/f1655739-0a1c-3dd6-8fc7-20c2c1ff34ef/fed-chair-jerome-powell-just.html", "pubDate": ""}, {"title": "AMD Stock Is Up 320% Over the Past Year. Should Investors Shift Their Attention Away From Nvidia?", "url": "https://finance.yahoo.com/m/7a6ec252-f37f-3a6c-a3ec-14c923eeb56c/amd-stock-is-up-320%25-over-the.html", "pubDate": ""}], "profile": {"description": "NVIDIA Corporation operates as a data center scale AI infrastructure company. The company operates through two segments, Compute & Networking, and Graphics segments. The Compute & Networking segment provides data center accelerated computing and networking platforms and artificial intelligence solut…", "marketCap": "$5.23T", "employees": "42,000", "sector": "Technology", "industry": "Semiconductors", "website": "https://www.nvidia.com", "shortName": "NVIDIA Corporation"}})">
             <div class="card-header">
                 <div class="symbol-row">
                     <span class="symbol">NVDA</span>
@@ -1990,17 +1954,15 @@
                         plugins: { legend: { display: false } },
                         scales: {
                             x: { display: false },
-                            y: {
-                                display: false,
-                                beginAtZero: false
-                            }
+                            y: { display: false, beginAtZero: false }
                         }
                     }
                 });
             }
         })();
         </script>
-        <div class="stock-card" onclick='openModal({"symbol": "DAL", "name": "Delta Air Lines", "sector": "Industrials", "close": 73.33000183105469, "dif": 1.3029, "dea": 0.8823, "diff": 0.2057, "golden_cross_date": "2026-05-06", "tracking_prices": [{"date": "2026-05-06", "close": 73.34}, {"date": "2026-05-07", "close": 73.11}, {"date": "2026-05-08", "close": 73.33}]})'>
+
+        <div class="stock-card" onclick="openModal({"symbol": "DAL", "name": "Delta Air Lines", "sector": "Industrials", "close": 73.33000183105469, "dif": 1.3029, "dea": 0.8823, "diff": 0.2057, "golden_cross_date": "2026-05-06", "tracking_prices": [{"date": "2026-05-06", "close": 73.34}, {"date": "2026-05-07", "close": 73.11}, {"date": "2026-05-08", "close": 73.33}], "news": [{"title": "With Spirit gone, what could this mean for passenger throughput numbers?", "url": "https://finance.yahoo.com/economy/articles/spirit-gone-could-mean-passenger-004347715.html", "pubDate": ""}, {"title": "Airline cancels flights to Canada over fuel costs", "url": "https://finance.yahoo.com/m/17f0ba20-6356-37f1-97ca-53eddb917f37/airline-cancels-flights-to.html", "pubDate": ""}, {"title": "Delta Air Lines Reworks Costs And Service As Spirit Exit Reshapes Competition", "url": "https://finance.yahoo.com/markets/stocks/articles/delta-air-lines-reworks-costs-002901136.html", "pubDate": ""}], "profile": {"description": "Delta Air Lines, Inc. provides scheduled air transportation for passengers and cargo in the United States and internationally. The company operates through two segments, Airline and Refinery. Its domestic network centered on core hubs in Atlanta, Detroit, Minneapolis-St. Paul, and Salt Lake City, as…", "marketCap": "$48.2B", "employees": "103,000", "sector": "Industrials", "industry": "Airlines", "website": "https://www.delta.com", "shortName": "Delta Air Lines, Inc."}})">
             <div class="card-header">
                 <div class="symbol-row">
                     <span class="symbol">DAL</span>
@@ -2055,17 +2017,15 @@
                         plugins: { legend: { display: false } },
                         scales: {
                             x: { display: false },
-                            y: {
-                                display: false,
-                                beginAtZero: false
-                            }
+                            y: { display: false, beginAtZero: false }
                         }
                     }
                 });
             }
         })();
         </script>
-        <div class="stock-card" onclick='openModal({"symbol": "Q", "name": "Qnity Electronics", "sector": "Information Technology", "close": 147.3300018310547, "dif": 6.1467, "dea": 6.2345, "diff": 0.2095, "golden_cross_date": "2026-05-06", "tracking_prices": [{"date": "2026-05-06", "close": 149.44}, {"date": "2026-05-07", "close": 143.59}, {"date": "2026-05-08", "close": 147.33}]})'>
+
+        <div class="stock-card" onclick="openModal({"symbol": "Q", "name": "Qnity Electronics", "sector": "Information Technology", "close": 147.3300018310547, "dif": 6.1467, "dea": 6.2345, "diff": 0.2095, "golden_cross_date": "2026-05-06", "tracking_prices": [{"date": "2026-05-06", "close": 149.44}, {"date": "2026-05-07", "close": 143.59}, {"date": "2026-05-08", "close": 147.33}], "news": [{"title": "Is It Too Late To Consider Qnity Electronics (Q) After A 69% Year-To-Date Rally?", "url": "https://finance.yahoo.com/markets/stocks/articles/too-consider-qnity-electronics-q-151912288.html", "pubDate": ""}, {"title": "DuPont Wins 2026 IRI Innovation Excellence Award", "url": "https://finance.yahoo.com/sectors/technology/articles/dupont-wins-2026-iri-innovation-130000086.html", "pubDate": ""}, {"title": "Qnity Gears Up to Report Q1 Earnings: What's in Store for the Stock?", "url": "https://finance.yahoo.com/markets/stocks/articles/qnity-gears-report-q1-earnings-122500897.html", "pubDate": ""}], "profile": {"description": "Qnity Electronics, Inc. provides materials and solutions to the semiconductor and electronics industries in the United States, rest of Americas, Europe, the Middle East, Africa, Asia Pacific, China, South Korea, Taiwan, and internationally. The company operates in two segments, Semiconductor Technol…", "marketCap": "$30.9B", "employees": "10,000", "sector": "Technology", "industry": "Semiconductor Equipment & Materials", "website": "https://www.qnityelectronics.com", "shortName": "Qnity Electronics, Inc."}})">
             <div class="card-header">
                 <div class="symbol-row">
                     <span class="symbol">Q</span>
@@ -2120,17 +2080,15 @@
                         plugins: { legend: { display: false } },
                         scales: {
                             x: { display: false },
-                            y: {
-                                display: false,
-                                beginAtZero: false
-                            }
+                            y: { display: false, beginAtZero: false }
                         }
                     }
                 });
             }
         })();
         </script>
-        <div class="stock-card" onclick='openModal({"symbol": "AME", "name": "Ametek", "sector": "Industrials", "close": 232.39999389648438, "dif": 2.5021, "dea": 2.6526, "diff": 0.2155, "golden_cross_date": "2026-05-06", "tracking_prices": [{"date": "2026-05-06", "close": 241.38}, {"date": "2026-05-07", "close": 234.73}, {"date": "2026-05-08", "close": 232.4}]})'>
+
+        <div class="stock-card" onclick="openModal({"symbol": "AME", "name": "Ametek", "sector": "Industrials", "close": 232.39999389648438, "dif": 2.5021, "dea": 2.6526, "diff": 0.2155, "golden_cross_date": "2026-05-06", "tracking_prices": [{"date": "2026-05-06", "close": 241.38}, {"date": "2026-05-07", "close": 234.73}, {"date": "2026-05-08", "close": 232.4}], "news": [{"title": "AMETEK Bets $5 Billion on Indicor Deal to Boost Industrial Tech Portfolio", "url": "https://finance.yahoo.com/m/8568a02e-9647-3eda-89db-e468fe5c7549/ametek-bets-%245-billion-on.html", "pubDate": ""}, {"title": "AMETEK Shareholders Back Board as Company Highlights Record 2025, Strong Q1", "url": "https://finance.yahoo.com/m/0a0cf8a7-f197-3cb8-8cc8-bd5a772f47d4/ametek-shareholders-back.html", "pubDate": ""}, {"title": "AMETEK Declares Quarterly Dividend", "url": "https://finance.yahoo.com/markets/stocks/articles/ametek-declares-quarterly-dividend-120000399.html", "pubDate": ""}], "profile": {"description": "AMETEK, Inc. manufactures and sells electronic instruments (EIG) and electromechanical (EMG) devices in the United States and internationally. It operates through EIG and EMG segments. The company offers advanced instruments for the process, aerospace, power, and industrial markets; process and anal…", "marketCap": "$53.3B", "employees": "22,500", "sector": "Industrials", "industry": "Specialty Industrial Machinery", "website": "https://www.ametek.com", "shortName": "AMETEK, Inc."}})">
             <div class="card-header">
                 <div class="symbol-row">
                     <span class="symbol">AME</span>
@@ -2185,17 +2143,15 @@
                         plugins: { legend: { display: false } },
                         scales: {
                             x: { display: false },
-                            y: {
-                                display: false,
-                                beginAtZero: false
-                            }
+                            y: { display: false, beginAtZero: false }
                         }
                     }
                 });
             }
         })();
         </script>
-        <div class="stock-card" onclick='openModal({"symbol": "PSA", "name": "Public Storage", "sector": "Real Estate", "close": 311.0400085449219, "dif": 4.0823, "dea": 3.8572, "diff": 0.2251, "golden_cross_date": "2026-05-08", "tracking_prices": [{"date": "2026-05-08", "close": 311.04}]})'>
+
+        <div class="stock-card" onclick="openModal({"symbol": "PSA", "name": "Public Storage", "sector": "Real Estate", "close": 311.0400085449219, "dif": 4.0823, "dea": 3.8572, "diff": 0.2251, "golden_cross_date": "2026-05-08", "tracking_prices": [{"date": "2026-05-08", "close": 311.04}], "news": [{"title": "Public Storage Declares Second Quarter 2026 Dividends", "url": "https://finance.yahoo.com/markets/stocks/articles/public-storage-declares-second-quarter-200500832.html", "pubDate": ""}, {"title": "Beat the Market Like Zacks: Vicor, NVIDIA, UnitedHealth in Focus", "url": "https://finance.yahoo.com/markets/stocks/articles/beat-market-zacks-vicor-nvidia-125400716.html", "pubDate": ""}, {"title": "How The Public Storage (PSA) Investment Story Is Shifting With National Storage Deal And Analyst Rethinks", "url": "https://finance.yahoo.com/markets/stocks/articles/public-storage-psa-investment-story-130726678.html", "pubDate": ""}], "profile": {"description": "Public Storage, a member of the S&P 500, is a REIT that primarily acquires, develops, owns, and operates self-storage facilities. At December 31, 2025, we: (i) owned and/or operated 3,533 self-storage facilities located in 40 states with approximately 258 million net rentable square feet in the Unit…", "marketCap": "$54.6B", "employees": "5,770", "sector": "Real Estate", "industry": "REIT - Industrial", "website": "https://www.publicstorage.com", "shortName": "Public Storage"}})">
             <div class="card-header">
                 <div class="symbol-row">
                     <span class="symbol">PSA</span>
@@ -2250,17 +2206,15 @@
                         plugins: { legend: { display: false } },
                         scales: {
                             x: { display: false },
-                            y: {
-                                display: false,
-                                beginAtZero: false
-                            }
+                            y: { display: false, beginAtZero: false }
                         }
                     }
                 });
             }
         })();
         </script>
-        <div class="stock-card" onclick='openModal({"symbol": "COST", "name": "Costco", "sector": "Consumer Staples", "close": 1008.7899780273438, "dif": 3.5018, "dea": 3.3702, "diff": 0.2303, "golden_cross_date": "2026-05-07", "tracking_prices": [{"date": "2026-05-07", "close": 1012.06}, {"date": "2026-05-08", "close": 1008.79}]})'>
+
+        <div class="stock-card" onclick="openModal({"symbol": "COST", "name": "Costco", "sector": "Consumer Staples", "close": 1008.7899780273438, "dif": 3.5018, "dea": 3.3702, "diff": 0.2303, "golden_cross_date": "2026-05-07", "tracking_prices": [{"date": "2026-05-07", "close": 1012.06}, {"date": "2026-05-08", "close": 1008.79}], "news": [{"title": "BofA revisits Costco stock price target after= sales surprise", "url": "https://finance.yahoo.com/m/ca0818d1-0089-3d93-af6f-4ac1ca6b3b05/bofa-revisits-costco-stock.html", "pubDate": ""}, {"title": "T-Mobile lifts a frustrating perk restriction for Costco members", "url": "https://finance.yahoo.com/m/bd7cbbc7-eeaa-37f8-85a5-2608c72b7c88/t-mobile-lifts-a-frustrating.html", "pubDate": ""}, {"title": "Costco Stock Is Benefiting from a Jump in April Sales. It Can Thank the Strait of Hormuz.", "url": "https://finance.yahoo.com/m/6f34abd4-7ce4-3824-84db-5da1a49efcde/costco-stock-is-benefiting.html", "pubDate": ""}], "profile": {"description": "Costco Wholesale Corporation, together with its subsidiaries, engages in the operation of membership warehouses in the United States, Puerto Rico, Canada, Mexico, Japan, the United Kingdom, Korea, Australia, Taiwan, China, Spain, France, Iceland, New Zealand, and Sweden. It offers merchandise, inclu…", "marketCap": "$447.6B", "employees": "341,000", "sector": "Consumer Defensive", "industry": "Discount Stores", "website": "https://www.costco.com", "shortName": "Costco Wholesale Corporation"}})">
             <div class="card-header">
                 <div class="symbol-row">
                     <span class="symbol">COST</span>
@@ -2315,17 +2269,15 @@
                         plugins: { legend: { display: false } },
                         scales: {
                             x: { display: false },
-                            y: {
-                                display: false,
-                                beginAtZero: false
-                            }
+                            y: { display: false, beginAtZero: false }
                         }
                     }
                 });
             }
         })();
         </script>
-        <div class="stock-card" onclick='openModal({"symbol": "VRSN", "name": "Verisign", "sector": "Information Technology", "close": 288.2099914550781, "dif": 6.0141, "dea": 5.7806, "diff": 0.2334, "golden_cross_date": "2026-05-08", "tracking_prices": [{"date": "2026-05-08", "close": 288.21}]})'>
+
+        <div class="stock-card" onclick="openModal({"symbol": "VRSN", "name": "Verisign", "sector": "Information Technology", "close": 288.2099914550781, "dif": 6.0141, "dea": 5.7806, "diff": 0.2334, "golden_cross_date": "2026-05-08", "tracking_prices": [{"date": "2026-05-08", "close": 288.21}], "news": [{"title": "Analyst Report: VeriSign, Inc.", "url": "https://finance.yahoo.com/m/5d037a6c-3ed1-346b-abc1-c0a3c5147281/analyst-report%3A-verisign%2C-inc..html", "pubDate": ""}, {"title": "VeriSign (VRSN) is a Top-Ranked Momentum Stock: Should You Buy?", "url": "https://finance.yahoo.com/markets/stocks/articles/verisign-vrsn-top-ranked-momentum-135002760.html", "pubDate": ""}, {"title": "Verisign Insider Sold Shares Worth $1,355,107, According to a Recent SEC Filing", "url": "https://finance.yahoo.com/markets/stocks/articles/verisign-insider-sold-shares-worth-205307297.html", "pubDate": ""}], "profile": {"description": "VeriSign, Inc., together with its subsidiaries, provides internet infrastructure and domain name registry services that enables internet navigation for various recognized domain names worldwide. The company provides root zone maintainer services, operating two of thirteen internet root servers; and …", "marketCap": "$26.2B", "employees": "926", "sector": "Technology", "industry": "Software - Infrastructure", "website": "https://www.verisign.com", "shortName": "VeriSign, Inc."}})">
             <div class="card-header">
                 <div class="symbol-row">
                     <span class="symbol">VRSN</span>
@@ -2380,17 +2332,15 @@
                         plugins: { legend: { display: false } },
                         scales: {
                             x: { display: false },
-                            y: {
-                                display: false,
-                                beginAtZero: false
-                            }
+                            y: { display: false, beginAtZero: false }
                         }
                     }
                 });
             }
         })();
         </script>
-        <div class="stock-card" onclick='openModal({"symbol": "CI", "name": "Cigna", "sector": "Health Care", "close": 288.05999755859375, "dif": 2.9543, "dea": 2.7141, "diff": 0.2403, "golden_cross_date": "2026-05-08", "tracking_prices": [{"date": "2026-05-08", "close": 288.06}]})'>
+
+        <div class="stock-card" onclick="openModal({"symbol": "CI", "name": "Cigna", "sector": "Health Care", "close": 288.05999755859375, "dif": 2.9543, "dea": 2.7141, "diff": 0.2403, "golden_cross_date": "2026-05-08", "tracking_prices": [{"date": "2026-05-08", "close": 288.06}], "news": [{"title": "Chris Davis Significantly Reduces Stake in Applied Materials Inc, Impacting Portfolio by -3.47%", "url": "https://finance.yahoo.com/markets/stocks/articles/chris-davis-significantly-reduces-stake-210301972.html", "pubDate": ""}, {"title": "How CVS Health's Transformation Is Facing A Hard Valuation Floor", "url": "https://finance.yahoo.com/m/01ddf2f1-d464-318e-a028-fcc08328ed91/how-cvs-health%27s.html", "pubDate": ""}, {"title": "Why Cigna (CI) is a Top Momentum Stock for the Long-Term", "url": "https://finance.yahoo.com/markets/stocks/articles/why-cigna-ci-top-momentum-135002599.html", "pubDate": ""}], "profile": {"description": "The Cigna Group, together with its subsidiaries, provides insurance and related products and services in the United States. It operates through two segments: Evernorth Health Services and Cigna Healthcare. The Evernorth Health Services segment includes Pharmacy Benefit Services and Specialty and Car…", "marketCap": "$76.2B", "employees": "65,669", "sector": "Healthcare", "industry": "Healthcare Plans", "website": "https://www.thecignagroup.com", "shortName": "The Cigna Group"}})">
             <div class="card-header">
                 <div class="symbol-row">
                     <span class="symbol">CI</span>
@@ -2445,10 +2395,7 @@
                         plugins: { legend: { display: false } },
                         scales: {
                             x: { display: false },
-                            y: {
-                                display: false,
-                                beginAtZero: false
-                            }
+                            y: { display: false, beginAtZero: false }
                         }
                     }
                 });
@@ -2477,11 +2424,20 @@
         <div class="modal-stat"><div class="value" id="modalGCDate"></div><div class="label">金叉日期</div></div>
       </div>
       <div class="modal-section">
-        <h4>持仓期间价格走势</h4>
+        <h4>📊 持仓期间走势</h4>
         <table class="price-table" id="priceTable">
           <thead><tr><th>日期</th><th>收盘价</th><th>涨跌</th></tr></thead>
           <tbody id="priceTableBody"></tbody>
         </table>
+      </div>
+      <div class="modal-section" id="profileSection" style="display:none">
+        <h4>🏢 公司概况</h4>
+        <div class="profile-desc" id="profileDesc"></div>
+        <div class="profile-grid" id="profileGrid"></div>
+      </div>
+      <div class="modal-section" id="newsSection" style="display:none">
+        <h4>📰 近期新闻</h4>
+        <div class="news-list" id="newsList"></div>
       </div>
     </div>
   </div>
@@ -2489,10 +2445,10 @@
 
 <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
 <script>
-let stocks = [{"symbol": "CRL", "name": "Charles River Laboratories", "sector": "Health Care", "close": 177.6199951171875, "dif": 1.5417, "dea": 0.8538, "diff": 0.0, "golden_cross_date": "2026-05-05", "tracking_prices": [{"date": "2026-05-05", "close": 185.39}, {"date": "2026-05-06", "close": 181.73}, {"date": "2026-05-07", "close": 181.68}, {"date": "2026-05-08", "close": 177.62}]}, {"symbol": "ALB", "name": "Albemarle Corporation", "sector": "Materials", "close": 203.52000427246094, "dif": 4.6635, "dea": 4.6614, "diff": 0.0021, "golden_cross_date": "2026-05-08", "tracking_prices": [{"date": "2026-05-08", "close": 203.52}]}, {"symbol": "VICI", "name": "Vici Properties", "sector": "Real Estate", "close": 28.84000015258789, "dif": 0.1283, "dea": 0.1019, "diff": 0.0024, "golden_cross_date": "2026-05-06", "tracking_prices": [{"date": "2026-05-06", "close": 28.65}, {"date": "2026-05-07", "close": 28.79}, {"date": "2026-05-08", "close": 28.84}]}, {"symbol": "ETR", "name": "Entergy", "sector": "Utilities", "close": 111.58999633789062, "dif": 0.8721, "dea": 1.503, "diff": 0.0029, "golden_cross_date": "2026-05-05", "tracking_prices": [{"date": "2026-05-05", "close": 117.36}, {"date": "2026-05-06", "close": 112.96}, {"date": "2026-05-07", "close": 112.02}, {"date": "2026-05-08", "close": 111.59}]}, {"symbol": "EMR", "name": "Emerson Electric", "sector": "Industrials", "close": 141.30999755859375, "dif": 0.6245, "dea": 0.6188, "diff": 0.0051, "golden_cross_date": "2026-05-06", "tracking_prices": [{"date": "2026-05-06", "close": 147.99}, {"date": "2026-05-07", "close": 141.09}, {"date": "2026-05-08", "close": 141.31}]}, {"symbol": "LYV", "name": "Live Nation Entertainment", "sector": "Communication Services", "close": 163.27999877929688, "dif": 1.6319, "dea": 0.7005, "diff": 0.0087, "golden_cross_date": "2026-05-05", "tracking_prices": [{"date": "2026-05-05", "close": 157.26}, {"date": "2026-05-06", "close": 167.82}, {"date": "2026-05-07", "close": 165.75}, {"date": "2026-05-08", "close": 163.28}]}, {"symbol": "HST", "name": "Host Hotels & Resorts", "sector": "Real Estate", "close": 22.270000457763672, "dif": 0.503, "dea": 0.4409, "diff": 0.0099, "golden_cross_date": "2026-05-06", "tracking_prices": [{"date": "2026-05-06", "close": 21.68}, {"date": "2026-05-07", "close": 21.67}, {"date": "2026-05-08", "close": 22.27}]}, {"symbol": "GM", "name": "General Motors", "sector": "Consumer Discretionary", "close": 78.80000305175781, "dif": 0.2902, "dea": 0.28, "diff": 0.0101, "golden_cross_date": "2026-05-08", "tracking_prices": [{"date": "2026-05-08", "close": 78.8}]}, {"symbol": "CF", "name": "CF Industries", "sector": "Materials", "close": 115.0199966430664, "dif": -0.3339, "dea": 0.5635, "diff": 0.0131, "golden_cross_date": "2026-05-04", "tracking_prices": [{"date": "2026-05-04", "close": 125.89}, {"date": "2026-05-05", "close": 128.04}, {"date": "2026-05-06", "close": 119.76}, {"date": "2026-05-07", "close": 118.68}, {"date": "2026-05-08", "close": 115.02}]}, {"symbol": "WYNN", "name": "Wynn Resorts", "sector": "Consumer Discretionary", "close": 102.41999816894531, "dif": 0.2341, "dea": 0.4836, "diff": 0.0202, "golden_cross_date": "2026-05-07", "tracking_prices": [{"date": "2026-05-07", "close": 106.85}, {"date": "2026-05-08", "close": 102.42}]}, {"symbol": "NWSA", "name": "News Corp (Class A)", "sector": "Communication Services", "close": 27.020000457763672, "dif": 0.4486, "dea": 0.4272, "diff": 0.0214, "golden_cross_date": "2026-05-08", "tracking_prices": [{"date": "2026-05-08", "close": 27.02}]}, {"symbol": "SOLV", "name": "Solventum", "sector": "Health Care", "close": 73.37999725341797, "dif": 0.8637, "dea": 0.3236, "diff": 0.0218, "golden_cross_date": "2026-05-05", "tracking_prices": [{"date": "2026-05-05", "close": 69.04}, {"date": "2026-05-06", "close": 70.99}, {"date": "2026-05-07", "close": 71.65}, {"date": "2026-05-08", "close": 73.38}]}, {"symbol": "KEYS", "name": "Keysight Technologies", "sector": "Information Technology", "close": 360.29998779296875, "dif": 14.6751, "dea": 14.5998, "diff": 0.0228, "golden_cross_date": "2026-05-05", "tracking_prices": [{"date": "2026-05-05", "close": 355.93}, {"date": "2026-05-06", "close": 366.68}, {"date": "2026-05-07", "close": 355.06}, {"date": "2026-05-08", "close": 360.3}]}, {"symbol": "EVRG", "name": "Evergy", "sector": "Utilities", "close": 81.77999877929688, "dif": 0.0602, "dea": 0.0536, "diff": 0.0229, "golden_cross_date": "2026-05-07", "tracking_prices": [{"date": "2026-05-07", "close": 82.73}, {"date": "2026-05-08", "close": 81.78}]}, {"symbol": "ZBRA", "name": "Zebra Technologies", "sector": "Information Technology", "close": 226.02999877929688, "dif": 1.7207, "dea": 1.8271, "diff": 0.0278, "golden_cross_date": "2026-05-07", "tracking_prices": [{"date": "2026-05-07", "close": 228.62}, {"date": "2026-05-08", "close": 226.03}]}, {"symbol": "EXR", "name": "Extra Space Storage", "sector": "Real Estate", "close": 143.3000030517578, "dif": 0.9953, "dea": 0.9155, "diff": 0.0385, "golden_cross_date": "2026-05-07", "tracking_prices": [{"date": "2026-05-07", "close": 143.27}, {"date": "2026-05-08", "close": 143.3}]}, {"symbol": "EXPD", "name": "Expeditors International", "sector": "Industrials", "close": 156.69000244140625, "dif": 1.6424, "dea": 0.8786, "diff": 0.0396, "golden_cross_date": "2026-05-05", "tracking_prices": [{"date": "2026-05-05", "close": 153.08}, {"date": "2026-05-06", "close": 151.24}, {"date": "2026-05-07", "close": 151.86}, {"date": "2026-05-08", "close": 156.69}]}, {"symbol": "MNST", "name": "Monster Beverage", "sector": "Consumer Staples", "close": 86.29000091552734, "dif": 0.9929, "dea": 0.3864, "diff": 0.0402, "golden_cross_date": "2026-05-06", "tracking_prices": [{"date": "2026-05-06", "close": 77.2}, {"date": "2026-05-07", "close": 75.97}, {"date": "2026-05-08", "close": 86.29}]}, {"symbol": "VST", "name": "Vistra Corp.", "sector": "Utilities", "close": 147.72000122070312, "dif": -1.0339, "dea": -0.0939, "diff": 0.0435, "golden_cross_date": "2026-05-05", "tracking_prices": [{"date": "2026-05-05", "close": 160.38}, {"date": "2026-05-06", "close": 158.29}, {"date": "2026-05-07", "close": 153.95}, {"date": "2026-05-08", "close": 147.72}]}, {"symbol": "UBER", "name": "Uber", "sector": "Industrials", "close": 75.44999694824219, "dif": 0.5234, "dea": 0.4238, "diff": 0.1195, "golden_cross_date": "2026-05-06", "tracking_prices": [{"date": "2026-05-06", "close": 79.17}, {"date": "2026-05-07", "close": 76.73}, {"date": "2026-05-08", "close": 75.45}]}, {"symbol": "COIN", "name": "Coinbase", "sector": "Financials", "close": 201.16000366210938, "dif": 2.8879, "dea": 2.7521, "diff": 0.1358, "golden_cross_date": "2026-05-08", "tracking_prices": [{"date": "2026-05-08", "close": 201.16}]}, {"symbol": "DIS", "name": "Walt Disney Company (The)", "sector": "Communication Services", "close": 108.0199966430664, "dif": 1.4682, "dea": 0.9401, "diff": 0.1442, "golden_cross_date": "2026-05-06", "tracking_prices": [{"date": "2026-05-06", "close": 108.06}, {"date": "2026-05-07", "close": 108.66}, {"date": "2026-05-08", "close": 108.02}]}, {"symbol": "CTVA", "name": "Corteva", "sector": "Materials", "close": 81.12999725341797, "dif": 0.036, "dea": 0.0487, "diff": 0.1453, "golden_cross_date": "2026-05-05", "tracking_prices": [{"date": "2026-05-05", "close": 83.9}, {"date": "2026-05-06", "close": 81.77}, {"date": "2026-05-07", "close": 79.07}, {"date": "2026-05-08", "close": 81.13}]}, {"symbol": "TSN", "name": "Tyson Foods", "sector": "Consumer Staples", "close": 68.37999725341797, "dif": 1.1842, "dea": 0.7902, "diff": 0.1535, "golden_cross_date": "2026-05-04", "tracking_prices": [{"date": "2026-05-04", "close": 68.75}, {"date": "2026-05-05", "close": 68.44}, {"date": "2026-05-06", "close": 68.09}, {"date": "2026-05-07", "close": 67.94}, {"date": "2026-05-08", "close": 68.38}]}, {"symbol": "ALL", "name": "Allstate", "sector": "Financials", "close": 213.14999389648438, "dif": 1.4022, "dea": 1.8328, "diff": 0.1634, "golden_cross_date": "2026-05-04", "tracking_prices": [{"date": "2026-05-04", "close": 219.87}, {"date": "2026-05-05", "close": 218.51}, {"date": "2026-05-06", "close": 217.92}, {"date": "2026-05-07", "close": 213.67}, {"date": "2026-05-08", "close": 213.15}]}, {"symbol": "EBAY", "name": "eBay Inc.", "sector": "Consumer Discretionary", "close": 107.69000244140625, "dif": 3.13, "dea": 3.0236, "diff": 0.1702, "golden_cross_date": "2026-05-04", "tracking_prices": [{"date": "2026-05-04", "close": 109.33}, {"date": "2026-05-05", "close": 105.26}, {"date": "2026-05-06", "close": 108.15}, {"date": "2026-05-07", "close": 106.42}, {"date": "2026-05-08", "close": 107.69}]}, {"symbol": "HWM", "name": "Howmet Aerospace", "sector": "Industrials", "close": 270.55999755859375, "dif": 4.1115, "dea": 1.3776, "diff": 0.1785, "golden_cross_date": "2026-05-06", "tracking_prices": [{"date": "2026-05-06", "close": 256.43}, {"date": "2026-05-07", "close": 272.54}, {"date": "2026-05-08", "close": 270.56}]}, {"symbol": "LYB", "name": "LyondellBasell", "sector": "Materials", "close": 71.76000213623047, "dif": 0.3575, "dea": 0.5142, "diff": 0.1799, "golden_cross_date": "2026-05-04", "tracking_prices": [{"date": "2026-05-04", "close": 76.04}, {"date": "2026-05-05", "close": 77.76}, {"date": "2026-05-06", "close": 73.48}, {"date": "2026-05-07", "close": 71.51}, {"date": "2026-05-08", "close": 71.76}]}, {"symbol": "NVDA", "name": "Nvidia", "sector": "Information Technology", "close": 215.1999969482422, "dif": 5.8646, "dea": 5.6624, "diff": 0.2022, "golden_cross_date": "2026-05-08", "tracking_prices": [{"date": "2026-05-08", "close": 215.2}]}, {"symbol": "DAL", "name": "Delta Air Lines", "sector": "Industrials", "close": 73.33000183105469, "dif": 1.3029, "dea": 0.8823, "diff": 0.2057, "golden_cross_date": "2026-05-06", "tracking_prices": [{"date": "2026-05-06", "close": 73.34}, {"date": "2026-05-07", "close": 73.11}, {"date": "2026-05-08", "close": 73.33}]}, {"symbol": "Q", "name": "Qnity Electronics", "sector": "Information Technology", "close": 147.3300018310547, "dif": 6.1467, "dea": 6.2345, "diff": 0.2095, "golden_cross_date": "2026-05-06", "tracking_prices": [{"date": "2026-05-06", "close": 149.44}, {"date": "2026-05-07", "close": 143.59}, {"date": "2026-05-08", "close": 147.33}]}, {"symbol": "AME", "name": "Ametek", "sector": "Industrials", "close": 232.39999389648438, "dif": 2.5021, "dea": 2.6526, "diff": 0.2155, "golden_cross_date": "2026-05-06", "tracking_prices": [{"date": "2026-05-06", "close": 241.38}, {"date": "2026-05-07", "close": 234.73}, {"date": "2026-05-08", "close": 232.4}]}, {"symbol": "PSA", "name": "Public Storage", "sector": "Real Estate", "close": 311.0400085449219, "dif": 4.0823, "dea": 3.8572, "diff": 0.2251, "golden_cross_date": "2026-05-08", "tracking_prices": [{"date": "2026-05-08", "close": 311.04}]}, {"symbol": "COST", "name": "Costco", "sector": "Consumer Staples", "close": 1008.7899780273438, "dif": 3.5018, "dea": 3.3702, "diff": 0.2303, "golden_cross_date": "2026-05-07", "tracking_prices": [{"date": "2026-05-07", "close": 1012.06}, {"date": "2026-05-08", "close": 1008.79}]}, {"symbol": "VRSN", "name": "Verisign", "sector": "Information Technology", "close": 288.2099914550781, "dif": 6.0141, "dea": 5.7806, "diff": 0.2334, "golden_cross_date": "2026-05-08", "tracking_prices": [{"date": "2026-05-08", "close": 288.21}]}, {"symbol": "CI", "name": "Cigna", "sector": "Health Care", "close": 288.05999755859375, "dif": 2.9543, "dea": 2.7141, "diff": 0.2403, "golden_cross_date": "2026-05-08", "tracking_prices": [{"date": "2026-05-08", "close": 288.06}]}];
-let currentSector = 'all';
-let currentSearch = '';
-let modalChart = null;
+var stocks = [{"symbol": "CRL", "name": "Charles River Laboratories", "sector": "Health Care", "close": 177.6199951171875, "dif": 1.5417, "dea": 0.8538, "diff": 0.0, "golden_cross_date": "2026-05-05", "tracking_prices": [{"date": "2026-05-05", "close": 185.39}, {"date": "2026-05-06", "close": 181.73}, {"date": "2026-05-07", "close": 181.68}, {"date": "2026-05-08", "close": 177.62}], "news": [{"title": "Charles River Laboratories International Q1 Earnings Call Highlights", "url": "https://finance.yahoo.com/m/8040376d-0350-3bcc-b204-599a90300109/charles-river-laboratories.html", "pubDate": ""}, {"title": "LH vs. CRL: Which Stock Is the Better Value Option?", "url": "https://finance.yahoo.com/markets/stocks/articles/lh-vs-crl-stock-better-154004022.html", "pubDate": ""}, {"title": "Analyst Report: Charles River Laboratories International, Inc.", "url": "https://finance.yahoo.com/m/27068cba-8c9c-38ab-87f9-92b82ee7932f/analyst-report%3A-charles-river.html", "pubDate": ""}], "profile": {"description": "Charles River Laboratories International, Inc. provides drug discovery, non-clinical development, and safety testing services in the United States, Europe, Canada, the Asia Pacific, and internationally. The Research Models and Services segment produces and sells rodents, and purpose-bred rats and mi…", "marketCap": "$8.6B", "employees": "18,300", "sector": "Healthcare", "industry": "Diagnostics & Research", "website": "https://www.criver.com", "shortName": "Charles River Laboratories Inte"}}, {"symbol": "ALB", "name": "Albemarle Corporation", "sector": "Materials", "close": 203.52000427246094, "dif": 4.6635, "dea": 4.6614, "diff": 0.0021, "golden_cross_date": "2026-05-08", "tracking_prices": [{"date": "2026-05-08", "close": 203.52}], "news": [{"title": "Albemarle Q1 Earnings Call Highlights", "url": "https://finance.yahoo.com/m/b538aa1c-2c0d-3491-83a3-116e16d4d326/albemarle-q1-earnings-call.html", "pubDate": ""}, {"title": "Albemarle (ALB) Gets Truist Price Target Boost on Lithium Price Momentum", "url": "https://finance.yahoo.com/news/albemarle-alb-gets-truist-price-220923548.html", "pubDate": ""}, {"title": "LYB or ALB: Which Is the Better Value Stock Right Now?", "url": "https://finance.yahoo.com/markets/stocks/articles/lyb-alb-better-value-stock-154002710.html", "pubDate": ""}], "profile": {"description": "Albemarle Corporation provides energy storage solutions worldwide. It operates through three segments: Energy Storage, Specialties, and Ketjen. The Energy Storage segment offers lithium compounds, including lithium carbonate, lithium hydroxide, and lithium chloride for use in lithium batteries used …", "marketCap": "$24.0B", "employees": "7,800", "sector": "Basic Materials", "industry": "Specialty Chemicals", "website": "https://www.albemarle.com", "shortName": "Albemarle Corporation"}}, {"symbol": "VICI", "name": "Vici Properties", "sector": "Real Estate", "close": 28.84000015258789, "dif": 0.1283, "dea": 0.1019, "diff": 0.0024, "golden_cross_date": "2026-05-06", "tracking_prices": [{"date": "2026-05-06", "close": 28.65}, {"date": "2026-05-07", "close": 28.79}, {"date": "2026-05-08", "close": 28.84}], "news": [{"title": "The Smartest Dividend Stock to Buy With $100 Right Now", "url": "https://finance.yahoo.com/m/973d557a-08b3-3b8e-a9ae-b39051af2d32/the-smartest-dividend-stock.html", "pubDate": ""}, {"title": "A Look At VICI Properties (VICI) Valuation As Recent Share Momentum Meets Intrinsic Discount Estimate", "url": "https://finance.yahoo.com/markets/stocks/articles/look-vici-properties-vici-valuation-111139918.html", "pubDate": ""}, {"title": "Want Reliable Income No Matter What the Market Does? Start With These 3 High-Yield Stocks.", "url": "https://finance.yahoo.com/m/008df39e-04af-391a-8ddb-f74bdce1ffcf/want-reliable-income-no.html", "pubDate": ""}], "profile": {"description": "VICI Properties Inc. is an S&P 500 experiential real estate investment trust that owns one of the largest portfolios of market-leading gaming, hospitality, wellness, entertainment and leisure destinations, including Caesars Palace Las Vegas, MGM Grand and the Venetian Resort Las Vegas, three of the …", "marketCap": "$31.1B", "employees": "28", "sector": "Real Estate", "industry": "REIT - Diversified", "website": "https://www.viciproperties.com", "shortName": "VICI Properties Inc."}}, {"symbol": "ETR", "name": "Entergy", "sector": "Utilities", "close": 111.58999633789062, "dif": 0.8721, "dea": 1.503, "diff": 0.0029, "golden_cross_date": "2026-05-05", "tracking_prices": [{"date": "2026-05-05", "close": 117.36}, {"date": "2026-05-06", "close": 112.96}, {"date": "2026-05-07", "close": 112.02}, {"date": "2026-05-08", "close": 111.59}], "news": [{"title": "Entergy (ETR) Launches $2.17B Common Stock Offering", "url": "https://finance.yahoo.com/markets/stocks/articles/entergy-etr-launches-2-17b-052615384.html", "pubDate": ""}, {"title": "Financial Advisor Exits Position in Industrial Stock, According to Latest SEC Filing", "url": "https://finance.yahoo.com/m/611e51aa-5a20-39a3-bc3a-e491b445cdd7/financial-advisor-exits.html", "pubDate": ""}, {"title": "Entergy Prices Equity Offering at $113 a Share", "url": "https://finance.yahoo.com/markets/stocks/articles/entergy-prices-equity-offering-113-092212782.html", "pubDate": ""}], "profile": {"description": "Entergy Corporation, together with its subsidiaries, engages in the production and retail distribution of electricity in the United States. It generates, transmits, distributes, and sells electric power in portions of Arkansas, Louisiana, Mississippi, and Texas, including the City of New Orleans. It…", "marketCap": "$51.1B", "employees": "12,000", "sector": "Utilities", "industry": "Utilities - Regulated Electric", "website": "https://www.entergy.com", "shortName": "Entergy Corporation"}}, {"symbol": "EMR", "name": "Emerson Electric", "sector": "Industrials", "close": 141.30999755859375, "dif": 0.6245, "dea": 0.6188, "diff": 0.0051, "golden_cross_date": "2026-05-06", "tracking_prices": [{"date": "2026-05-06", "close": 147.99}, {"date": "2026-05-07", "close": 141.09}, {"date": "2026-05-08", "close": 141.31}], "news": [{"title": "BMO Capital Adjusts Price Target on Emerson Electric to $157 From $150", "url": "https://finance.yahoo.com/markets/stocks/articles/bmo-capital-adjusts-price-target-144211976.html", "pubDate": ""}, {"title": "Analyst Report: Emerson Electric Co", "url": "https://finance.yahoo.com/m/3676d9fc-aaaa-3ecb-9571-e1ecd6951f0b/analyst-report%3A-emerson.html", "pubDate": ""}, {"title": "Market Digest: BAX, CVX, DUK, EMR, FLEX, GPN, MRK, WM, QRVO", "url": "https://finance.yahoo.com/m/2d1aa116-6b1e-34cb-99f7-0eede57412b3/market-digest%3A-bax%2C-cvx%2C-duk%2C.html", "pubDate": ""}], "profile": {"description": "Emerson Electric Co., a technology and software company, provides various solutions in the Americas, Asia, the Middle East, Africa, and Europe. It operates through Final Control, Measurement & Analytical, Discrete Automation, Safety & Productivity, Control Systems & Software, and Test & Measurement …", "marketCap": "$79.1B", "employees": "71,000", "sector": "Industrials", "industry": "Specialty Industrial Machinery", "website": "https://www.emerson.com", "shortName": "Emerson Electric Company"}}, {"symbol": "LYV", "name": "Live Nation Entertainment", "sector": "Communication Services", "close": 163.27999877929688, "dif": 1.6319, "dea": 0.7005, "diff": 0.0087, "golden_cross_date": "2026-05-05", "tracking_prices": [{"date": "2026-05-05", "close": 157.26}, {"date": "2026-05-06", "close": 167.82}, {"date": "2026-05-07", "close": 165.75}, {"date": "2026-05-08", "close": 163.28}], "news": [{"title": "A Look At Live Nation (LYV) Valuation After Q1 2026 Beat And Large Legal Accrual", "url": "https://finance.yahoo.com/markets/stocks/articles/look-live-nation-lyv-valuation-191718387.html", "pubDate": ""}, {"title": "Why Live Nation Entertainment Stock Jumped 7% Today", "url": "https://finance.yahoo.com/m/46ebde9a-f92e-3660-a9c8-6917d27f5c87/why-live-nation-entertainment.html", "pubDate": ""}, {"title": "Rothschild & Co Redburn Adjusts Live Nation Entertainment Price Target to $195 From $193", "url": "https://finance.yahoo.com/markets/stocks/articles/rothschild-co-redburn-adjusts-live-152953997.html", "pubDate": ""}], "profile": {"description": "Live Nation Entertainment, Inc. operates as a live entertainment company worldwide. The company operates through Concerts, Ticketing, and Sponsorship & Advertising segments. Its Concerts segment promotes live music events in its owned or operated venues, and in rented third-party venues. This segmen…", "marketCap": "$38.0B", "employees": "17,700", "sector": "Communication Services", "industry": "Entertainment", "website": "https://www.livenationentertainment.com", "shortName": "Live Nation Entertainment, Inc."}}, {"symbol": "HST", "name": "Host Hotels & Resorts", "sector": "Real Estate", "close": 22.270000457763672, "dif": 0.503, "dea": 0.4409, "diff": 0.0099, "golden_cross_date": "2026-05-06", "tracking_prices": [{"date": "2026-05-06", "close": 21.68}, {"date": "2026-05-07", "close": 21.67}, {"date": "2026-05-08", "close": 22.27}], "news": [{"title": "Top Dividend Stocks To Consider In May 2026", "url": "https://finance.yahoo.com/markets/stocks/articles/top-dividend-stocks-consider-may-173203123.html", "pubDate": ""}, {"title": "3 Dividend Stocks To Consider With Up To 21.6% Yield", "url": "https://finance.yahoo.com/markets/stocks/articles/3-dividend-stocks-consider-21-113151971.html", "pubDate": ""}, {"title": "Host Hotels & Resorts Q1 Earnings Call Highlights", "url": "https://finance.yahoo.com/m/62ce8e19-d116-3fdf-ad3d-d4b0e6026bd5/host-hotels-%26-resorts-q1.html", "pubDate": ""}], "profile": {"description": "Host Hotels & Resorts, Inc., herein referred to as we, Host Inc., or the Company, is a self-managed and self-administered real estate investment trust that owns hotel property. We conduct our operations as an umbrella partnership, REIT, through an operating partnership, Host Hotels & Resorts, L.P., …", "marketCap": "$15.5B", "employees": "162", "sector": "Real Estate", "industry": "REIT - Hotel & Motel", "website": "https://www.hosthotels.com", "shortName": "Host Hotels & Resorts, Inc."}}, {"symbol": "GM", "name": "General Motors", "sector": "Consumer Discretionary", "close": 78.80000305175781, "dif": 0.2902, "dea": 0.28, "diff": 0.0101, "golden_cross_date": "2026-05-08", "tracking_prices": [{"date": "2026-05-08", "close": 78.8}], "news": [{"title": "GM agrees to pay $12.75M in California driver privacy settlement", "url": "https://finance.yahoo.com/sectors/technology/articles/gm-agrees-pay-12-75m-190530221.html", "pubDate": ""}, {"title": "Is It Time To Reconsider General Motors (GM) After Its 1 Year 67% Share Price Surge", "url": "https://finance.yahoo.com/markets/stocks/articles/time-reconsider-general-motors-gm-181244918.html", "pubDate": ""}, {"title": "Ken Burns on What He Will and Won’t Allow When Financing His Films", "url": "https://finance.yahoo.com/m/ac6edc10-b022-34bc-bdf1-f6815e15823f/ken-burns-on-what-he-will-and.html", "pubDate": ""}], "profile": {"description": "General Motors Company designs, builds, and sells trucks, crossovers, cars, and automobile parts worldwide. It operates through GM North America, GM International, and GM Financial segments. The company markets its vehicles primarily under the Buick, Cadillac, Chevrolet, GMC, Baojun, and Wuling bran…", "marketCap": "$71.1B", "employees": "156,000", "sector": "Consumer Cyclical", "industry": "Auto Manufacturers", "website": "https://www.gm.com", "shortName": "General Motors Company"}}, {"symbol": "CF", "name": "CF Industries", "sector": "Materials", "close": 115.0199966430664, "dif": -0.3339, "dea": 0.5635, "diff": 0.0131, "golden_cross_date": "2026-05-04", "tracking_prices": [{"date": "2026-05-04", "close": 125.89}, {"date": "2026-05-05", "close": 128.04}, {"date": "2026-05-06", "close": 119.76}, {"date": "2026-05-07", "close": 118.68}, {"date": "2026-05-08", "close": 115.02}], "news": [{"title": "CF Industries Q1 Earnings Call Highlights", "url": "https://finance.yahoo.com/m/3f16f1f0-6875-3aee-adab-e5c3c755c0c4/cf-industries-q1-earnings.html", "pubDate": ""}, {"title": "UBS Adjusts CF Industries Price Target to $130 From $140", "url": "https://finance.yahoo.com/markets/stocks/articles/ubs-adjusts-cf-industries-price-143841707.html", "pubDate": ""}, {"title": "Goldman Sachs Adjusts Price Target on CF Industries to $133 From $132", "url": "https://finance.yahoo.com/markets/stocks/articles/goldman-sachs-adjusts-price-target-131720772.html", "pubDate": ""}], "profile": {"description": "CF Industries Holdings, Inc., together with its subsidiaries, engages in the production of ammonia in North America, Europe, and internationally. It operates through Ammonia, Granular Urea, UAN, AN, and Other segments. The company offers ammonia products; nitrogen products, such as granular urea, ur…", "marketCap": "$17.7B", "employees": "2,900", "sector": "Basic Materials", "industry": "Agricultural Inputs", "website": "https://www.cfindustries.com", "shortName": "CF Industries Holdings, Inc."}}, {"symbol": "WYNN", "name": "Wynn Resorts", "sector": "Consumer Discretionary", "close": 102.41999816894531, "dif": 0.2341, "dea": 0.4836, "diff": 0.0202, "golden_cross_date": "2026-05-07", "tracking_prices": [{"date": "2026-05-07", "close": 106.85}, {"date": "2026-05-08", "close": 102.42}], "news": [{"title": "Wynn Resorts Q1 Earnings Call Highlights", "url": "https://finance.yahoo.com/m/8ebfe6d0-ae9c-3980-bdba-e054c38b0e6e/wynn-resorts-q1-earnings-call.html", "pubDate": ""}, {"title": "HSBC Lowers Wynn Resorts Price Target to $129 From $136", "url": "https://finance.yahoo.com/markets/stocks/articles/hsbc-lowers-wynn-resorts-price-185847250.html", "pubDate": ""}, {"title": "Wynn Resorts Q1 Earnings & Revenues Beat Estimates, Rise Y/Y", "url": "https://finance.yahoo.com/markets/stocks/articles/wynn-resorts-q1-earnings-revenues-155300635.html", "pubDate": ""}], "profile": {"description": "Wynn Resorts, Limited designs, develops, and operates integrated resorts. It operates in four segments: Wynn Palace, Wynn Macau, Las Vegas Operations, and Encore Boston Harbor. The Wynn Palace segment operates casino space, private gaming salons, and sky casinos; a luxury hotel tower with suites and…", "marketCap": "$10.6B", "employees": "28,500", "sector": "Consumer Cyclical", "industry": "Resorts & Casinos", "website": "https://www.wynnresorts.com", "shortName": "Wynn Resorts, Limited"}}, {"symbol": "NWSA", "name": "News Corp (Class A)", "sector": "Communication Services", "close": 27.020000457763672, "dif": 0.4486, "dea": 0.4272, "diff": 0.0214, "golden_cross_date": "2026-05-08", "tracking_prices": [{"date": "2026-05-08", "close": 27.02}], "news": [{"title": "Is It Time To Reassess News Corp (NWSA) After Meta AI Licensing Deal?", "url": "https://finance.yahoo.com/markets/stocks/articles/time-reassess-news-corp-nwsa-231420018.html", "pubDate": ""}, {"title": "News Corp (NWS) Q3 2026 Earnings Transcript", "url": "https://finance.yahoo.com/m/21372197-d8f6-394f-9411-968504c432db/news-corp-%28nws%29-q3-2026.html", "pubDate": ""}, {"title": "NWSA's Q3 Earnings Surpass Estimates, Revenues Increase Y/Y", "url": "https://finance.yahoo.com/markets/stocks/articles/nwsas-q3-earnings-surpass-estimates-135200229.html", "pubDate": ""}], "profile": {"description": "News Corporation, a media and information services company, creates and distributes authoritative and engaging content, and other products and services for consumers and businesses. It operates through five segments: Digital Real Estate Services, Dow Jones, Book Publishing, News Media, and Other. Th…", "marketCap": "$14.8B", "employees": "22,300", "sector": "Communication Services", "industry": "Entertainment", "website": "https://newscorp.com", "shortName": "News Corporation"}}, {"symbol": "SOLV", "name": "Solventum", "sector": "Health Care", "close": 73.37999725341797, "dif": 0.8637, "dea": 0.3236, "diff": 0.0218, "golden_cross_date": "2026-05-05", "tracking_prices": [{"date": "2026-05-05", "close": 69.04}, {"date": "2026-05-06", "close": 70.99}, {"date": "2026-05-07", "close": 71.65}, {"date": "2026-05-08", "close": 73.38}], "news": [{"title": "Market Update: EBAY, ITGR, MNST, SWK, SMCI, GM, XYZ, SOLV", "url": "https://finance.yahoo.com/m/2b0bf46d-b905-36dd-b703-a702600e96b9/market-update%3A-ebay%2C-itgr%2C.html", "pubDate": ""}, {"title": "Analyst Report: Solventum Corp", "url": "https://finance.yahoo.com/m/73d949a3-f2de-3072-be94-4d6dc3542ac1/analyst-report%3A-solventum-corp.html", "pubDate": ""}, {"title": "Solventum to Participate in the 2026 BofA Securities Health Care Conference", "url": "https://finance.yahoo.com/sectors/healthcare/articles/solventum-participate-2026-bofa-securities-200500525.html", "pubDate": ""}], "profile": {"description": "Solventum Corporation, a healthcare company, develops, manufactures, and commercializes a portfolio of solutions to address critical customer and patient needs in the United States and internationally. It operates through three segments: Medsurg, Dental Solutions, and Health Information Systems. The…", "marketCap": "$12.7B", "employees": "20,584", "sector": "Healthcare", "industry": "Medical Instruments & Supplies", "website": "https://www.solventum.com", "shortName": "Solventum Corporation"}}, {"symbol": "KEYS", "name": "Keysight Technologies", "sector": "Information Technology", "close": 360.29998779296875, "dif": 14.6751, "dea": 14.5998, "diff": 0.0228, "golden_cross_date": "2026-05-05", "tracking_prices": [{"date": "2026-05-05", "close": 355.93}, {"date": "2026-05-06", "close": 366.68}, {"date": "2026-05-07", "close": 355.06}, {"date": "2026-05-08", "close": 360.3}], "news": [{"title": "A Look At Keysight Technologies (KEYS) Valuation After Recent Share Price Pullback", "url": "https://finance.yahoo.com/markets/stocks/articles/look-keysight-technologies-keys-valuation-200832897.html", "pubDate": ""}, {"title": "HubSpot Beats Q1 Earnings Estimates on Multi-Hub Customer Growth", "url": "https://finance.yahoo.com/markets/stocks/articles/hubspot-beats-q1-earnings-estimates-175200046.html", "pubDate": ""}, {"title": "Navitas Q1 Earnings & Revenues Beat Estimates on High-Power Growth", "url": "https://finance.yahoo.com/markets/stocks/articles/navitas-q1-earnings-revenues-beat-174000384.html", "pubDate": ""}], "profile": {"description": "Keysight Technologies, Inc. provides electronic design and test solutions worldwide. The company operates through Communications Solutions Group and Electronic Industrial Solutions Group segments. It offers electronic design and test software, instrumentation, systems, and related services used in t…", "marketCap": "$61.8B", "employees": "16,600", "sector": "Technology", "industry": "Scientific & Technical Instruments", "website": "https://www.keysight.com", "shortName": "Keysight Technologies Inc."}}, {"symbol": "EVRG", "name": "Evergy", "sector": "Utilities", "close": 81.77999877929688, "dif": 0.0602, "dea": 0.0536, "diff": 0.0229, "golden_cross_date": "2026-05-07", "tracking_prices": [{"date": "2026-05-07", "close": 82.73}, {"date": "2026-05-08", "close": 81.78}], "news": [{"title": "Assessing Evergy (EVRG) Valuation After Recent Share Price Momentum And Growth Expectations", "url": "https://finance.yahoo.com/markets/stocks/articles/assessing-evergy-evrg-valuation-recent-101315007.html", "pubDate": ""}, {"title": "UBS Raises Price Target on Evergy to $91 From $88, Maintains Neutral Rating", "url": "https://finance.yahoo.com/markets/stocks/articles/ubs-raises-price-target-evergy-135349374.html", "pubDate": ""}, {"title": "Evergy expects retail sales to rise up to 8% annually on data center growth", "url": "https://finance.yahoo.com/m/37333ea3-2a2a-3f75-a9b1-d0371d52c4ae/evergy-expects-retail-sales.html", "pubDate": ""}], "profile": {"description": "Evergy, Inc., together with its subsidiaries, engages in the generation, transmission, distribution, and sale of electricity in the United States. The company generates electricity through coal, landfill gas, uranium, and natural gas and oil sources, as well as solar, wind, and other renewable sourc…", "marketCap": "$18.9B", "employees": "4,691", "sector": "Utilities", "industry": "Utilities - Regulated Electric", "website": "https://investors.evergy.com", "shortName": "Evergy, Inc."}}, {"symbol": "ZBRA", "name": "Zebra Technologies", "sector": "Information Technology", "close": 226.02999877929688, "dif": 1.7207, "dea": 1.8271, "diff": 0.0278, "golden_cross_date": "2026-05-07", "tracking_prices": [{"date": "2026-05-07", "close": 228.62}, {"date": "2026-05-08", "close": 226.03}], "news": [{"title": "The Middleby Sees Strong Q1 Sales, Raises 2026 Outlook", "url": "https://finance.yahoo.com/markets/stocks/articles/middleby-sees-strong-q1-sales-160350107.html", "pubDate": ""}, {"title": "Is Zebra Technologies (ZBRA) A Potential Opportunity After Recent Share Price Rebound?", "url": "https://finance.yahoo.com/markets/stocks/articles/zebra-technologies-zbra-potential-opportunity-101024226.html", "pubDate": ""}, {"title": "Will Zebra’s Apera AI Bet and Cubic Alliance Reframe Zebra Technologies' (ZBRA) Automation and Software Narrative?", "url": "https://finance.yahoo.com/markets/stocks/articles/zebra-apera-ai-bet-cubic-031943138.html", "pubDate": ""}], "profile": {"description": "Zebra Technologies Corporation, together with its subsidiaries, operates in the automatic identification and data capture solutions industry worldwide. It operates in two segments, Connected Frontline, and Asset Visibility and Automation. The company designs, manufactures, and sells printers that pr…", "marketCap": "$11.1B", "employees": "10,700", "sector": "Technology", "industry": "Communication Equipment", "website": "https://www.zebra.com", "shortName": "Zebra Technologies Corporation"}}, {"symbol": "EXR", "name": "Extra Space Storage", "sector": "Real Estate", "close": 143.3000030517578, "dif": 0.9953, "dea": 0.9155, "diff": 0.0385, "golden_cross_date": "2026-05-07", "tracking_prices": [{"date": "2026-05-07", "close": 143.27}, {"date": "2026-05-08", "close": 143.3}], "news": [{"title": "Jefferies Adjusts Price Target on Extra Space Storage to $165 From $156", "url": "https://finance.yahoo.com/markets/stocks/articles/jefferies-adjusts-price-target-extra-151402520.html", "pubDate": ""}, {"title": "Extra Space Storage (EXR) Q1 2026 Earnings Transcript", "url": "https://finance.yahoo.com/m/02210a93-a428-35e1-a9a4-de3af5d7c752/extra-space-storage-%28exr%29-q1.html", "pubDate": ""}, {"title": "Goldman Sachs Adjusts Extra Space Storage Price Target to $152 From $156", "url": "https://finance.yahoo.com/markets/stocks/articles/goldman-sachs-adjusts-extra-space-161414053.html", "pubDate": ""}], "profile": {"description": "Extra Space Storage Inc., headquartered in Salt Lake City, Utah, is a self-administered and self-managed REIT and a member of the S&P 500. As of December 31, 2025, the Company owned and/or operated 4,281 self-storage stores in 43 states and Washington, D.C. Its stores comprise approximately 2.9 mill…", "marketCap": "$31.6B", "employees": "8,393", "sector": "Real Estate", "industry": "REIT - Industrial", "website": "https://www.extraspace.com", "shortName": "Extra Space Storage Inc"}}, {"symbol": "EXPD", "name": "Expeditors International", "sector": "Industrials", "close": 156.69000244140625, "dif": 1.6424, "dea": 0.8786, "diff": 0.0396, "golden_cross_date": "2026-05-05", "tracking_prices": [{"date": "2026-05-05", "close": 153.08}, {"date": "2026-05-06", "close": 151.24}, {"date": "2026-05-07", "close": 151.86}, {"date": "2026-05-08", "close": 156.69}], "news": [{"title": "UBS Raises Price Target on Expeditors International of Washington to $175 From $166, Maintains Buy Rating", "url": "https://finance.yahoo.com/markets/stocks/articles/ubs-raises-price-target-expeditors-135429792.html", "pubDate": ""}, {"title": "How Expeditors’ Q1 2026 Earnings Beat and Higher Payouts Will Impact Expeditors International (EXPD) Investors", "url": "https://finance.yahoo.com/markets/stocks/articles/expeditors-q1-2026-earnings-beat-191658864.html", "pubDate": ""}, {"title": "What's Wrong With Transportation Sector? Buy These ETFs Instead", "url": "https://finance.yahoo.com/markets/stocks/articles/whats-wrong-transportation-sector-buy-160000485.html", "pubDate": ""}], "profile": {"description": "Expeditors International of Washington, Inc., together with its subsidiaries, provides logistics services in the Americas, North Asia, South Asia, Europe, and Middle East, Africa, and India. The company offers airfreight services, such as air freight consolidation and forwarding; ocean freight and o…", "marketCap": "$20.5B", "employees": "20,361", "sector": "Industrials", "industry": "Integrated Freight & Logistics", "website": "https://www.expeditors.com", "shortName": "Expeditors International of Was"}}, {"symbol": "MNST", "name": "Monster Beverage", "sector": "Consumer Staples", "close": 86.29000091552734, "dif": 0.9929, "dea": 0.3864, "diff": 0.0402, "golden_cross_date": "2026-05-06", "tracking_prices": [{"date": "2026-05-06", "close": 77.2}, {"date": "2026-05-07", "close": 75.97}, {"date": "2026-05-08", "close": 86.29}], "news": [{"title": "US Equity Indexes Rise as Trump Awaits Iran's Response to Peace Proposal After Striking Iranian Tankers", "url": "https://finance.yahoo.com/markets/stocks/articles/us-equity-indexes-rise-trump-204703250.html", "pubDate": ""}, {"title": "How major US stock indexes fared Friday 5/8/2026", "url": "https://finance.yahoo.com/markets/stocks/articles/major-us-stock-indexes-fared-202137441.html", "pubDate": ""}, {"title": "Sector Update: Consumer Stocks Rise Late Afternoon", "url": "https://finance.yahoo.com/markets/stocks/articles/sector-consumer-stocks-rise-afternoon-195402637.html", "pubDate": ""}], "profile": {"description": "Monster Beverage Corporation, through its subsidiaries, engages in development, marketing, sale, and distribution of energy drink beverages and concentrates in the United States and internationally. The company operates through four segments: Monster Energy Drinks, Strategic Brands, Alcohol Brands, …", "marketCap": "$84.4B", "employees": "5,773", "sector": "Consumer Defensive", "industry": "Beverages - Non-Alcoholic", "website": "https://www.monsterbevcorp.com", "shortName": "Monster Beverage Corporation"}}, {"symbol": "VST", "name": "Vistra Corp.", "sector": "Utilities", "close": 147.72000122070312, "dif": -1.0339, "dea": -0.0939, "diff": 0.0435, "golden_cross_date": "2026-05-05", "tracking_prices": [{"date": "2026-05-05", "close": 160.38}, {"date": "2026-05-06", "close": 158.29}, {"date": "2026-05-07", "close": 153.95}, {"date": "2026-05-08", "close": 147.72}], "news": [{"title": "Jim Cramer Suggests “Might Want to Get Some GE Vernova”", "url": "https://finance.yahoo.com/markets/stocks/articles/jim-cramer-suggests-might-want-183622001.html", "pubDate": ""}, {"title": "Vistra (VST): The Best Power Generation Stock To Buy For Data Center Demand", "url": "https://finance.yahoo.com/markets/stocks/articles/vistra-vst-best-power-generation-052751738.html", "pubDate": ""}, {"title": "Vistra (VST) Q1 Earnings: How Key Metrics Compare to Wall Street Estimates", "url": "https://finance.yahoo.com/markets/stocks/articles/vistra-vst-q1-earnings-key-233002113.html", "pubDate": ""}], "profile": {"description": "Vistra Corp., together with its subsidiaries, operates as an integrated retail electricity and power generation company in the United States. The company operates through five segments: Retail, Texas, East, West, and Asset Closure. The company retails electricity and natural gas to residential, comm…", "marketCap": "$49.8B", "employees": "6,390", "sector": "Utilities", "industry": "Utilities - Independent Power Producers", "website": "https://vistracorp.com", "shortName": "Vistra Corp."}}, {"symbol": "UBER", "name": "Uber", "sector": "Industrials", "close": 75.44999694824219, "dif": 0.5234, "dea": 0.4238, "diff": 0.1195, "golden_cross_date": "2026-05-06", "tracking_prices": [{"date": "2026-05-06", "close": 79.17}, {"date": "2026-05-07", "close": 76.73}, {"date": "2026-05-08", "close": 75.45}], "news": [{"title": "Assessing Rivian (RIVN) Valuation After Uber’s 50,000 Autonomous R2 SUV Robotaxi Commitment", "url": "https://finance.yahoo.com/markets/stocks/articles/assessing-rivian-rivn-valuation-uber-171139476.html", "pubDate": ""}, {"title": "For Lucid Motors Stock, Robotaxis Are Now the Whole Story", "url": "https://finance.yahoo.com/m/4a65be05-81f6-31f0-9080-3e327408f250/for-lucid-motors-stock%2C.html", "pubDate": ""}, {"title": "Uber CEO Dara Khosrowshahi Sees 'Trillion-Dollar' Self-Driving Opportunity, Says Waymo Hasn't Impacted Business", "url": "https://finance.yahoo.com/sectors/technology/articles/uber-ceo-dara-khosrowshahi-sees-123139631.html", "pubDate": ""}], "profile": {"description": "Uber Technologies, Inc. develops and operates proprietary technology applications in the United States, Canada, Latin America, Europe, the Middle East, Africa, and the Asia Pacific. The company operates through three segments: Mobility, Delivery, and Freight. The Mobility segment connects consumers …", "marketCap": "$153.6B", "employees": "35,000", "sector": "Technology", "industry": "Software - Application", "website": "https://www.uber.com", "shortName": "Uber Technologies, Inc."}}, {"symbol": "COIN", "name": "Coinbase", "sector": "Financials", "close": 201.16000366210938, "dif": 2.8879, "dea": 2.7521, "diff": 0.1358, "golden_cross_date": "2026-05-08", "tracking_prices": [{"date": "2026-05-08", "close": 201.16}], "news": [{"title": "U.S. Senate Banking Committee moves to advance “Clarity Act” crypto framework", "url": "https://finance.yahoo.com/markets/crypto/articles/u-senate-banking-committee-moves-074513426.html", "pubDate": ""}, {"title": "Coinbase (COIN) Valuation Check As Q1 Loss And AI Job Cuts Reshape The Business", "url": "https://finance.yahoo.com/markets/crypto/articles/coinbase-coin-valuation-check-q1-011346196.html", "pubDate": ""}, {"title": "Weekly Wrap: Bitcoin Struggles To Stay Above $80,000", "url": "https://finance.yahoo.com/m/715c5fff-7a90-3f5c-b617-e338a89cba15/weekly-wrap%3A-bitcoin.html", "pubDate": ""}], "profile": {"description": "Coinbase Global, Inc. operates platform for crypto assets in the United States and internationally. It provides the primary financial account in the crypto economy for consumers; a brokerage platform with a pool of liquidity across the crypto marketplace for institutions; and a suite of products gra…", "marketCap": "$53.0B", "employees": "4,951", "sector": "Financial Services", "industry": "Financial Data & Stock Exchanges", "website": "https://www.coinbase.com", "shortName": "Coinbase Global, Inc."}}, {"symbol": "DIS", "name": "Walt Disney Company (The)", "sector": "Communication Services", "close": 108.0199966430664, "dif": 1.4682, "dea": 0.9401, "diff": 0.1442, "golden_cross_date": "2026-05-06", "tracking_prices": [{"date": "2026-05-06", "close": 108.06}, {"date": "2026-05-07", "close": 108.66}, {"date": "2026-05-08", "close": 108.02}], "news": [{"title": "Disney CFO Hugh Johnston Says Relationship With NFL Remains 'Broad And Deep' Even As ESPN Yet To Engage In NFL Renewal Talks", "url": "https://finance.yahoo.com/markets/stocks/articles/disney-cfo-hugh-johnston-says-220126445.html", "pubDate": ""}, {"title": "Walt Disney Insiders Added US$2.11m Of Stock To Their Holdings", "url": "https://finance.yahoo.com/markets/stocks/articles/walt-disney-insiders-added-us-130008861.html", "pubDate": ""}, {"title": "‘Devil Wears Prada’ Kicks Off What Could Be Hollywood’s Best Summer Since ‘Barbenheimer’", "url": "https://finance.yahoo.com/m/27a0139b-4dba-397e-8e4b-a55322a72328/%E2%80%98devil-wears-prada%E2%80%99-kicks-off.html", "pubDate": ""}], "profile": {"description": "The Walt Disney Company operates as an entertainment company in Americas, Europe, and the Asia Pacific. It operates in three segments: Entertainment, Sports, and Experiences. The company produces and distributes film and television content under the ABC Television Network, Disney, Freeform, FX, Fox,…", "marketCap": "$187.6B", "employees": "175,560", "sector": "Communication Services", "industry": "Entertainment", "website": "https://thewaltdisneycompany.com", "shortName": "Walt Disney Company (The)"}}, {"symbol": "CTVA", "name": "Corteva", "sector": "Materials", "close": 81.12999725341797, "dif": 0.036, "dea": 0.0487, "diff": 0.1453, "golden_cross_date": "2026-05-05", "tracking_prices": [{"date": "2026-05-05", "close": 83.9}, {"date": "2026-05-06", "close": 81.77}, {"date": "2026-05-07", "close": 79.07}, {"date": "2026-05-08", "close": 81.13}], "news": [{"title": "Corteva Q1 Earnings Call Highlights", "url": "https://finance.yahoo.com/m/25d5f977-6e20-3282-b9ff-8274c274ea8a/corteva-q1-earnings-call.html", "pubDate": ""}, {"title": "Assessing Corteva (CTVA) Valuation After Mixed Short And Long Term Share Price Moves", "url": "https://finance.yahoo.com/markets/stocks/articles/assessing-corteva-ctva-valuation-mixed-002714470.html", "pubDate": ""}, {"title": "Corteva to Participate in BMO Global Farm to Market Conference", "url": "https://finance.yahoo.com/sectors/energy/articles/corteva-participate-bmo-global-farm-203000225.html", "pubDate": ""}], "profile": {"description": "Corteva, Inc. operates in the agriculture business. The company operates through two segments, Seed and Crop Protection. The Seed segment develops and supplies advanced germplasm and traits that produce optimum yield for farms. It offers trait technologies that enhance resistance to weather, disease…", "marketCap": "$54.3B", "employees": "21,500", "sector": "Basic Materials", "industry": "Agricultural Inputs", "website": "https://www.corteva.com", "shortName": "Corteva, Inc."}}, {"symbol": "TSN", "name": "Tyson Foods", "sector": "Consumer Staples", "close": 68.37999725341797, "dif": 1.1842, "dea": 0.7902, "diff": 0.1535, "golden_cross_date": "2026-05-04", "tracking_prices": [{"date": "2026-05-04", "close": 68.75}, {"date": "2026-05-05", "close": 68.44}, {"date": "2026-05-06", "close": 68.09}, {"date": "2026-05-07", "close": 67.94}, {"date": "2026-05-08", "close": 68.38}], "news": [{"title": "3 AgTech & Food Innovation Stocks to Watch as Food Systems Evolve", "url": "https://finance.yahoo.com/markets/stocks/articles/3-agtech-food-innovation-stocks-143900694.html", "pubDate": ""}, {"title": "Should Value Investors Buy Tyson Foods (TSN) Stock?", "url": "https://finance.yahoo.com/markets/stocks/articles/value-investors-buy-tyson-foods-134004201.html", "pubDate": ""}, {"title": "Is Adecoagro (AGRO) Outperforming Other Consumer Staples Stocks This Year?", "url": "https://finance.yahoo.com/markets/stocks/articles/adecoagro-agro-outperforming-other-consumer-134003242.html", "pubDate": ""}], "profile": {"description": "Tyson Foods, Inc., together with its subsidiaries, operates as a food company worldwide. It operates through four segments: Beef, Pork, Chicken, and Prepared Foods. The company processes live fed cattle and hogs; fabricates dressed beef and pork carcasses into primal and sub-primal meat cuts, as wel…", "marketCap": "$24.1B", "employees": "133,000", "sector": "Consumer Defensive", "industry": "Farm Products", "website": "https://www.tysonfoods.com", "shortName": "Tyson Foods, Inc."}}, {"symbol": "ALL", "name": "Allstate", "sector": "Financials", "close": 213.14999389648438, "dif": 1.4022, "dea": 1.8328, "diff": 0.1634, "golden_cross_date": "2026-05-04", "tracking_prices": [{"date": "2026-05-04", "close": 219.87}, {"date": "2026-05-05", "close": 218.51}, {"date": "2026-05-06", "close": 217.92}, {"date": "2026-05-07", "close": 213.67}, {"date": "2026-05-08", "close": 213.15}], "news": [{"title": "How A Top-Performing Analyst-Driven Fund Beats The Market", "url": "https://finance.yahoo.com/m/77078831-8a5d-3d90-9a85-02a03260849a/how-a-top-performing.html", "pubDate": ""}, {"title": "Skyward Specialty Q1 Earnings Beat on Apollo Lift, Premium Growth", "url": "https://finance.yahoo.com/markets/stocks/articles/skyward-specialty-q1-earnings-beat-163100290.html", "pubDate": ""}, {"title": "Piper Sandler Raises its Price Target on Allstate (ALL) to $268", "url": "https://finance.yahoo.com/markets/stocks/articles/piper-sandler-raises-price-target-062200287.html", "pubDate": ""}], "profile": {"description": "The Allstate Corporation, together with its subsidiaries, provides property and casualty, and other insurance products in the United States and Canada. It operates in four segments: Allstate Protection; Run-off Property-Liability; Protection Services; and Corporate and Other. The company offers priv…", "marketCap": "$54.9B", "employees": "53,000", "sector": "Financial Services", "industry": "Insurance - Property & Casualty", "website": "https://www.allstate.com", "shortName": "Allstate Corporation (The)"}}, {"symbol": "EBAY", "name": "eBay Inc.", "sector": "Consumer Discretionary", "close": 107.69000244140625, "dif": 3.13, "dea": 3.0236, "diff": 0.1702, "golden_cross_date": "2026-05-04", "tracking_prices": [{"date": "2026-05-04", "close": 109.33}, {"date": "2026-05-05", "close": 105.26}, {"date": "2026-05-06", "close": 108.15}, {"date": "2026-05-07", "close": 106.42}, {"date": "2026-05-08", "close": 107.69}], "news": [{"title": "Michael Burry Says GameStop's eBay Bid 'Just Went Hostile' After Ryan Cohen Claims Ban: All You Need To Know", "url": "https://finance.yahoo.com/markets/stocks/articles/michael-burry-says-gamestops-ebay-150011942.html", "pubDate": ""}, {"title": "Hertz is listing 8,000 used cars on eBay as buyers ‘starve for deals.' Are ex-rental cars actually a good deal?", "url": "https://finance.yahoo.com/markets/stocks/articles/hertz-listing-8-000-used-130500769.html", "pubDate": ""}, {"title": "Did Hertz’s New Oro Mobility Partnership with Uber Just Shift Hertz Global Holdings' (HTZ) Investment Narrative?", "url": "https://finance.yahoo.com/markets/stocks/articles/did-hertz-oro-mobility-partnership-082413647.html", "pubDate": ""}], "profile": {"description": "eBay Inc., together with its subsidiaries, operates marketplace platforms that connect buyers and sellers in the United States, the United Kingdom, China, Germany, and internationally. Its marketplace platform includes its online marketplace at ebay.com, off-platform businesses, and the eBay suite o…", "marketCap": "$47.8B", "employees": "12,300", "sector": "Consumer Cyclical", "industry": "Internet Retail", "website": "https://www.ebayinc.com", "shortName": "eBay Inc."}}, {"symbol": "HWM", "name": "Howmet Aerospace", "sector": "Industrials", "close": 270.55999755859375, "dif": 4.1115, "dea": 1.3776, "diff": 0.1785, "golden_cross_date": "2026-05-06", "tracking_prices": [{"date": "2026-05-06", "close": 256.43}, {"date": "2026-05-07", "close": 272.54}, {"date": "2026-05-08", "close": 270.56}], "news": [{"title": "A Look At Howmet Aerospace (HWM) Valuation After Strong Q1 2026 Beat And Portfolio Expansions", "url": "https://finance.yahoo.com/markets/stocks/articles/look-howmet-aerospace-hwm-valuation-011456162.html", "pubDate": ""}, {"title": "Is It Too Late To Consider Howmet Aerospace (HWM) After Its Powerful Share Price Run?", "url": "https://finance.yahoo.com/markets/stocks/articles/too-consider-howmet-aerospace-hwm-200723075.html", "pubDate": ""}, {"title": "Howmet Raises 2026 Outlook on Strong Industrial Gas Turbine Demand, RBC Says", "url": "https://finance.yahoo.com/markets/stocks/articles/howmet-raises-2026-outlook-strong-180346747.html", "pubDate": ""}], "profile": {"description": "Howmet Aerospace Inc. provides advanced engineered solutions for the aerospace and transportation industries in the United States, Japan, France, Germany, the United Kingdom, Mexico, Italy, Canada, Poland, China, and internationally. It operates through four segments: Engine Products, Fastening Syst…", "marketCap": "$108.3B", "employees": "25,430", "sector": "Industrials", "industry": "Aerospace & Defense", "website": "https://www.howmet.com", "shortName": "Howmet Aerospace Inc."}}, {"symbol": "LYB", "name": "LyondellBasell", "sector": "Materials", "close": 71.76000213623047, "dif": 0.3575, "dea": 0.5142, "diff": 0.1799, "golden_cross_date": "2026-05-04", "tracking_prices": [{"date": "2026-05-04", "close": 76.04}, {"date": "2026-05-05", "close": 77.76}, {"date": "2026-05-06", "close": 73.48}, {"date": "2026-05-07", "close": 71.51}, {"date": "2026-05-08", "close": 71.76}], "news": [{"title": "Whirlpool’s Dividend Cut Is a Cautionary Tale. How to Know If Your Payouts Are Safe.", "url": "https://finance.yahoo.com/m/28698ee0-a1c3-3127-9371-dc359a2eb2e4/whirlpool%E2%80%99s-dividend-cut-is-a.html", "pubDate": ""}, {"title": "LYB or ALB: Which Is the Better Value Stock Right Now?", "url": "https://finance.yahoo.com/markets/stocks/articles/lyb-alb-better-value-stock-154002710.html", "pubDate": ""}, {"title": "Is LyondellBasell (LYB) the Best European Stock That Beat Earnings Estimates to Buy?", "url": "https://finance.yahoo.com/markets/stocks/articles/lyondellbasell-lyb-best-european-stock-113522176.html", "pubDate": ""}], "profile": {"description": "LyondellBasell Industries N.V. operates as a chemical company in the United States, Germany, China, Mexico, Italy, Japan, France, Poland, the Netherlands, and internationally. It operates in five segments: Olefins and PolyolefinsAmericas; Olefins and PolyolefinsEurope, Asia, International; Interme…", "marketCap": "$23.2B", "employees": "18,970", "sector": "Basic Materials", "industry": "Specialty Chemicals", "website": "https://www.lyondellbasell.com", "shortName": "LyondellBasell Industries NV"}}, {"symbol": "NVDA", "name": "Nvidia", "sector": "Information Technology", "close": 215.1999969482422, "dif": 5.8646, "dea": 5.6624, "diff": 0.2022, "golden_cross_date": "2026-05-08", "tracking_prices": [{"date": "2026-05-08", "close": 215.2}], "news": [{"title": "Dell’s Pangea 5 Win Highlights AI And Energy Computing Ambitions", "url": "https://finance.yahoo.com/sectors/technology/articles/dell-pangea-5-win-highlights-011259528.html", "pubDate": ""}, {"title": "Fed Chair Jerome Powell Just Broke 75 Years of Precedent With a Move That's Likely to Frustrate President Trump. How Will This Impact the Stock Market?", "url": "https://finance.yahoo.com/m/f1655739-0a1c-3dd6-8fc7-20c2c1ff34ef/fed-chair-jerome-powell-just.html", "pubDate": ""}, {"title": "AMD Stock Is Up 320% Over the Past Year. Should Investors Shift Their Attention Away From Nvidia?", "url": "https://finance.yahoo.com/m/7a6ec252-f37f-3a6c-a3ec-14c923eeb56c/amd-stock-is-up-320%25-over-the.html", "pubDate": ""}], "profile": {"description": "NVIDIA Corporation operates as a data center scale AI infrastructure company. The company operates through two segments, Compute & Networking, and Graphics segments. The Compute & Networking segment provides data center accelerated computing and networking platforms and artificial intelligence solut…", "marketCap": "$5.23T", "employees": "42,000", "sector": "Technology", "industry": "Semiconductors", "website": "https://www.nvidia.com", "shortName": "NVIDIA Corporation"}}, {"symbol": "DAL", "name": "Delta Air Lines", "sector": "Industrials", "close": 73.33000183105469, "dif": 1.3029, "dea": 0.8823, "diff": 0.2057, "golden_cross_date": "2026-05-06", "tracking_prices": [{"date": "2026-05-06", "close": 73.34}, {"date": "2026-05-07", "close": 73.11}, {"date": "2026-05-08", "close": 73.33}], "news": [{"title": "With Spirit gone, what could this mean for passenger throughput numbers?", "url": "https://finance.yahoo.com/economy/articles/spirit-gone-could-mean-passenger-004347715.html", "pubDate": ""}, {"title": "Airline cancels flights to Canada over fuel costs", "url": "https://finance.yahoo.com/m/17f0ba20-6356-37f1-97ca-53eddb917f37/airline-cancels-flights-to.html", "pubDate": ""}, {"title": "Delta Air Lines Reworks Costs And Service As Spirit Exit Reshapes Competition", "url": "https://finance.yahoo.com/markets/stocks/articles/delta-air-lines-reworks-costs-002901136.html", "pubDate": ""}], "profile": {"description": "Delta Air Lines, Inc. provides scheduled air transportation for passengers and cargo in the United States and internationally. The company operates through two segments, Airline and Refinery. Its domestic network centered on core hubs in Atlanta, Detroit, Minneapolis-St. Paul, and Salt Lake City, as…", "marketCap": "$48.2B", "employees": "103,000", "sector": "Industrials", "industry": "Airlines", "website": "https://www.delta.com", "shortName": "Delta Air Lines, Inc."}}, {"symbol": "Q", "name": "Qnity Electronics", "sector": "Information Technology", "close": 147.3300018310547, "dif": 6.1467, "dea": 6.2345, "diff": 0.2095, "golden_cross_date": "2026-05-06", "tracking_prices": [{"date": "2026-05-06", "close": 149.44}, {"date": "2026-05-07", "close": 143.59}, {"date": "2026-05-08", "close": 147.33}], "news": [{"title": "Is It Too Late To Consider Qnity Electronics (Q) After A 69% Year-To-Date Rally?", "url": "https://finance.yahoo.com/markets/stocks/articles/too-consider-qnity-electronics-q-151912288.html", "pubDate": ""}, {"title": "DuPont Wins 2026 IRI Innovation Excellence Award", "url": "https://finance.yahoo.com/sectors/technology/articles/dupont-wins-2026-iri-innovation-130000086.html", "pubDate": ""}, {"title": "Qnity Gears Up to Report Q1 Earnings: What's in Store for the Stock?", "url": "https://finance.yahoo.com/markets/stocks/articles/qnity-gears-report-q1-earnings-122500897.html", "pubDate": ""}], "profile": {"description": "Qnity Electronics, Inc. provides materials and solutions to the semiconductor and electronics industries in the United States, rest of Americas, Europe, the Middle East, Africa, Asia Pacific, China, South Korea, Taiwan, and internationally. The company operates in two segments, Semiconductor Technol…", "marketCap": "$30.9B", "employees": "10,000", "sector": "Technology", "industry": "Semiconductor Equipment & Materials", "website": "https://www.qnityelectronics.com", "shortName": "Qnity Electronics, Inc."}}, {"symbol": "AME", "name": "Ametek", "sector": "Industrials", "close": 232.39999389648438, "dif": 2.5021, "dea": 2.6526, "diff": 0.2155, "golden_cross_date": "2026-05-06", "tracking_prices": [{"date": "2026-05-06", "close": 241.38}, {"date": "2026-05-07", "close": 234.73}, {"date": "2026-05-08", "close": 232.4}], "news": [{"title": "AMETEK Bets $5 Billion on Indicor Deal to Boost Industrial Tech Portfolio", "url": "https://finance.yahoo.com/m/8568a02e-9647-3eda-89db-e468fe5c7549/ametek-bets-%245-billion-on.html", "pubDate": ""}, {"title": "AMETEK Shareholders Back Board as Company Highlights Record 2025, Strong Q1", "url": "https://finance.yahoo.com/m/0a0cf8a7-f197-3cb8-8cc8-bd5a772f47d4/ametek-shareholders-back.html", "pubDate": ""}, {"title": "AMETEK Declares Quarterly Dividend", "url": "https://finance.yahoo.com/markets/stocks/articles/ametek-declares-quarterly-dividend-120000399.html", "pubDate": ""}], "profile": {"description": "AMETEK, Inc. manufactures and sells electronic instruments (EIG) and electromechanical (EMG) devices in the United States and internationally. It operates through EIG and EMG segments. The company offers advanced instruments for the process, aerospace, power, and industrial markets; process and anal…", "marketCap": "$53.3B", "employees": "22,500", "sector": "Industrials", "industry": "Specialty Industrial Machinery", "website": "https://www.ametek.com", "shortName": "AMETEK, Inc."}}, {"symbol": "PSA", "name": "Public Storage", "sector": "Real Estate", "close": 311.0400085449219, "dif": 4.0823, "dea": 3.8572, "diff": 0.2251, "golden_cross_date": "2026-05-08", "tracking_prices": [{"date": "2026-05-08", "close": 311.04}], "news": [{"title": "Public Storage Declares Second Quarter 2026 Dividends", "url": "https://finance.yahoo.com/markets/stocks/articles/public-storage-declares-second-quarter-200500832.html", "pubDate": ""}, {"title": "Beat the Market Like Zacks: Vicor, NVIDIA, UnitedHealth in Focus", "url": "https://finance.yahoo.com/markets/stocks/articles/beat-market-zacks-vicor-nvidia-125400716.html", "pubDate": ""}, {"title": "How The Public Storage (PSA) Investment Story Is Shifting With National Storage Deal And Analyst Rethinks", "url": "https://finance.yahoo.com/markets/stocks/articles/public-storage-psa-investment-story-130726678.html", "pubDate": ""}], "profile": {"description": "Public Storage, a member of the S&P 500, is a REIT that primarily acquires, develops, owns, and operates self-storage facilities. At December 31, 2025, we: (i) owned and/or operated 3,533 self-storage facilities located in 40 states with approximately 258 million net rentable square feet in the Unit…", "marketCap": "$54.6B", "employees": "5,770", "sector": "Real Estate", "industry": "REIT - Industrial", "website": "https://www.publicstorage.com", "shortName": "Public Storage"}}, {"symbol": "COST", "name": "Costco", "sector": "Consumer Staples", "close": 1008.7899780273438, "dif": 3.5018, "dea": 3.3702, "diff": 0.2303, "golden_cross_date": "2026-05-07", "tracking_prices": [{"date": "2026-05-07", "close": 1012.06}, {"date": "2026-05-08", "close": 1008.79}], "news": [{"title": "BofA revisits Costco stock price target after= sales surprise", "url": "https://finance.yahoo.com/m/ca0818d1-0089-3d93-af6f-4ac1ca6b3b05/bofa-revisits-costco-stock.html", "pubDate": ""}, {"title": "T-Mobile lifts a frustrating perk restriction for Costco members", "url": "https://finance.yahoo.com/m/bd7cbbc7-eeaa-37f8-85a5-2608c72b7c88/t-mobile-lifts-a-frustrating.html", "pubDate": ""}, {"title": "Costco Stock Is Benefiting from a Jump in April Sales. It Can Thank the Strait of Hormuz.", "url": "https://finance.yahoo.com/m/6f34abd4-7ce4-3824-84db-5da1a49efcde/costco-stock-is-benefiting.html", "pubDate": ""}], "profile": {"description": "Costco Wholesale Corporation, together with its subsidiaries, engages in the operation of membership warehouses in the United States, Puerto Rico, Canada, Mexico, Japan, the United Kingdom, Korea, Australia, Taiwan, China, Spain, France, Iceland, New Zealand, and Sweden. It offers merchandise, inclu…", "marketCap": "$447.6B", "employees": "341,000", "sector": "Consumer Defensive", "industry": "Discount Stores", "website": "https://www.costco.com", "shortName": "Costco Wholesale Corporation"}}, {"symbol": "VRSN", "name": "Verisign", "sector": "Information Technology", "close": 288.2099914550781, "dif": 6.0141, "dea": 5.7806, "diff": 0.2334, "golden_cross_date": "2026-05-08", "tracking_prices": [{"date": "2026-05-08", "close": 288.21}], "news": [{"title": "Analyst Report: VeriSign, Inc.", "url": "https://finance.yahoo.com/m/5d037a6c-3ed1-346b-abc1-c0a3c5147281/analyst-report%3A-verisign%2C-inc..html", "pubDate": ""}, {"title": "VeriSign (VRSN) is a Top-Ranked Momentum Stock: Should You Buy?", "url": "https://finance.yahoo.com/markets/stocks/articles/verisign-vrsn-top-ranked-momentum-135002760.html", "pubDate": ""}, {"title": "Verisign Insider Sold Shares Worth $1,355,107, According to a Recent SEC Filing", "url": "https://finance.yahoo.com/markets/stocks/articles/verisign-insider-sold-shares-worth-205307297.html", "pubDate": ""}], "profile": {"description": "VeriSign, Inc., together with its subsidiaries, provides internet infrastructure and domain name registry services that enables internet navigation for various recognized domain names worldwide. The company provides root zone maintainer services, operating two of thirteen internet root servers; and …", "marketCap": "$26.2B", "employees": "926", "sector": "Technology", "industry": "Software - Infrastructure", "website": "https://www.verisign.com", "shortName": "VeriSign, Inc."}}, {"symbol": "CI", "name": "Cigna", "sector": "Health Care", "close": 288.05999755859375, "dif": 2.9543, "dea": 2.7141, "diff": 0.2403, "golden_cross_date": "2026-05-08", "tracking_prices": [{"date": "2026-05-08", "close": 288.06}], "news": [{"title": "Chris Davis Significantly Reduces Stake in Applied Materials Inc, Impacting Portfolio by -3.47%", "url": "https://finance.yahoo.com/markets/stocks/articles/chris-davis-significantly-reduces-stake-210301972.html", "pubDate": ""}, {"title": "How CVS Health's Transformation Is Facing A Hard Valuation Floor", "url": "https://finance.yahoo.com/m/01ddf2f1-d464-318e-a028-fcc08328ed91/how-cvs-health%27s.html", "pubDate": ""}, {"title": "Why Cigna (CI) is a Top Momentum Stock for the Long-Term", "url": "https://finance.yahoo.com/markets/stocks/articles/why-cigna-ci-top-momentum-135002599.html", "pubDate": ""}], "profile": {"description": "The Cigna Group, together with its subsidiaries, provides insurance and related products and services in the United States. It operates through two segments: Evernorth Health Services and Cigna Healthcare. The Evernorth Health Services segment includes Pharmacy Benefit Services and Specialty and Car…", "marketCap": "$76.2B", "employees": "65,669", "sector": "Healthcare", "industry": "Healthcare Plans", "website": "https://www.thecignagroup.com", "shortName": "The Cigna Group"}}];
+var currentSector = 'all';
+var currentSearch = '';
+var modalChart = null;
 
 function filterStocks() {
   currentSearch = document.getElementById('searchInput').value.toLowerCase();
@@ -2501,55 +2457,90 @@ function filterStocks() {
 
 function setSector(sector) {
   currentSector = sector;
-  document.querySelectorAll('.filter-tag').forEach(t => {
+  document.querySelectorAll('.filter-tag').forEach(function(t) {
     t.classList.toggle('active', t.dataset.sector === sector);
   });
   renderStocks();
 }
 
 function renderStocks() {
-  let filtered = stocks.filter(s => {
-    let matchSector = currentSector === 'all' || s.sector === currentSector;
-    let matchSearch = !currentSearch || s.symbol.toLowerCase().includes(currentSearch) || s.name.toLowerCase().includes(currentSearch);
-    return matchSector && matchSearch;
-  });
-  // Re-render by filtering DOM (simple approach: hide/show)
-  document.querySelectorAll('.stock-card').forEach((card, i) => {
-    let s = stocks[i];
-    let matchSector = currentSector === 'all' || s.sector === currentSector;
-    let matchSearch = !currentSearch || s.symbol.toLowerCase().includes(currentSearch) || s.name.toLowerCase().includes(currentSearch);
+  document.querySelectorAll('.stock-card').forEach(function(card, i) {
+    var s = stocks[i];
+    if (!s) return;
+    var matchSector = currentSector === 'all' || s.sector === currentSector;
+    var matchSearch = !currentSearch || s.symbol.toLowerCase().includes(currentSearch) || s.name.toLowerCase().includes(currentSearch);
     card.style.display = (matchSector && matchSearch) ? '' : 'none';
   });
 }
 
-let currentModalStock = null;
 function openModal(s) {
-  currentModalStock = s;
   document.getElementById('modalSymbol').textContent = s.symbol;
-  document.getElementById('modalSector').textContent = s.sector;
-  document.getElementById('modalName').textContent = s.name;
-  document.getElementById('modalClose').textContent = '$' + s.close.toFixed(2);
-  document.getElementById('modalDiff').textContent = s.diff.toFixed(4);
-  document.getElementById('modalGCDate').textContent = s.golden_cross_date;
+  document.getElementById('modalSector').textContent = s.sector || '';
+  document.getElementById('modalName').textContent = s.name || '';
+  document.getElementById('modalClose').textContent = '$' + (s.close ? s.close.toFixed(2) : 'N/A');
+  document.getElementById('modalDiff').textContent = s.diff ? s.diff.toFixed(4) : 'N/A';
+  document.getElementById('modalGCDate').textContent = s.golden_cross_date || 'N/A';
 
   // Price table
-  let tbody = document.getElementById('priceTableBody');
-  let rows = '';
-  s.tracking_prices.forEach((p, i) => {
-    let pct = i > 0 ? (((p.close - s.tracking_prices[i-1].close) / s.tracking_prices[i-1].close) * 100).toFixed(1) : '—';
-    let cls = i > 0 && p.close > s.tracking_prices[i-1].close ? 'var(--green)' : 'var(--red)';
-    let icon = i > 0 && p.close > s.tracking_prices[i-1].close ? '▲' : '▼';
-    rows += `<tr><td>${p.date}</td><td>$${p.close.toFixed(2)}</td><td style="color:${cls}">${icon} ${Math.abs(pct)}%</td></tr>`;
-  });
+  var tbody = document.getElementById('priceTableBody');
+  var rows = '';
+  if (s.tracking_prices) {
+    s.tracking_prices.forEach(function(p, i) {
+      var pct = i > 0 ? (((p.close - s.tracking_prices[i-1].close) / s.tracking_prices[i-1].close) * 100).toFixed(1) : '—';
+      var cls = i > 0 && p.close > s.tracking_prices[i-1].close ? 'var(--green)' : 'var(--red)';
+      var icon = i > 0 && p.close > s.tracking_prices[i-1].close ? '▲' : '▼';
+      rows += '<tr><td>' + p.date + '</td><td>$' + p.close.toFixed(2) + '</td><td style="color:' + cls + '">' + icon + ' ' + Math.abs(pct) + '%</td></tr>';
+    });
+  }
   tbody.innerHTML = rows;
 
+  // Profile section
+  var profileSection = document.getElementById('profileSection');
+  var profile = s.profile;
+  if (profile && profile.description && profile.description.indexOf('获取失败') === -1) {
+    document.getElementById('profileDesc').innerHTML = (profile.description || '') + (profile.website ? ' <a href="' + profile.website + '" target="_blank">官网 →</a>' : '');
+    var items = [
+      ['市值', profile.marketCap || 'N/A'],
+      ['员工', profile.employees || 'N/A'],
+      ['行业', profile.industry || profile.sector || 'N/A'],
+      ['官网', profile.website ? '<a href="' + profile.website + '" target="_blank">' + profile.website.replace('https://','').replace('http://','') + '</a>' : 'N/A']
+    ];
+    var gridHtml = '';
+    items.forEach(function(item) {
+      gridHtml += '<div class="profile-item"><div class="label">' + item[0] + '</div><div class="value">' + item[1] + '</div></div>';
+    });
+    document.getElementById('profileGrid').innerHTML = gridHtml;
+    profileSection.style.display = '';
+  } else {
+    profileSection.style.display = 'none';
+  }
+
+  // News section
+  var newsSection = document.getElementById('newsSection');
+  var newsList = document.getElementById('newsList');
+  var news = s.news || [];
+  if (news.length > 0 && news[0].title && news[0].title.indexOf('失败') === -1) {
+    var newsHtml = '';
+    news.forEach(function(n) {
+      var titleHtml = n.url
+        ? '<a href="' + n.url + '" target="_blank">' + n.title + '</a>'
+        : n.title;
+      var metaHtml = n.pubDate ? '<div class="news-meta">🕐 ' + n.pubDate + '</div>' : '';
+      newsHtml += '<div class="news-item"><div class="news-title">' + titleHtml + '</div>' + metaHtml + '</div>';
+    });
+    newsList.innerHTML = newsHtml;
+    newsSection.style.display = '';
+  } else {
+    newsSection.style.display = 'none';
+  }
+
   // Modal chart
-  let ctx = document.getElementById('modalChart').getContext('2d');
+  var ctx = document.getElementById('modalChart').getContext('2d');
   if (modalChart) modalChart.destroy();
-  let labels = s.tracking_prices.map(p => p.date.substring(5));
-  let closes = s.tracking_prices.map(p => p.close);
-  let colors = [];
-  for (let i = 0; i < closes.length; i++) {
+  var labels = (s.tracking_prices || []).map(function(p) { return p.date.substring(5); });
+  var closes = (s.tracking_prices || []).map(function(p) { return p.close; });
+  var colors = [];
+  for (var i = 0; i < closes.length; i++) {
     colors.push(i === 0 ? '#3b82f6' : closes[i] >= closes[i-1] ? '#10b981' : '#ef4444');
   }
   modalChart = new Chart(ctx, {
@@ -2572,8 +2563,8 @@ function openModal(s) {
       maintainAspectRatio: false,
       plugins: { legend: { display: false } },
       scales: {
-        x: { grid: { color: 'rgba(255,255,255,0.05)' } , ticks: { color: '#64748b', maxTicksLimit: 7 } },
-        y: { grid: { color: 'rgba(255,255,255,0.05)' }, ticks: { color: '#64748b', callback: v => '$' + v.toFixed(0) } }
+        x: { grid: { color: 'rgba(255,255,255,0.05)' }, ticks: { color: '#64748b', maxTicksLimit: 7 } },
+        y: { grid: { color: 'rgba(255,255,255,0.05)' }, ticks: { color: '#64748b', callback: function(v) { return '$' + v.toFixed(0); } } }
       }
     }
   });
@@ -2586,7 +2577,7 @@ function closeModal() {
   if (modalChart) { modalChart.destroy(); modalChart = null; }
 }
 
-document.addEventListener('keydown', e => { if (e.key === 'Escape') closeModal(); });
+document.addEventListener('keydown', function(e) { if (e.key === 'Escape') closeModal(); });
 </script>
 </body>
 </html>
