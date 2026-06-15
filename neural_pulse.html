@@ -1,0 +1,502 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Hermes Neural Pulse · LLM 思考可视化</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #0a0e17; --surface: #111827; --surface2: #1a2035; --border: #1e2a3a;
+    --text: #e2e8f0; --muted: #64748b; --accent: #3b82f6; --accent2: #06b6d4;
+    --green: #10b981; --red: #ef4444; --yellow: #f59e0b; --purple: #8b5cf6;
+    --pink: #ec4899;
+  }
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body { font-family: 'Inter', -apple-system, sans-serif; background: var(--bg); color: var(--text); min-height: 100vh; line-height: 1.5; }
+  header { border-bottom: 1px solid var(--border); padding: 0 32px; height: 64px; display: flex; align-items: center; justify-content: space-between; position: sticky; top: 0; background: rgba(10,14,23,0.95); backdrop-filter: blur(12px); z-index: 100; }
+  .header-left { display: flex; align-items: center; gap: 16px; }
+  .logo { font-size: 18px; font-weight: 700; color: var(--accent2); }
+  .header-nav { display: flex; gap: 8px; }
+  .nav-link { padding: 6px 12px; font-size: 13px; color: var(--muted); text-decoration: none; border-radius: 6px; transition: all 0.2s; }
+  .nav-link:hover { color: var(--text); background: var(--surface2); }
+  .nav-link.active { color: var(--accent2); background: rgba(6,182,212,0.1); }
+  .header-right { display: flex; align-items: center; gap: 20px; font-size: 13px; color: var(--muted); }
+  .live-dot { display: inline-block; width: 8px; height: 8px; border-radius: 50%; background: var(--green); margin-right: 6px; box-shadow: 0 0 8px var(--green); animation: pulse 2s ease-in-out infinite; }
+  @keyframes pulse { 0%, 100% { opacity: 1; } 50% { opacity: 0.4; } }
+  .update-time { color: var(--accent2); font-family: 'JetBrains Mono', monospace; }
+
+  main { max-width: 1400px; margin: 0 auto; padding: 32px 24px; }
+
+  /* Summary cards */
+  .summary-bar { display: grid; grid-template-columns: repeat(4, 1fr); gap: 16px; margin-bottom: 32px; }
+  .summary-card { background: var(--surface); border: 1px solid var(--border); border-radius: 12px; padding: 20px 24px; }
+  .summary-card .value { font-size: 28px; font-weight: 700; color: var(--text); margin-bottom: 4px; font-family: 'JetBrains Mono', monospace; }
+  .summary-card .label { font-size: 13px; color: var(--muted); }
+  .summary-card .delta { font-size: 11px; margin-top: 4px; }
+  .delta-up { color: var(--green); }
+  .delta-down { color: var(--red); }
+
+  /* Neural pulse main panel */
+  .neural-panel { background: var(--surface); border: 1px solid var(--border); border-radius: 12px; padding: 24px 28px; margin-bottom: 24px; }
+  .panel-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; }
+  .panel-title { font-size: 16px; font-weight: 600; color: var(--text); }
+  .panel-subtitle { font-size: 12px; color: var(--muted); margin-top: 2px; }
+  .panel-controls { display: flex; gap: 8px; }
+  .control-btn { background: var(--surface2); border: 1px solid var(--border); border-radius: 6px; padding: 5px 12px; font-size: 12px; color: var(--muted); cursor: pointer; transition: all 0.2s; font-family: inherit; }
+  .control-btn:hover { color: var(--text); border-color: var(--accent2); }
+  .control-btn.primary { background: var(--accent2); color: var(--bg); border-color: var(--accent2); }
+
+  /* Token typewriter */
+  .token-display { background: var(--surface2); border: 1px solid var(--border); border-radius: 8px; padding: 16px 20px; margin-bottom: 20px; min-height: 80px; max-height: 140px; overflow-y: auto; font-family: 'JetBrains Mono', monospace; font-size: 16px; line-height: 1.7; color: var(--text); position: relative; }
+  .token-display::-webkit-scrollbar { width: 6px; }
+  .token-display::-webkit-scrollbar-track { background: var(--surface2); }
+  .token-display::-webkit-scrollbar-thumb { background: var(--border); border-radius: 3px; }
+  .current-token { color: var(--yellow); font-weight: 700; animation: blink 0.15s linear; }
+  @keyframes blink { 0% { opacity: 0; transform: scale(0.6); } 50% { opacity: 1; } 100% { opacity: 1; transform: scale(1); } }
+  .token-meta { position: sticky; top: 0; right: 0; display: flex; gap: 16px; font-size: 11px; color: var(--muted); margin-bottom: 8px; }
+  .progress-bar { height: 3px; background: var(--border); border-radius: 2px; margin-top: 12px; overflow: hidden; }
+  .progress-fill { height: 100%; background: linear-gradient(90deg, var(--accent), var(--accent2)); width: 0%; transition: width 0.1s linear; }
+
+  /* Neural SVG */
+  .neural-svg-container { background: linear-gradient(135deg, var(--bg), var(--surface)); border: 1px solid var(--border); border-radius: 8px; padding: 16px; }
+  svg.neural { display: block; margin: 0 auto; max-width: 100%; height: auto; }
+  .edge { stroke: rgba(30, 42, 58, 0.4); stroke-width: 1; transition: stroke 0.2s, stroke-width 0.2s; }
+  .edge.active { stroke: var(--accent2); stroke-width: 2; }
+  .edge.flowing { stroke: var(--yellow); stroke-width: 2.5; }
+  .node { fill: var(--surface2); stroke: rgba(6, 182, 212, 0.3); stroke-width: 1.5; transition: fill 0.2s, stroke 0.2s, r 0.2s; cursor: pointer; }
+  .node:hover { stroke: var(--accent2); }
+  .node.active { fill: var(--accent2); stroke: var(--yellow); stroke-width: 2.5; filter: drop-shadow(0 0 6px var(--yellow)); }
+  .node-label { fill: var(--muted); font-size: 9px; font-family: 'JetBrains Mono', monospace; text-anchor: middle; pointer-events: none; }
+  .layer-label { fill: var(--muted); font-size: 11px; font-family: 'Inter', sans-serif; text-anchor: middle; font-weight: 500; }
+
+  /* Stats grid (2x2) */
+  .stats-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 12px; margin-top: 20px; }
+  .stat-tile { background: var(--surface2); border-radius: 8px; padding: 14px 16px; }
+  .stat-tile .num { font-size: 22px; font-weight: 700; font-family: 'JetBrains Mono', monospace; color: var(--text); }
+  .stat-tile .lbl { font-size: 11px; color: var(--muted); margin-top: 2px; }
+  .stat-tile.accent .num { color: var(--accent2); }
+  .stat-tile.green .num { color: var(--green); }
+  .stat-tile.purple .num { color: var(--purple); }
+  .stat-tile.yellow .num { color: var(--yellow); }
+
+  /* History */
+  .history-panel { background: var(--surface); border: 1px solid var(--border); border-radius: 12px; padding: 24px 28px; }
+  .history-list { margin-top: 16px; }
+  .history-item { display: grid; grid-template-columns: 90px 60px 1fr 90px 90px; gap: 12px; align-items: center; padding: 12px 0; border-bottom: 1px solid var(--border); font-size: 13px; }
+  .history-item:last-child { border-bottom: none; }
+  .history-time { color: var(--muted); font-family: 'JetBrains Mono', monospace; font-size: 12px; }
+  .history-badge { font-size: 11px; padding: 2px 8px; border-radius: 10px; background: var(--surface2); color: var(--accent2); text-align: center; }
+  .history-topic { color: var(--text); font-weight: 500; }
+  .history-preview { color: var(--muted); font-size: 12px; margin-top: 2px; }
+  .history-duration { color: var(--green); font-family: 'JetBrains Mono', monospace; font-size: 12px; text-align: right; }
+  .history-tokens { color: var(--purple); font-family: 'JetBrains Mono', monospace; font-size: 12px; text-align: right; }
+
+  .empty-state { text-align: center; padding: 60px 0; color: var(--muted); font-size: 14px; }
+
+  /* Mobile */
+  @media (max-width: 768px) {
+    .summary-bar, .stats-grid { grid-template-columns: repeat(2, 1fr); }
+    .history-item { grid-template-columns: 70px 1fr 70px; }
+    .history-badge, .history-duration { display: none; }
+    header { padding: 0 16px; }
+    main { padding: 20px 12px; }
+    .neural-panel { padding: 16px; }
+  }
+
+  /* Loading */
+  .loading { display: flex; align-items: center; justify-content: center; min-height: 200px; color: var(--muted); }
+  .spinner { width: 32px; height: 32px; border: 3px solid var(--border); border-top-color: var(--accent2); border-radius: 50%; animation: spin 1s linear infinite; margin-right: 12px; }
+  @keyframes spin { to { transform: rotate(360deg); } }
+</style>
+</head>
+<body>
+<header>
+  <div class="header-left">
+    <div class="logo">🧠 Hermes Neural Pulse</div>
+    <nav class="header-nav">
+      <a href="index.html" class="nav-link">📊 MACD 看板</a>
+      <a href="neural_pulse.html" class="nav-link active">⚡ Neural Pulse</a>
+    </nav>
+  </div>
+  <div class="header-right">
+    <span><span class="live-dot"></span>Live</span>
+    <span class="update-time" id="update-time">--</span>
+  </div>
+</header>
+
+<main>
+  <!-- Summary cards -->
+  <div class="summary-bar">
+    <div class="summary-card">
+      <div class="value" id="total-calls">--</div>
+      <div class="label">累计调用</div>
+      <div class="delta delta-up" id="calls-delta">+0 today</div>
+    </div>
+    <div class="summary-card">
+      <div class="value" id="total-tokens">--</div>
+      <div class="label">累计 Tokens</div>
+      <div class="delta delta-up" id="tokens-delta">+0 today</div>
+    </div>
+    <div class="summary-card">
+      <div class="value" id="avg-duration">--</div>
+      <div class="label">平均响应 (s)</div>
+      <div class="delta" style="color: var(--muted)">滚动 7 日</div>
+    </div>
+    <div class="summary-card">
+      <div class="value" id="avg-tps">--</div>
+      <div class="label">平均 tok/s</div>
+      <div class="delta" style="color: var(--muted)">MiniMax-M3</div>
+    </div>
+  </div>
+
+  <!-- Main neural pulse panel -->
+  <div class="neural-panel">
+    <div class="panel-header">
+      <div>
+        <div class="panel-title">🧠 神经网络脉冲 · 最后一次响应</div>
+        <div class="panel-subtitle" id="last-call-info">加载中...</div>
+      </div>
+      <div class="panel-controls">
+        <button class="control-btn" id="btn-restart">🔄 重播</button>
+        <button class="control-btn" id="btn-pause">⏸ 暂停</button>
+        <button class="control-btn primary" id="btn-speed">1x</button>
+      </div>
+    </div>
+
+    <!-- Token typewriter -->
+    <div class="token-display" id="token-display">
+      <div class="token-meta">
+        <span>📝 Tokens: <strong id="current-token-idx">0</strong>/<span id="total-token-count">0</span></span>
+        <span>⏱ Elapsed: <strong id="elapsed-time">0.0s</strong></span>
+        <span>🔥 Layer: <strong id="current-layer">--</strong></span>
+      </div>
+      <div id="token-text"></div>
+      <div class="progress-bar"><div class="progress-fill" id="progress-fill"></div></div>
+    </div>
+
+    <!-- Neural SVG -->
+    <div class="neural-svg-container">
+      <svg class="neural" id="neural-svg" viewBox="0 0 620 340" preserveAspectRatio="xMidYMid meet">
+        <defs>
+          <linearGradient id="edge-gradient" x1="0%" y1="0%" x2="100%" y2="0%">
+            <stop offset="0%" stop-color="#06b6d4" stop-opacity="0.3"/>
+            <stop offset="50%" stop-color="#06b6d4" stop-opacity="0.8"/>
+            <stop offset="100%" stop-color="#06b6d4" stop-opacity="0.3"/>
+            <animate attributeName="x1" values="0%;100%" dur="1s" repeatCount="indefinite"/>
+            <animate attributeName="x2" values="100%;200%" dur="1s" repeatCount="indefinite"/>
+          </linearGradient>
+        </defs>
+        <g id="edges-layer"></g>
+        <g id="nodes-layer"></g>
+        <g id="labels-layer"></g>
+      </svg>
+    </div>
+
+    <!-- Live stats -->
+    <div class="stats-grid">
+      <div class="stat-tile accent">
+        <div class="num" id="last-duration">--</div>
+        <div class="lbl">本次响应 (s)</div>
+      </div>
+      <div class="stat-tile green">
+        <div class="num" id="last-tokens">--</div>
+        <div class="lbl">本次 Tokens</div>
+      </div>
+      <div class="stat-tile purple">
+        <div class="num" id="last-tps">--</div>
+        <div class="lbl">本次 tok/s</div>
+      </div>
+      <div class="stat-tile yellow">
+        <div class="num" id="last-topic">--</div>
+        <div class="lbl">本次主题</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- History -->
+  <div class="history-panel">
+    <div class="panel-header">
+      <div>
+        <div class="panel-title">📚 历史响应记录</div>
+        <div class="panel-subtitle">最近 8 次调用</div>
+      </div>
+    </div>
+    <div class="history-list" id="history-list">
+      <div class="loading"><div class="spinner"></div>加载中...</div>
+    </div>
+  </div>
+</main>
+
+<script>
+// ============================================================
+// Configuration
+// ============================================================
+const SVG_NS = 'http://www.w3.org/2000/svg';
+const LAYERS = 5;
+const NODES_PER_LAYER = 6;
+const LAYER_X = [60, 200, 340, 480, 560];  // x position for each layer
+const NODE_Y = (i) => 30 + i * 50;  // y position within a layer
+const SVG_W = 620, SVG_H = 340;
+
+// ============================================================
+// Build neural topology
+// ============================================================
+function buildTopology() {
+  const edgesG = document.getElementById('edges-layer');
+  const nodesG = document.getElementById('nodes-layer');
+  const labelsG = document.getElementById('labels-layer');
+  edgesG.innerHTML = '';
+  nodesG.innerHTML = '';
+  labelsG.innerHTML = '';
+
+  // Generate edges (each node → next layer's 3 nearest nodes)
+  for (let l = 0; l < LAYERS - 1; l++) {
+    for (let i = 0; i < NODES_PER_LAYER; i++) {
+      const fromX = LAYER_X[l], fromY = NODE_Y(i);
+      for (let j = 0; j < NODES_PER_LAYER; j++) {
+        const dist = Math.abs(i - j);
+        if (dist <= 2 || Math.random() < 0.3) {
+          const toX = LAYER_X[l + 1], toY = NODE_Y(j);
+          const line = document.createElementNS(SVG_NS, 'line');
+          line.setAttribute('x1', fromX);
+          line.setAttribute('y1', fromY);
+          line.setAttribute('x2', toX);
+          line.setAttribute('y2', toY);
+          line.setAttribute('class', 'edge');
+          line.setAttribute('data-from', `${l}-${i}`);
+          line.setAttribute('data-to', `${l + 1}-${j}`);
+          edgesG.appendChild(line);
+        }
+      }
+    }
+  }
+
+  // Generate nodes
+  for (let l = 0; l < LAYERS; l++) {
+    for (let i = 0; i < NODES_PER_LAYER; i++) {
+      const g = document.createElementNS(SVG_NS, 'g');
+      const circle = document.createElementNS(SVG_NS, 'circle');
+      circle.setAttribute('cx', LAYER_X[l]);
+      circle.setAttribute('cy', NODE_Y(i));
+      circle.setAttribute('r', 10);
+      circle.setAttribute('class', 'node');
+      circle.setAttribute('data-layer', l);
+      circle.setAttribute('data-node', i);
+      g.appendChild(circle);
+
+      const label = document.createElementNS(SVG_NS, 'text');
+      label.setAttribute('x', LAYER_X[l]);
+      label.setAttribute('y', NODE_Y(i) + 22);
+      label.setAttribute('class', 'node-label');
+      label.textContent = `L${l}.${i}`;
+      g.appendChild(label);
+
+      nodesG.appendChild(g);
+    }
+
+    // Layer label at bottom
+    const layerLabel = document.createElementNS(SVG_NS, 'text');
+    layerLabel.setAttribute('x', LAYER_X[l]);
+    layerLabel.setAttribute('y', SVG_H - 8);
+    layerLabel.setAttribute('class', 'layer-label');
+    const names = ['输入', '理解', '检索', '推理', '输出'];
+    layerLabel.textContent = names[l] || `L${l}`;
+    labelsG.appendChild(layerLabel);
+  }
+}
+
+// ============================================================
+// Animation
+// ============================================================
+let data = null;
+let tokens = [];
+let playing = false;
+let paused = false;
+let speed = 1.0;  // 1x, 2x, 4x
+let currentIdx = 0;
+let animationTimer = null;
+let activeNodes = new Set();
+let startTime = 0;
+
+function activateNode(layer, nodeIdx) {
+  // Pick 1-2 random nodes in that layer
+  const count = 1 + Math.floor(Math.random() * 2);
+  const selected = new Set();
+  for (let i = 0; i < count; i++) {
+    const idx = Math.floor(Math.random() * NODES_PER_LAYER);
+    selected.add(idx);
+  }
+  // Activate the picked nodes
+  selected.forEach(idx => {
+    const sel = document.querySelector(`circle[data-layer="${layer}"][data-node="${idx}"]`);
+    if (sel) {
+      sel.classList.add('active');
+      activeNodes.add(`${layer}-${idx}`);
+    }
+  });
+  // Light up edges from previous layer
+  if (layer > 0) {
+    document.querySelectorAll(`.edge[data-from^="${layer - 1}-"]`).forEach(edge => {
+      if (Math.random() < 0.4) {
+        edge.classList.add('active');
+        setTimeout(() => edge.classList.remove('active'), 300 / speed);
+      }
+    });
+  }
+  // Deactivate after a short while
+  setTimeout(() => {
+    selected.forEach(idx => {
+      const sel = document.querySelector(`circle[data-layer="${layer}"][data-node="${idx}"]`);
+      if (sel) sel.classList.remove('active');
+      activeNodes.delete(`${layer}-${idx}`);
+    });
+  }, 200 / speed);
+}
+
+function updateDisplay(token, idx, total, elapsed) {
+  // Token text
+  const textEl = document.getElementById('token-text');
+  // Show last ~200 chars to keep it readable
+  const displayChars = tokens.slice(Math.max(0, idx - 200), idx + 1).map(t => t.c).join('');
+  textEl.innerHTML = displayChars.slice(0, -1) + `<span class="current-token">${escapeHtml(token.c)}</span>`;
+  // Auto-scroll
+  const display = document.getElementById('token-display');
+  display.scrollTop = display.scrollHeight;
+
+  // Meta
+  document.getElementById('current-token-idx').textContent = idx + 1;
+  document.getElementById('current-layer').textContent = token.layer;
+  document.getElementById('elapsed-time').textContent = elapsed.toFixed(2) + 's';
+
+  // Progress
+  const pct = ((idx + 1) / total) * 100;
+  document.getElementById('progress-fill').style.width = pct + '%';
+}
+
+function escapeHtml(s) {
+  return s.replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+}
+
+function playStep() {
+  if (currentIdx >= tokens.length) {
+    playing = false;
+    document.getElementById('btn-pause').textContent = '▶ 播放';
+    return;
+  }
+  if (paused) {
+    animationTimer = setTimeout(playStep, 50);
+    return;
+  }
+
+  const token = tokens[currentIdx];
+  const elapsed = (Date.now() - startTime) / 1000;
+
+  // Activate a node in the token's layer
+  activateNode(token.layer, currentIdx);
+  updateDisplay(token, currentIdx, tokens.length, elapsed);
+
+  currentIdx++;
+  // Step delay: real data has 0.018s/token. With 1x, use 30ms = ~0.6x real time
+  const stepDelay = 30 / speed;
+  animationTimer = setTimeout(playStep, stepDelay);
+}
+
+function startAnimation() {
+  if (!tokens.length) return;
+  currentIdx = 0;
+  paused = false;
+  startTime = Date.now();
+  playing = true;
+  document.getElementById('btn-pause').textContent = '⏸ 暂停';
+  if (animationTimer) clearTimeout(animationTimer);
+  playStep();
+}
+
+function pauseAnimation() {
+  paused = !paused;
+  document.getElementById('btn-pause').textContent = paused ? '▶ 继续' : '⏸ 暂停';
+}
+
+function setSpeed(s) {
+  speed = s;
+  document.getElementById('btn-speed').textContent = s + 'x';
+}
+
+// ============================================================
+// Data loading
+// ============================================================
+async function loadData() {
+  try {
+    const resp = await fetch('llm_telemetry.json?t=' + Date.now());
+    data = await resp.json();
+    populateSummary();
+    populateLastCall();
+    populateHistory();
+    if (data.last_call && data.last_call.tokens_stream) {
+      tokens = data.last_call.tokens_stream;
+      document.getElementById('total-token-count').textContent = tokens.length;
+      startAnimation();
+    }
+  } catch (err) {
+    console.error('Failed to load telemetry:', err);
+    document.getElementById('last-call-info').textContent = '❌ 加载失败: ' + err.message;
+  }
+}
+
+function populateSummary() {
+  const t = data.totals;
+  document.getElementById('total-calls').textContent = t.calls.toLocaleString();
+  document.getElementById('total-tokens').textContent = t.tokens.toLocaleString();
+  document.getElementById('avg-duration').textContent = t.avg_duration_sec.toFixed(1);
+  document.getElementById('avg-tps').textContent = t.avg_tok_per_sec.toFixed(1);
+  document.getElementById('update-time').textContent = new Date(t.last_call).toLocaleString('zh-CN', { hour12: false });
+}
+
+function populateLastCall() {
+  const c = data.last_call;
+  document.getElementById('last-call-info').textContent =
+    `主题：${c.topic} · ${new Date(c.timestamp).toLocaleString('zh-CN', { hour12: false })}`;
+  document.getElementById('last-duration').textContent = c.duration_sec.toFixed(2);
+  document.getElementById('last-tokens').textContent = c.completion_tokens;
+  document.getElementById('last-tps').textContent = c.tok_per_sec;
+  document.getElementById('last-topic').textContent = c.topic.length > 12 ? c.topic.slice(0, 12) + '…' : c.topic;
+}
+
+function populateHistory() {
+  const list = document.getElementById('history-list');
+  if (!data.history || !data.history.length) {
+    list.innerHTML = '<div class="empty-state">暂无历史</div>';
+    return;
+  }
+  list.innerHTML = data.history.map(h => `
+    <div class="history-item">
+      <div class="history-time">${h.date} ${h.time}</div>
+      <div class="history-badge">${h.tokens} t</div>
+      <div>
+        <div class="history-topic">${escapeHtml(h.topic)}</div>
+        <div class="history-preview">${escapeHtml(h.preview)}</div>
+      </div>
+      <div class="history-duration">${h.duration.toFixed(1)}s</div>
+      <div class="history-tokens">${Math.round(h.tokens / h.duration)} t/s</div>
+    </div>
+  `).join('');
+}
+
+// ============================================================
+// Init
+// ============================================================
+buildTopology();
+document.getElementById('btn-restart').addEventListener('click', startAnimation);
+document.getElementById('btn-pause').addEventListener('click', pauseAnimation);
+let speedIdx = 0;
+const speeds = [1, 2, 4];
+document.getElementById('btn-speed').addEventListener('click', () => {
+  speedIdx = (speedIdx + 1) % speeds.length;
+  setSpeed(speeds[speedIdx]);
+});
+loadData();
+</script>
+</body>
+</html>
