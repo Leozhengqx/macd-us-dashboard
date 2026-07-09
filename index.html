@@ -110,7 +110,7 @@
 <main>
   <div class="summary-bar">
     <div class="summary-card">
-      <div class="value" id="summaryCount" style="color:var(--green)">0</div>
+      <div class="value" id="summaryCount" style="color:var(--green)">12</div>
       <div class="label">金叉股票数</div>
     </div>
     <div class="summary-card">
@@ -118,7 +118,7 @@
       <div class="label">平均持仓收益</div>
     </div>
     <div class="summary-card">
-      <div class="value" id="summaryWinners">0/0</div>
+      <div class="value" id="summaryWinners">0/12</div>
       <div class="label">盈利/总数</div>
     </div>
     <div class="summary-card">
@@ -130,7 +130,270 @@
     <input type="text" id="searchInput" placeholder="搜索股票代码或名称…" oninput="filterStocks()">
   </div>
   <div class="stock-grid" id="stockGrid">
-
+<div class="stock-card" data-index="0" data-market="us">
+        <div class="card-header">
+            <div class="symbol-row">
+                <span class="symbol">ARES</span>
+                <span class="sector-tag">Financial Services</span>
+            </div>
+            <div class="company-name">Ares Management Corporation</div>
+        </div>
+        <div class="card-chart"><canvas id="chart_ARES" height="80"></canvas>
+        <script>new Chart(document.getElementById('chart_ARES'),{
+            type:'line',data:{labels:['07-09'],datasets:[{data:[121.66],borderColor:'#3b82f6',backgroundColor:'rgba(59,130,246,0.08)',borderWidth:1.5,fill:true,tension:0.3,pointRadius:2}]},
+            options:{responsive:false,animation:false,plugins:{legend:{display:false}},scales:{x:{display:false},y:{display:false}}});</script></div>
+        <div class="card-stats">
+            <div class="stat"><div class="stat-value">$121.66</div><div class="stat-label">当前价格</div></div>
+            <div class="stat"><div class="stat-value" style="color:var(--red)">—</div><div class="stat-label">持仓收益</div></div>
+            <div class="stat"><div class="stat-value">0.2116</div><div class="stat-label">DIF-SA</div></div>
+        </div>
+        <div class="card-footer">
+            <span class="gc-date">📈 金叉 2026-07-09</span>
+            <span class="detail-hint">点击详情 →</span>
+        </div>
+    </div>
+<div class="stock-card" data-index="1" data-market="us">
+        <div class="card-header">
+            <div class="symbol-row">
+                <span class="symbol">BKR</span>
+                <span class="sector-tag">Energy</span>
+            </div>
+            <div class="company-name">Baker Hughes Company</div>
+        </div>
+        <div class="card-chart"><canvas id="chart_BKR" height="80"></canvas>
+        <script>new Chart(document.getElementById('chart_BKR'),{
+            type:'line',data:{labels:['07-09'],datasets:[{data:[57.2],borderColor:'#3b82f6',backgroundColor:'rgba(59,130,246,0.08)',borderWidth:1.5,fill:true,tension:0.3,pointRadius:2}]},
+            options:{responsive:false,animation:false,plugins:{legend:{display:false}},scales:{x:{display:false},y:{display:false}}});</script></div>
+        <div class="card-stats">
+            <div class="stat"><div class="stat-value">$57.20</div><div class="stat-label">当前价格</div></div>
+            <div class="stat"><div class="stat-value" style="color:var(--red)">—</div><div class="stat-label">持仓收益</div></div>
+            <div class="stat"><div class="stat-value">0.1103</div><div class="stat-label">DIF-SA</div></div>
+        </div>
+        <div class="card-footer">
+            <span class="gc-date">📈 金叉 2026-07-09</span>
+            <span class="detail-hint">点击详情 →</span>
+        </div>
+    </div>
+<div class="stock-card" data-index="2" data-market="us">
+        <div class="card-header">
+            <div class="symbol-row">
+                <span class="symbol">CIEN</span>
+                <span class="sector-tag">Technology</span>
+            </div>
+            <div class="company-name">Ciena Corporation</div>
+        </div>
+        <div class="card-chart"><canvas id="chart_CIEN" height="80"></canvas>
+        <script>new Chart(document.getElementById('chart_CIEN'),{
+            type:'line',data:{labels:['07-09'],datasets:[{data:[462.34],borderColor:'#3b82f6',backgroundColor:'rgba(59,130,246,0.08)',borderWidth:1.5,fill:true,tension:0.3,pointRadius:2}]},
+            options:{responsive:false,animation:false,plugins:{legend:{display:false}},scales:{x:{display:false},y:{display:false}}});</script></div>
+        <div class="card-stats">
+            <div class="stat"><div class="stat-value">$462.34</div><div class="stat-label">当前价格</div></div>
+            <div class="stat"><div class="stat-value" style="color:var(--red)">—</div><div class="stat-label">持仓收益</div></div>
+            <div class="stat"><div class="stat-value">0.9407</div><div class="stat-label">DIF-SA</div></div>
+        </div>
+        <div class="card-footer">
+            <span class="gc-date">📈 金叉 2026-07-09</span>
+            <span class="detail-hint">点击详情 →</span>
+        </div>
+    </div>
+<div class="stock-card" data-index="3" data-market="us">
+        <div class="card-header">
+            <div class="symbol-row">
+                <span class="symbol">EXPD</span>
+                <span class="sector-tag">Industrials</span>
+            </div>
+            <div class="company-name">Expeditors International of Was</div>
+        </div>
+        <div class="card-chart"><canvas id="chart_EXPD" height="80"></canvas>
+        <script>new Chart(document.getElementById('chart_EXPD'),{
+            type:'line',data:{labels:['07-09'],datasets:[{data:[170.62],borderColor:'#3b82f6',backgroundColor:'rgba(59,130,246,0.08)',borderWidth:1.5,fill:true,tension:0.3,pointRadius:2}]},
+            options:{responsive:false,animation:false,plugins:{legend:{display:false}},scales:{x:{display:false},y:{display:false}}});</script></div>
+        <div class="card-stats">
+            <div class="stat"><div class="stat-value">$170.62</div><div class="stat-label">当前价格</div></div>
+            <div class="stat"><div class="stat-value" style="color:var(--red)">—</div><div class="stat-label">持仓收益</div></div>
+            <div class="stat"><div class="stat-value">0.2838</div><div class="stat-label">DIF-SA</div></div>
+        </div>
+        <div class="card-footer">
+            <span class="gc-date">📈 金叉 2026-07-09</span>
+            <span class="detail-hint">点击详情 →</span>
+        </div>
+    </div>
+<div class="stock-card" data-index="4" data-market="us">
+        <div class="card-header">
+            <div class="symbol-row">
+                <span class="symbol">HPQ</span>
+                <span class="sector-tag">Technology</span>
+            </div>
+            <div class="company-name">HP Inc.</div>
+        </div>
+        <div class="card-chart"><canvas id="chart_HPQ" height="80"></canvas>
+        <script>new Chart(document.getElementById('chart_HPQ'),{
+            type:'line',data:{labels:['07-09'],datasets:[{data:[24.13],borderColor:'#3b82f6',backgroundColor:'rgba(59,130,246,0.08)',borderWidth:1.5,fill:true,tension:0.3,pointRadius:2}]},
+            options:{responsive:false,animation:false,plugins:{legend:{display:false}},scales:{x:{display:false},y:{display:false}}});</script></div>
+        <div class="card-stats">
+            <div class="stat"><div class="stat-value">$24.13</div><div class="stat-label">当前价格</div></div>
+            <div class="stat"><div class="stat-value" style="color:var(--red)">—</div><div class="stat-label">持仓收益</div></div>
+            <div class="stat"><div class="stat-value">0.0116</div><div class="stat-label">DIF-SA</div></div>
+        </div>
+        <div class="card-footer">
+            <span class="gc-date">📈 金叉 2026-07-09</span>
+            <span class="detail-hint">点击详情 →</span>
+        </div>
+    </div>
+<div class="stock-card" data-index="5" data-market="us">
+        <div class="card-header">
+            <div class="symbol-row">
+                <span class="symbol">IVZ</span>
+                <span class="sector-tag">Financial Services</span>
+            </div>
+            <div class="company-name">Invesco Ltd</div>
+        </div>
+        <div class="card-chart"><canvas id="chart_IVZ" height="80"></canvas>
+        <script>new Chart(document.getElementById('chart_IVZ'),{
+            type:'line',data:{labels:['07-09'],datasets:[{data:[28.61],borderColor:'#3b82f6',backgroundColor:'rgba(59,130,246,0.08)',borderWidth:1.5,fill:true,tension:0.3,pointRadius:2}]},
+            options:{responsive:false,animation:false,plugins:{legend:{display:false}},scales:{x:{display:false},y:{display:false}}});</script></div>
+        <div class="card-stats">
+            <div class="stat"><div class="stat-value">$28.61</div><div class="stat-label">当前价格</div></div>
+            <div class="stat"><div class="stat-value" style="color:var(--red)">—</div><div class="stat-label">持仓收益</div></div>
+            <div class="stat"><div class="stat-value">0.0698</div><div class="stat-label">DIF-SA</div></div>
+        </div>
+        <div class="card-footer">
+            <span class="gc-date">📈 金叉 2026-07-09</span>
+            <span class="detail-hint">点击详情 →</span>
+        </div>
+    </div>
+<div class="stock-card" data-index="6" data-market="us">
+        <div class="card-header">
+            <div class="symbol-row">
+                <span class="symbol">LVS</span>
+                <span class="sector-tag">Consumer Cyclical</span>
+            </div>
+            <div class="company-name">Las Vegas Sands Corp.</div>
+        </div>
+        <div class="card-chart"><canvas id="chart_LVS" height="80"></canvas>
+        <script>new Chart(document.getElementById('chart_LVS'),{
+            type:'line',data:{labels:['07-09'],datasets:[{data:[46.45],borderColor:'#3b82f6',backgroundColor:'rgba(59,130,246,0.08)',borderWidth:1.5,fill:true,tension:0.3,pointRadius:2}]},
+            options:{responsive:false,animation:false,plugins:{legend:{display:false}},scales:{x:{display:false},y:{display:false}}});</script></div>
+        <div class="card-stats">
+            <div class="stat"><div class="stat-value">$46.45</div><div class="stat-label">当前价格</div></div>
+            <div class="stat"><div class="stat-value" style="color:var(--red)">—</div><div class="stat-label">持仓收益</div></div>
+            <div class="stat"><div class="stat-value">0.0052</div><div class="stat-label">DIF-SA</div></div>
+        </div>
+        <div class="card-footer">
+            <span class="gc-date">📈 金叉 2026-07-09</span>
+            <span class="detail-hint">点击详情 →</span>
+        </div>
+    </div>
+<div class="stock-card" data-index="7" data-market="us">
+        <div class="card-header">
+            <div class="symbol-row">
+                <span class="symbol">NTAP</span>
+                <span class="sector-tag">Technology</span>
+            </div>
+            <div class="company-name">NetApp, Inc.</div>
+        </div>
+        <div class="card-chart"><canvas id="chart_NTAP" height="80"></canvas>
+        <script>new Chart(document.getElementById('chart_NTAP'),{
+            type:'line',data:{labels:['07-09'],datasets:[{data:[171.73],borderColor:'#3b82f6',backgroundColor:'rgba(59,130,246,0.08)',borderWidth:1.5,fill:true,tension:0.3,pointRadius:2}]},
+            options:{responsive:false,animation:false,plugins:{legend:{display:false}},scales:{x:{display:false},y:{display:false}}});</script></div>
+        <div class="card-stats">
+            <div class="stat"><div class="stat-value">$171.73</div><div class="stat-label">当前价格</div></div>
+            <div class="stat"><div class="stat-value" style="color:var(--red)">—</div><div class="stat-label">持仓收益</div></div>
+            <div class="stat"><div class="stat-value">0.1151</div><div class="stat-label">DIF-SA</div></div>
+        </div>
+        <div class="card-footer">
+            <span class="gc-date">📈 金叉 2026-07-09</span>
+            <span class="detail-hint">点击详情 →</span>
+        </div>
+    </div>
+<div class="stock-card" data-index="8" data-market="us">
+        <div class="card-header">
+            <div class="symbol-row">
+                <span class="symbol">PLD</span>
+                <span class="sector-tag">Real Estate</span>
+            </div>
+            <div class="company-name">Prologis, Inc.</div>
+        </div>
+        <div class="card-chart"><canvas id="chart_PLD" height="80"></canvas>
+        <script>new Chart(document.getElementById('chart_PLD'),{
+            type:'line',data:{labels:['07-09'],datasets:[{data:[141.36],borderColor:'#3b82f6',backgroundColor:'rgba(59,130,246,0.08)',borderWidth:1.5,fill:true,tension:0.3,pointRadius:2}]},
+            options:{responsive:false,animation:false,plugins:{legend:{display:false}},scales:{x:{display:false},y:{display:false}}});</script></div>
+        <div class="card-stats">
+            <div class="stat"><div class="stat-value">$141.36</div><div class="stat-label">当前价格</div></div>
+            <div class="stat"><div class="stat-value" style="color:var(--red)">—</div><div class="stat-label">持仓收益</div></div>
+            <div class="stat"><div class="stat-value">0.0222</div><div class="stat-label">DIF-SA</div></div>
+        </div>
+        <div class="card-footer">
+            <span class="gc-date">📈 金叉 2026-07-09</span>
+            <span class="detail-hint">点击详情 →</span>
+        </div>
+    </div>
+<div class="stock-card" data-index="9" data-market="us">
+        <div class="card-header">
+            <div class="symbol-row">
+                <span class="symbol">SLB</span>
+                <span class="sector-tag">Energy</span>
+            </div>
+            <div class="company-name">SLB Limited</div>
+        </div>
+        <div class="card-chart"><canvas id="chart_SLB" height="80"></canvas>
+        <script>new Chart(document.getElementById('chart_SLB'),{
+            type:'line',data:{labels:['07-09'],datasets:[{data:[47.24],borderColor:'#3b82f6',backgroundColor:'rgba(59,130,246,0.08)',borderWidth:1.5,fill:true,tension:0.3,pointRadius:2}]},
+            options:{responsive:false,animation:false,plugins:{legend:{display:false}},scales:{x:{display:false},y:{display:false}}});</script></div>
+        <div class="card-stats">
+            <div class="stat"><div class="stat-value">$47.24</div><div class="stat-label">当前价格</div></div>
+            <div class="stat"><div class="stat-value" style="color:var(--red)">—</div><div class="stat-label">持仓收益</div></div>
+            <div class="stat"><div class="stat-value">0.0669</div><div class="stat-label">DIF-SA</div></div>
+        </div>
+        <div class="card-footer">
+            <span class="gc-date">📈 金叉 2026-07-09</span>
+            <span class="detail-hint">点击详情 →</span>
+        </div>
+    </div>
+<div class="stock-card" data-index="10" data-market="us">
+        <div class="card-header">
+            <div class="symbol-row">
+                <span class="symbol">UNH</span>
+                <span class="sector-tag">Healthcare</span>
+            </div>
+            <div class="company-name">UnitedHealth Group Incorporated</div>
+        </div>
+        <div class="card-chart"><canvas id="chart_UNH" height="80"></canvas>
+        <script>new Chart(document.getElementById('chart_UNH'),{
+            type:'line',data:{labels:['07-09'],datasets:[{data:[431.68],borderColor:'#3b82f6',backgroundColor:'rgba(59,130,246,0.08)',borderWidth:1.5,fill:true,tension:0.3,pointRadius:2}]},
+            options:{responsive:false,animation:false,plugins:{legend:{display:false}},scales:{x:{display:false},y:{display:false}}});</script></div>
+        <div class="card-stats">
+            <div class="stat"><div class="stat-value">$431.68</div><div class="stat-label">当前价格</div></div>
+            <div class="stat"><div class="stat-value" style="color:var(--red)">—</div><div class="stat-label">持仓收益</div></div>
+            <div class="stat"><div class="stat-value">0.1667</div><div class="stat-label">DIF-SA</div></div>
+        </div>
+        <div class="card-footer">
+            <span class="gc-date">📈 金叉 2026-07-09</span>
+            <span class="detail-hint">点击详情 →</span>
+        </div>
+    </div>
+<div class="stock-card" data-index="11" data-market="us">
+        <div class="card-header">
+            <div class="symbol-row">
+                <span class="symbol">VRT</span>
+                <span class="sector-tag">Industrials</span>
+            </div>
+            <div class="company-name">Vertiv Holdings, LLC</div>
+        </div>
+        <div class="card-chart"><canvas id="chart_VRT" height="80"></canvas>
+        <script>new Chart(document.getElementById('chart_VRT'),{
+            type:'line',data:{labels:['07-09'],datasets:[{data:[323.92],borderColor:'#3b82f6',backgroundColor:'rgba(59,130,246,0.08)',borderWidth:1.5,fill:true,tension:0.3,pointRadius:2}]},
+            options:{responsive:false,animation:false,plugins:{legend:{display:false}},scales:{x:{display:false},y:{display:false}}});</script></div>
+        <div class="card-stats">
+            <div class="stat"><div class="stat-value">$323.92</div><div class="stat-label">当前价格</div></div>
+            <div class="stat"><div class="stat-value" style="color:var(--red)">—</div><div class="stat-label">持仓收益</div></div>
+            <div class="stat"><div class="stat-value">0.5185</div><div class="stat-label">DIF-SA</div></div>
+        </div>
+        <div class="card-footer">
+            <span class="gc-date">📈 金叉 2026-07-09</span>
+            <span class="detail-hint">点击详情 →</span>
+        </div>
+    </div>
   </div>
 </main>
 
@@ -187,7 +450,7 @@
 
 <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
 <script>
-var usStocks = [];
+var usStocks = [{"symbol":"ARES","name":"Ares Management Corporation","sector":"Financial Services","close":121.66,"dif":0.0,"dea":0.0,"diff":0.2116,"golden_cross_date":"2026-07-09","buy_price":121.66,"tracking_prices":[{"date":"2026-07-09","close":121.66}],"news":[{"title":"Whitestone REIT Shareholders Approve $1.7 Billion Acquisition by Ares Real Estate Funds","url":"https://finance.yahoo.com/real-estate/articles/whitestone-reit-shareholders-approve-1-203828655.html","pubDate":""},{"title":"Barclays Adjusts Price Target on Ares Management to $139 From $140","url":"https://finance.yahoo.com/markets/stocks/articles/barclays-adjusts-price-target-ares-142019644.html","pubDate":""},{"title":"Deutsche Bank Adjusts Ares Management Price Target to $140 From $138","url":"https://finance.yahoo.com/markets/stocks/articles/deutsche-bank-adjusts-ares-management-141432393.html","pubDate":""}],"newsSummary":{"text":"Ares基金将以17亿美元收购Whitestone REIT，同时Barclays下调目标价至139美元，Deutsche Bank上调至140美元。","cacheKey":"4f74bd2d"},"profile":{"description":"Ares Management Corporation operates as an alternative asset manager. Its Direct Lending Group segment provides financing solutions to small-to-medium sized companies. The company's Private Equity Group segment specializes in early venture, turnaround, mid venture, late venture, recapitalization, gr…","marketCap":"","employees":"4297","industry":"Asset Management","website":"https://www.ares.com","sector":"Financial Services"},"source":"us"},{"symbol":"BKR","name":"Baker Hughes Company","sector":"Energy","close":57.2,"dif":0.0,"dea":0.0,"diff":0.1103,"golden_cross_date":"2026-07-09","buy_price":57.2,"tracking_prices":[{"date":"2026-07-09","close":57.2}],"news":[{"title":"Baker Hughes (BKR) Soars 5.7%: Is Further Upside Left in the Stock?","url":"https://finance.yahoo.com/markets/stocks/articles/baker-hughes-bkr-soars-5-141600398.html","pubDate":""},{"title":"Baker Hughes Boosts Power Growth With Multi-Year KGS Agreement","url":"https://finance.yahoo.com/energy/articles/baker-hughes-boosts-power-growth-130200813.html","pubDate":""},{"title":"Baker Hughes Awarded 3 Contracts for Phase-1 Sabine Pass Expansion Project in Louisiana","url":"https://finance.yahoo.com/energy/articles/baker-hughes-awarded-3-contracts-113522522.html","pubDate":""}],"newsSummary":null,"profile":{"description":"Baker Hughes Company provides a portfolio of technologies and services to energy and industrial value chain. Its Oilfield Services & Equipment segment designs and manufactures exploration, appraisal, development, production, rejuvenation, and decommissioning products and related services for onshore…","marketCap":"","employees":"53000","industry":"Oil & Gas Equipment & Services","website":"https://www.bakerhughes.com","sector":"Energy"},"source":"us"},{"symbol":"CIEN","name":"Ciena Corporation","sector":"Technology","close":462.34,"dif":0.0,"dea":0.0,"diff":0.9407,"golden_cross_date":"2026-07-09","buy_price":462.34,"tracking_prices":[{"date":"2026-07-09","close":462.34}],"news":[{"title":"Ciena and Telefónica Deutschland Use AI Agents to Speed Up 5G Network Slicing","url":"https://finance.yahoo.com/m/4be0f995-7554-3308-804b-9ea6e13da360/ciena-and-telef%C3%B3nica.html","pubDate":""},{"title":"Viavi Solutions (VIAV) Price Target Raised as AI DCI Demand Builds","url":"https://finance.yahoo.com/technology/ai/articles/viavi-solutions-viav-price-target-172306123.html","pubDate":""},{"title":"Data Center Builder Spikes After Goldman Initiates Coverage At Buy Rating","url":"https://finance.yahoo.com/m/d5bbb419-4211-30cf-824e-3137758c3993/data-center-builder-spikes.html","pubDate":""}],"newsSummary":{"text":"Ciena联合Telefónica用AI加速5G网络切片，AI驱动的数据中心互联需求激增，相关光网络设备商获机构看好。","cacheKey":"91761418"},"profile":{"description":"Ciena Corporation, a network technology company, provides hardware, software, and services for various network operators in the Americas, Europe, the Middle East, Africa, the Asia Pacific, Japan, and India. It operates through Networking Platforms, Platform Software and Services, Blue Planet Automat…","marketCap":"","employees":"8898","industry":"Communication Equipment","website":"https://www.ciena.com","sector":"Technology"},"source":"us"},{"symbol":"EXPD","name":"Expeditors International of Was","sector":"Industrials","close":170.62,"dif":0.0,"dea":0.0,"diff":0.2838,"golden_cross_date":"2026-07-09","buy_price":170.62,"tracking_prices":[{"date":"2026-07-09","close":170.62}],"news":[{"title":"Expeditors Q2 Likely to Benefit From Rising Rates, UBS Says","url":"https://finance.yahoo.com/markets/stocks/articles/expeditors-q2-likely-benefit-rising-151057111.html","pubDate":""},{"title":"UBS Adjusts Price Target on Expeditors International of Washington to $191 From $175, Maintains Buy Rating","url":"https://finance.yahoo.com/markets/stocks/articles/ubs-adjusts-price-target-expeditors-134225269.html","pubDate":""},{"title":"UBS Adjusts Price Target on Expeditors International of Washington to $191 From $175","url":"https://finance.yahoo.com/markets/stocks/articles/ubs-adjusts-price-target-expeditors-093537350.html","pubDate":""}],"newsSummary":{"text":"UBS上调Expeditors目标价至191美元，维持买入评级，预计Q2受益于利率上升。","cacheKey":"9014f0e3"},"profile":{"description":"Expeditors International of Washington, Inc., together with its subsidiaries, provides logistics services in the Americas, North Asia, South Asia, Europe, and Middle East, Africa, and India. The company offers airfreight services, such as air freight consolidation and forwarding; ocean freight and o…","marketCap":"","employees":"20361","industry":"Integrated Freight & Logistics","website":"https://www.expeditors.com","sector":"Industrials"},"source":"us"},{"symbol":"HPQ","name":"HP Inc.","sector":"Technology","close":24.13,"dif":0.0,"dea":0.0,"diff":0.0116,"golden_cross_date":"2026-07-09","buy_price":24.13,"tracking_prices":[{"date":"2026-07-09","close":24.13}],"news":[{"title":"Apple Gains PC Market Share in Q2 as HP, Dell Shipments Decline: Omdia","url":"https://finance.yahoo.com/markets/stocks/articles/apple-gains-pc-market-share-101405957.html","pubDate":""},{"title":"Mint Innovation Names Matt Bedingfield Global CEO, Spins Out Linca to Sharpen Focus on Critical Minerals Recovery","url":"https://finance.yahoo.com/energy/articles/mint-innovation-names-matt-bedingfield-140000222.html","pubDate":""},{"title":"The Real Risk Inside Apple Stock","url":"https://finance.yahoo.com/m/7d95f20d-094f-3341-b0bf-d8662b79d6c5/the-real-risk-inside-apple.html","pubDate":""}],"newsSummary":{"text":"Apple在Q2抢佔PC市场份额，HP和Dell出货量均出现下滑。","cacheKey":"49307b9c"},"profile":{"description":"HP Inc. provides personal computing, printing, 3D printing, hybrid work, gaming, and other related technologies in the United States and internationally. The company operates through three segments: Personal Systems, Printing, and Corporate Investments. The Personal Systems segment offers commercial…","marketCap":"","employees":"55000","industry":"Computer Hardware","website":"https://www.hp.com","sector":"Technology"},"source":"us"},{"symbol":"IVZ","name":"Invesco Ltd","sector":"Financial Services","close":28.61,"dif":0.0,"dea":0.0,"diff":0.0698,"golden_cross_date":"2026-07-09","buy_price":28.61,"tracking_prices":[{"date":"2026-07-09","close":28.61}],"news":[{"title":"Which Is the Better Consumer Staples ETF, Vanguard's VDC or Invesco's RSPS?","url":"https://finance.yahoo.com/m/217b13dc-3268-358a-8c91-f9be49d717ed/which-is-the-better-consumer.html","pubDate":""},{"title":"Plume Brings Bitwise and Invesco RWA Yield to Binance Wallet","url":"https://finance.yahoo.com/m/e5f7e609-20bb-36ff-a629-602ccff6587d/plume-brings-bitwise-and.html","pubDate":""},{"title":"STG Logistics exits Chapter 11 as intermodal market heats up","url":"https://finance.yahoo.com/small-business/articles/stg-logistics-exits-chapter-11-151856667.html","pubDate":""}],"newsSummary":{"text":"Invesco旗下RSPS消费品ETF被拿来与Vanguard竞品对比，同时其RWA收益产品拓展至Binance钱包，相关物流企业STG Logistics完成破产重组。","cacheKey":"6e002005"},"profile":{"description":"Invesco Ltd. is a publicly owned investment manager. The firm provides its services to retail clients, institutional clients, high-net worth clients, public entities, corporations, unions, non-profit organizations, endowments, foundations, pension funds, financial institutions, and sovereign wealth …","marketCap":"","employees":"7421","industry":"Asset Management","website":"https://www.invesco.com/corporate/en/home.html","sector":"Financial Services"},"source":"us"},{"symbol":"LVS","name":"Las Vegas Sands Corp.","sector":"Consumer Cyclical","close":46.45,"dif":0.0,"dea":0.0,"diff":0.0052,"golden_cross_date":"2026-07-09","buy_price":46.45,"tracking_prices":[{"date":"2026-07-09","close":46.45}],"news":[{"title":"Barclays Adjusts Price Target on Las Vegas Sands to $63 From $65","url":"https://finance.yahoo.com/markets/stocks/articles/barclays-adjusts-price-target-las-143603726.html","pubDate":""},{"title":"Advancing Small and Medium Businesses: Sands China Empowers Macao Entrepreneurs to Achieve Success","url":"https://finance.yahoo.com/small-business/articles/advancing-small-medium-businesses-sands-133500867.html","pubDate":""},{"title":"Macquarie Adjusts Las Vegas Sands Price Target to $66 From $68","url":"https://finance.yahoo.com/markets/stocks/articles/macquarie-adjusts-las-vegas-sands-161130340.html","pubDate":""}],"newsSummary":{"text":"Barclays与Macquarie分别下调拉斯维加斯金沙目标价至63和66美元，澳门业务方面威尼斯人持续赋能当地中小企业。","cacheKey":"489631fe"},"profile":{"description":"Las Vegas Sands Corp., together with its subsidiaries, owns, develops, and operates integrated resorts in Macao and Singapore. It owns and operates The Venetian Macao Resort Hotel, The Londoner Macao, The Parisian Macao, The Plaza Macao and Four Seasons Hotel Macao, and The Sands Macao in Macao, the…","marketCap":"","employees":"41000","industry":"Resorts & Casinos","website":"https://www.sands.com","sector":"Consumer Cyclical"},"source":"us"},{"symbol":"NTAP","name":"NetApp, Inc.","sector":"Technology","close":171.73,"dif":0.0,"dea":0.0,"diff":0.1151,"golden_cross_date":"2026-07-09","buy_price":171.73,"tracking_prices":[{"date":"2026-07-09","close":171.73}],"news":[{"title":"Eos Energy Names Marie Batz Martin as Chief Legal Officer","url":"https://finance.yahoo.com/markets/stocks/articles/eos-energy-names-marie-batz-204911396.html","pubDate":""},{"title":"3 Dividend Stocks You Have to Buy Now to Get Paid in July","url":"https://finance.yahoo.com/m/80f4ee91-5bd1-39a0-a3a6-0566f314e698/3-dividend-stocks-you-have-to.html","pubDate":""},{"title":"Will Western Digital's HAMR Push Accelerate Future Growth?","url":"https://finance.yahoo.com/technology/ai/articles/western-digitals-hamr-push-accelerate-145200132.html","pubDate":""}],"newsSummary":null,"profile":{"description":"NetApp, Inc. provides a range of enterprise software, systems, and services that customers use to transform their data infrastructures in the United States, Canada, Latin America, Europe, the Middle East, Africa, and the Asia Pacific. It operates through two segments, Hybrid Cloud and Public Cloud. …","marketCap":"","employees":"11700","industry":"Software - Infrastructure","website":"https://www.netapp.com","sector":"Technology"},"source":"us"},{"symbol":"PLD","name":"Prologis, Inc.","sector":"Real Estate","close":141.36,"dif":0.0,"dea":0.0,"diff":0.0222,"golden_cross_date":"2026-07-09","buy_price":141.36,"tracking_prices":[{"date":"2026-07-09","close":141.36}],"news":[{"title":"SEGRO Slams Prologis Proposal, Touts £4.1B Pipeline Upside","url":"https://finance.yahoo.com/m/74d1dbb8-c25f-3033-8690-dff73b0bb0ec/segro-slams-prologis.html","pubDate":""},{"title":"Form 8.3 - Amendment","url":"https://finance.yahoo.com/markets/options/articles/form-8-3-amendment-150800204.html","pubDate":""},{"title":"Form 8.3","url":"https://finance.yahoo.com/markets/stocks/articles/form-8-3-142700073.html","pubDate":""}],"newsSummary":{"text":"SEGRO拒绝Prologis收购提案，强调自身42亿英镑项目储备价值，凸显独立发展潜力。","cacheKey":"c9df260e"},"profile":{"description":"Prologis, Inc. is a self-administered and self-managed REIT and is the sole general partner of Prologis, L.P. through which it holds substantially all of its assets. We operate Prologis, Inc. and Prologis, L.P. as one enterprise and, therefore, our discussion and analysis refer to Prologis, Inc. and…","marketCap":"","employees":"2802","industry":"REIT - Industrial","website":"https://www.prologis.com","sector":"Real Estate"},"source":"us"},{"symbol":"SLB","name":"SLB Limited","sector":"Energy","close":47.24,"dif":0.0,"dea":0.0,"diff":0.0669,"golden_cross_date":"2026-07-09","buy_price":47.24,"tracking_prices":[{"date":"2026-07-09","close":47.24}],"news":[{"title":"The S&P 500 Is Up 5% This Year. This ‘Cash Cow’ Fund Is Up 9%","url":"https://finance.yahoo.com/m/774ec2d4-f0f1-3356-8ba4-59df30ac4c87/the-s%26p-500-is-up-5%25-this.html","pubDate":""},{"title":"SLB OneSubsea Joint Venture Wins Steel Tube Umbilical Contract for Offshore Indonesia Project","url":"https://finance.yahoo.com/energy/articles/slb-onesubsea-joint-venture-wins-131909519.html","pubDate":""},{"title":"Wolfe Research bullish on SLB and BKR, sees selective oil services cycle ahead","url":"https://finance.yahoo.com/energy/articles/wolfe-research-bullish-slb-bkr-150622664.html","pubDate":""}],"newsSummary":{"text":"SLB业绩优于大盘，OneSubsea合资公司获印尼海上项目合同，分析师维持乐观预期。","cacheKey":"c7e448cb"},"profile":{"description":"SLB N.V. engages in the provision of technology for the energy industry worldwide. The company operates through four divisions: Digital & Integration, Reservoir Performance, Well Construction, and Production Systems. The company provides field development and hydrocarbon production, carbon managemen…","marketCap":"","employees":"109000","industry":"Oil & Gas Equipment & Services","website":"https://www.slb.com","sector":"Energy"},"source":"us"},{"symbol":"UNH","name":"UnitedHealth Group Incorporated","sector":"Healthcare","close":431.68,"dif":0.0,"dea":0.0,"diff":0.1667,"golden_cross_date":"2026-07-09","buy_price":431.68,"tracking_prices":[{"date":"2026-07-09","close":431.68}],"news":[{"title":"Jim Cramer: “The Real Bull Market” Is Happening in Health Insurance. CVS Is One of the Biggest Winners as Walgreens “Basically Disappears”","url":"https://finance.yahoo.com/m/601b8d78-2b75-37bc-a98d-728452a409e3/jim-cramer%3A-%E2%80%9Cthe-real-bull.html","pubDate":""},{"title":"The Real Price Of UnitedHealth Stock Isn't On Today's Label","url":"https://finance.yahoo.com/m/0708e110-ef43-3831-a665-584d4f3c6fcb/the-real-price-of.html","pubDate":""},{"title":"RBC Adjusts Price Target on UnitedHealth to $463 From $400, Maintains Outperform Rating","url":"https://finance.yahoo.com/markets/stocks/articles/rbc-adjusts-price-target-unitedhealth-130739868.html","pubDate":""}],"newsSummary":{"text":"RBC上调UnitedHealth目标价至463美元维持跑赢评级， Cramer称健康保险板块现真正牛市，UNH实际价值未反映在当前股价。","cacheKey":"a2c25a8d"},"profile":{"description":"UnitedHealth Group Incorporated operates as a health care company in the United States and internationally. It operates through four segments: Optum Health, Optum Insight, Optum Rx; and UnitedHealthcare. The Optum Health segment provides care delivery, care management, wellness and consumer engageme…","marketCap":"","employees":"390000","industry":"Healthcare Plans","website":"https://www.unitedhealthgroup.com","sector":"Healthcare"},"source":"us"},{"symbol":"VRT","name":"Vertiv Holdings, LLC","sector":"Industrials","close":323.92,"dif":0.0,"dea":0.0,"diff":0.5185,"golden_cross_date":"2026-07-09","buy_price":323.92,"tracking_prices":[{"date":"2026-07-09","close":323.92}],"news":[{"title":"Why Meta’s In-House AI Chip Plans Sent Chip-Equipment Stocks Soaring","url":"https://finance.yahoo.com/m/1b1f501e-d8a5-37a4-bc82-5ec91d18aaf4/why-meta%E2%80%99s-in-house-ai-chip.html","pubDate":""},{"title":"Teradyne Stock Rides on Strong Datacenter Growth: More Upside Ahead?","url":"https://finance.yahoo.com/markets/stocks/articles/teradyne-stock-rides-strong-datacenter-171500994.html","pubDate":""},{"title":"Data Center Builder Spikes After Goldman Initiates Coverage At Buy Rating","url":"https://finance.yahoo.com/m/d5bbb419-4211-30cf-824e-3137758c3993/data-center-builder-spikes.html","pubDate":""}],"newsSummary":{"text":"AI驱动数据中心需求旺盛，芯片设备和数据中心建设类股","cacheKey":"c4d00817"},"profile":{"description":"Vertiv Holdings Co designs, manufactures, and services critical digital infrastructure technologies and life cycle services for data centers, communication networks, and commercial and industrial environments in the Americas, the Asia Pacific, Europe, the Middle East, and Africa. The company offers …","marketCap":"","employees":"34000","industry":"Electrical Equipment & Parts","website":"https://www.vertiv.com","sector":"Industrials"},"source":"us"},];
 var aStocks = [];
 var currentMarket = 'us';
 var currentSector = 'all';
@@ -206,7 +469,7 @@ function switchMarket(market) {
 }
 
 function updateSummary() {
-  var summary = currentMarket === 'us' ? {'count': 0, 'avg_return': 0, 'winners': '0/0', 'currency': '$'} : {'count': 0, 'avg_return': 0, 'winners': '0/0', 'currency': '¥'};
+  var summary = currentMarket === 'us' ? {'count': 12, 'avg_return': 0, 'winners': '0/12', 'currency': '$'} : {'count': 0, 'avg_return': 0, 'winners': '0/0', 'currency': '¥'};
   document.getElementById('summaryCount').textContent = summary.count;
   var retEl = document.getElementById('summaryReturn');
   retEl.textContent = summary.avg_return + '%';
@@ -396,7 +659,7 @@ document.addEventListener('keydown', function(e) { if (e.key === 'Escape') close
 // Init
 rebuildFilterBar();
 updateSummary();
-document.getElementById('updateTime').textContent = '🕐 美股 2026-06-20 05:02:32 · A股 2026-05-10 16:24:37';
+document.getElementById('updateTime').textContent = '🕐 美股 2026-07-10 · A股 2026-05-10 16:24:37';
 
 // Render US cards initially
 currentSector = 'all';
